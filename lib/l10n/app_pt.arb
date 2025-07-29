@@ -1,0 +1,38 @@
+{
+  "@@locale": "pt",
+  "appShellTripPlannerText" : "Planejar viagens",
+  "appShellMyTripText" : "Minha viagem",
+  "appShellSettingsText" : "Configurações",
+
+  "locationDisabledLocationMessage": "Por favor, habilite a localização do seu dispositivo",
+  "locationNeedAccessMessage": "Você precisa autorizar o acesso à localização",
+  "locationLatitude": "Latitude",
+  "locationLongitude": "Longitude",
+
+  "tripPlannerScreenTitle" : "Viagens",
+  "tripPlannerSearchBar" : "Procurar",
+  "tripPlannerTripName" : "Nome da viagem:",
+  "tripPlannerParticipants" : "Participantes:",
+  "tripPlannerParticipantName" : "Nome:",
+  "tripPlannerParticipantAge" : "Idade:",
+  "tripPlannerTripButton" : "Novo plano de viagem",
+
+  "settingsDarkModeSwitch" : "Modo Escuro",
+  "settingsLanguageSwitch" : "Linguagens",
+
+  "groupScreenTitle" : "Viagem",
+  "groupTripName" : "Viagem á Maldivas",
+
+  "transportScreenTitle" : "transportes",
+  "transportName" : "Nome do transporte:",
+
+  "participantsScreenTitle" : "Participantes",
+  "participantsPerson" : "Pessoa",
+  "participantsName" : "Nome",
+  "participantsAge" : "Idade",
+
+  "durationScreenTitle" : "Duração da viagem",
+
+  "generalConfirmButton" : "Confirmar"
+}
+

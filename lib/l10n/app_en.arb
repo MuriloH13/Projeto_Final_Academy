@@ -1,0 +1,37 @@
+{
+  "@@locale": "en",
+  "appShellTripPlannerText" : "Trip Planner",
+  "appShellMyTripText" : "My trip",
+  "appShellSettingsText" : "Settings",
+
+  "locationDisabledLocationMessage": "Please enable your device localization",
+  "locationNeedAccessMessage": "You need to authorize location access",
+  "locationLatitude": "Latitude",
+  "locationLongitude": "Longitude",
+
+  "tripPlannerScreenTitle" : "Trips",
+  "tripPlannerSearchBar" : "Search",
+  "tripPlannerTripName" : "Trip name:",
+  "tripPlannerParticipants" : "Participants:",
+  "tripPlannerParticipantName" : "Name:",
+  "tripPlannerParticipantAge" : "Age:",
+  "tripPlannerTripButton" : "New travel plan",
+
+  "settingsDarkModeSwitch" : "Dark Mode",
+  "settingsLanguageSwitch" : "Languages",
+
+  "groupScreenTitle" : "Trip",
+  "groupTripName" : "Trip to the Maldives",
+
+  "transportScreenTitle" : "Transports",
+  "transportName" : "Transport Name:",
+
+  "participantsScreenTitle" : "Participants",
+  "participantsPerson" : "Pessoa",
+  "participantsName" : "Name",
+  "participantsAge" : "Age",
+
+  "durationScreenTitle" : "Trip duration",
+
+  "generalConfirmButton" : "Confirm"
+}
