@@ -5,13 +5,16 @@ import 'package:projeto_final_academy/presentation/states/group_State.dart';
 import 'package:projeto_final_academy/presentation/states/participant_State.dart';
 import 'package:projeto_final_academy/presentation/states/transport_State.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'core/routes/app_Routes.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_provider.dart';
 
 import 'l10n/app_localizations.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
   runApp(
     MultiProvider(
       providers: [
@@ -20,7 +23,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => ParticipantState()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
-        ChangeNotifierProvider(create: (context) => GeolocatorController()), // no context here),
+        ChangeNotifierProvider(create: (context) => MapsController()), // no context here),
       ],
       child: MaterialApp(
         theme: AppTheme.lightTheme,

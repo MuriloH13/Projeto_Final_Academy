@@ -27,7 +27,7 @@ class _AppShellState extends State<AppShell> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<GeolocatorController>().getPosition(context);
+      context.read<MapsController>().getPosition();
     });
   }
 
@@ -60,7 +60,7 @@ class TravelPlannerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final local = context.watch<GeolocatorController>();
+    final local = context.watch<MapsController>();
     final groupState = Provider.of<GroupState>(context);
     final participantState = Provider.of<ParticipantState>(context);
     final transportState = Provider.of<TransportState>(context);
@@ -191,7 +191,7 @@ class TravelPlannerScreen extends StatelessWidget {
                               ...transportsInGroup.map((transport) {
                                 return ListTile(
                                   title: Text(
-                                    '${AppLocalizations.of(context)!.transportName}: ${transport.transportName}',
+                                    '${AppLocalizations.of(context)!.transportName} ${transport.transportName}',
                                   ),
                                 );
                               }).toList(),

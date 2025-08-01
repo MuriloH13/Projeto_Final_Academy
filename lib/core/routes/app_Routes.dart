@@ -1,5 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:projeto_final_academy/presentation/pages/city_Screen.dart';
 import 'package:projeto_final_academy/presentation/pages/transport_Screen.dart';
 
 import '../../presentation/pages/app_Shell.dart';
@@ -12,6 +13,7 @@ class AppRoutes {
   static const String groupScreen = '/group';
   static const String transportScreen = '/transport';
   static const String participantScreen = '/participants';
+  static const String cityScreen = '/city';
   static const String durationScreen = '/duration';
 
   static Map<String, WidgetBuilder> get routes => {
@@ -19,6 +21,7 @@ class AppRoutes {
     groupScreen: (_) => const GroupScreen(),
     transportScreen: (_) => const TransportScreen(),
     participantScreen: (_) => const ParticipantScreen(),
+    cityScreen: (_) => const CityScreen(),
     durationScreen: (_) => const DurationScreen(),
   };
 }

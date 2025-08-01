@@ -1,31 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:projeto_final_academy/l10n/app_localizations.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:projeto_final_academy/domain/repositories/cities_Repository.dart';
+import 'package:projeto_final_academy/presentation/pages/city_Screen.dart';
 
-class GeolocatorController extends ChangeNotifier {
+import '../widgets/city_Details.dart';
+
+class MapsController extends ChangeNotifier {
   double lat = 0.0;
   double long = 0.0;
   String error = '';
+  Set <Marker> markers = Set<Marker>();
 
-  GeolocatorController();
+  late GoogleMapController _mapsController;
 
-  Future<void> getPosition(BuildContext context) async {
+  get mapsController => _mapsController;
+
+  onMapCreated(GoogleMapController googleMapController) async {
+     _mapsController = googleMapController;
+     getPosition();
+     loadCities();
+  }
+
+  loadCities() {
+    final cities = CitiesRepository().cities;
+    cities.forEach((city) {
+      markers.add(
+        Marker(
+          markerId: MarkerId(city.name),
+          position: LatLng(city.latitude, city.longitude),
+          onTap: () {
+            showModalBottomSheet(context: citiesKey.currentState!.context, builder: (context) => CityDetails(city: city),);
+          },
+      ),
+      );
+    });
+    notifyListeners();
+  }
+
+  void getPosition() async {
     try {
-      Position position = await _actualPosition(context);
+      Position position = await _actualPosition();
       lat = position.latitude;
       long = position.longitude;
+      _mapsController.animateCamera(CameraUpdate.newLatLng(LatLng(lat, long)));
     } catch (e) {
       error = e.toString();
     }
     notifyListeners();
   }
 
-  Future<Position> _actualPosition(BuildContext context) async {
+  Future<Position> _actualPosition() async {
     LocationPermission permission;
     bool activated = await Geolocator.isLocationServiceEnabled();
 
     if (!activated) {
-      return Future.error(AppLocalizations.of(context)!.locationDisabledLocationMessage);
+      return Future.error("Localization disabled");
     }
 
     permission = await Geolocator.checkPermission();
@@ -33,12 +63,12 @@ class GeolocatorController extends ChangeNotifier {
       permission = await Geolocator.requestPermission();
 
       if (permission == LocationPermission.denied) {
-        return Future.error(AppLocalizations.of(context)!.locationDisabledLocationMessage);
+        return Future.error("Localization permission denied");
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return Future.error(AppLocalizations.of(context)!.tripPlannerParticipantName);
+      return Future.error("You need to activate the localization");
     }
 
     return await Geolocator.getCurrentPosition();
