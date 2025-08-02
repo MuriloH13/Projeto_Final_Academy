@@ -27,7 +27,7 @@ class _AppShellState extends State<AppShell> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<MapsController>().getPosition();
+      context.read<MapsController>().getPosition(context);
     });
   }
 
@@ -73,7 +73,8 @@ class TravelPlannerScreen extends StatelessWidget {
       appBar: DynamicAppBar(
         title: AppLocalizations.of(context)!.tripPlannerScreenTitle,
         subtitle:
-            '${AppLocalizations.of(context)!.locationLatitude} ${local.lat} ${AppLocalizations.of(context)!.locationLongitude} ${local.long}',
+          'Gaspar'
+            // '${AppLocalizations.of(context)!.locationLatitude} ${local.lat} ${AppLocalizations.of(context)!.locationLongitude} ${local.long}',
       ),
       body: Column(
         children: [
@@ -94,7 +95,7 @@ class TravelPlannerScreen extends StatelessWidget {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        labelText: AppLocalizations.of(
+                        hintText: AppLocalizations.of(
                           context,
                         )!.tripPlannerSearchBar,
                       ),

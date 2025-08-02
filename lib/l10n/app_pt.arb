@@ -10,7 +10,6 @@
   "locationLongitude": "Longitude",
 
   "tripPlannerScreenTitle" : "Viagens",
-  "tripPlannerSearchBar" : "Procurar",
   "tripPlannerTripName" : "Nome da viagem:",
   "tripPlannerParticipants" : "Participantes:",
   "tripPlannerParticipantName" : "Nome:",
@@ -23,7 +22,7 @@
   "groupScreenTitle" : "Viagem",
   "groupTripName" : "Viagem á Maldivas",
 
-  "transportScreenTitle" : "transportes",
+  "transportScreenTitle" : "Transportes",
   "transportName" : "Nome do transporte:",
 
   "participantsScreenTitle" : "Participantes",
@@ -33,6 +32,7 @@
 
   "durationScreenTitle" : "Duração da viagem",
 
+  "searchBar" : "Procurar",
   "generalConfirmButton" : "Confirmar"
 }
 

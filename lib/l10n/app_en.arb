@@ -10,7 +10,6 @@
   "locationLongitude": "Longitude",
 
   "tripPlannerScreenTitle" : "Trips",
-  "tripPlannerSearchBar" : "Search",
   "tripPlannerTripName" : "Trip name:",
   "tripPlannerParticipants" : "Participants:",
   "tripPlannerParticipantName" : "Name:",
@@ -33,5 +32,6 @@
 
   "durationScreenTitle" : "Trip duration",
 
+  "searchBar" : "Search",
   "generalConfirmButton" : "Confirm"
 }
