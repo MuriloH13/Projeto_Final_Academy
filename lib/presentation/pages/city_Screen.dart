@@ -7,8 +7,11 @@ import 'package:http/http.dart' as http;
 import 'package:projeto_final_academy/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import '../../domain/entities/city.dart';
 import '../controllers/geolocator_Controller.dart';
 import 'package:http/http.dart';
+
+import '../utils/city_Details.dart';
 
 final citiesKey = GlobalKey();
 
@@ -30,37 +33,84 @@ class _CityScreenState extends State<CityScreen> {
   void initState() {
     super.initState();
     _controller.addListener(() {
-      _onChanged;
+      _onChanged();
     });
   }
 
   void _onChanged() {
     if(_sessionToken == null) {
       setState(() {
-        _sessionToken == uuid.v4();
+        _sessionToken = Uuid();
       });
     }
     getLocationResults(_controller.text);
   }
 
-  void getLocationResults(String input) async {
-    String _apiKey = dotenv.env['ANDROID_MAPS_APIKEY'] ?? '';
-    String type = '(regions)';
-    String baseURL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
-    String request = '$baseURL?input=$input&key=$_apiKey&sessiontoken=$_sessionToken';
-    var response = await http.get(request as Uri);
-    if (response.statusCode == 200) {
-    setState(() {
-    _placeList = json.decode(response.body)['predictions'];
-    });
+  Future<void> getPlaceDetails(String placeId) async {
+    final String apiKey = dotenv.env['ANDROID_MAPS_APIKEY'] ?? '';
+    final String url =
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=name,geometry,formatted_address,photos&key=$apiKey';
+
+    final response = await http.get(Uri.parse(url));
+    final json = jsonDecode(response.body);
+
+    if (json['status'] == 'OK') {
+      final result = json['result'];
+      final name = result['name'];
+      final address = result['formatted_address'];
+      final location = result['geometry']['location'];
+      final lat = location['lat'];
+      final long = location['lng'];
+
+      String photoUrl = '';
+      if (result['photos'] != null && result['photos'].isNotEmpty) {
+        final photoReference = result['photos'][0]['photo_reference'];
+        photoUrl =
+        'https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=$photoReference&key=$apiKey';
+      }
+
+      context.read<MapsController>().updatePosition(lat, long);
+
+      final selectedCity = City(
+        name: name,
+        address: address,
+        photo: photoUrl,
+        latitude: lat,
+        longitude: long,
+      );
+
+      showModalBottomSheet(
+        context: context,
+        builder: (_) => CityDetails(city: selectedCity),
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        ),
+      );
     } else {
-    throw Exception('Failed to load predictions');
+      throw Exception('Dados de localização não encontrados na resposta da API.');
+    }
+  }
+
+  Future<void> getLocationResults(String input) async {
+    String apiKey = dotenv.env['ANDROID_MAPS_APIKEY'] ?? '';
+    String baseURL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+    String request = '$baseURL?input=$input&key=$apiKey&sessiontoken=$_sessionToken';
+
+    final uri = Uri.parse(request);
+    final response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      setState(() {
+        _placeList = json.decode(response.body)['predictions'];
+      });
+    } else {
+      throw Exception('Failed to load predictions');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsFlutterBinding.ensureInitialized();
 
     return Scaffold(
       key: citiesKey,
@@ -75,7 +125,15 @@ class _CityScreenState extends State<CityScreen> {
               height: 40,
               child: TextFormField(
                 controller: _controller,
-              // autofillHints: _placeList,
+                onChanged: (value) {
+                  if (value.isNotEmpty) {
+                    getLocationResults(value);
+                  } else {
+                    setState(() {
+                      _placeList = [];
+                    });
+                  }
+                },
               autocorrect: false,
               decoration: InputDecoration(
                 hintText: AppLocalizations.of(context)!.tripPlannerSearchBar,
@@ -93,31 +151,34 @@ class _CityScreenState extends State<CityScreen> {
             shrinkWrap: true,
             itemCount: _placeList.length,
             itemBuilder: (context, index) {
+              final place = _placeList[index];
               return ListTile(
-                title: Text(_placeList[index]["formatted_address"]),
+                title: Text(_placeList[index]['description']),
+                onTap: () {
+                  getPlaceDetails(place['place_id']);
+                },
               );
             },
           ),
-          ChangeNotifierProvider<MapsController>(
-            create: (context) => MapsController(),
-            child: Builder(builder: (context) {
-              final local = context.watch<MapsController>();
+          Builder(builder: (context) {
+            final local = context.watch<MapsController>();
 
-              return Flexible(
-                flex: 10,
-                child: GoogleMap(initialCameraPosition: CameraPosition(
-                  target: LatLng(local.lat, local.long),
-                  zoom: 13,
-                ),
-                  zoomControlsEnabled: true,
-                  myLocationEnabled: true,
-                  mapType: MapType.normal,
-                  onMapCreated: (context) => local.onMapCreated,
-                  // markers: local.markers,
-                ),
-              );
-            }),
-          ),
+            return Flexible(
+              flex: 10,
+              child: GoogleMap(initialCameraPosition: CameraPosition(
+                target: LatLng(local.lat, local.long),
+                zoom: 15,
+              ),
+                zoomControlsEnabled: true,
+                myLocationEnabled: true,
+                mapType: MapType.normal,
+                onMapCreated: (GoogleMapController controller) {
+                  local.onMapCreated(context, controller);
+                },
+                markers: local.markers,
+              ),
+            );
+          }),
         ],
       )
     );

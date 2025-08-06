@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:projeto_final_academy/presentation/controllers/geolocator_Controller.dart';
 import 'package:projeto_final_academy/presentation/states/transport_State.dart';
-import 'package:projeto_final_academy/presentation/widgets/dynamic_AppBar.dart';
+import 'package:projeto_final_academy/presentation/utils/dynamic_AppBar.dart';
 import 'package:provider/provider.dart';
 import '../../core/routes/app_Routes.dart';
 import '../../core/theme/theme_provider.dart';
@@ -12,7 +12,7 @@ import '../providers/language_provider.dart';
 import '../providers/language_selector.dart';
 import '../states/group_State.dart';
 import '../states/participant_State.dart';
-import '../widgets/bottom_NavBar.dart';
+import '../utils/bottom_NavBar.dart';
 
 class AppShell extends StatefulWidget {
   const AppShell({super.key});

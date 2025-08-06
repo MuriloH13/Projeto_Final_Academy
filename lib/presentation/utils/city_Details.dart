@@ -24,6 +24,12 @@ class CityDetails extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 60, left: 24),
             child: Text(city.address),
           ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: ElevatedButton(onPressed: () {}, child: Text('Adicionar Destino')),
+            ),
+          )
         ],
       ),
     );

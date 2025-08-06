@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../l10n/app_localizations.dart';
 import '../states/participant_State.dart';
-import '../widgets/dynamic_ParticipantForm.dart';
+import '../utils/dynamic_ParticipantForm.dart';
 
 class ParticipantScreen extends StatelessWidget {
   const ParticipantScreen({super.key});

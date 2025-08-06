@@ -1,4 +1,5 @@
-import 'package:app_settings/app_settings.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -6,15 +7,17 @@ import 'package:projeto_final_academy/domain/repositories/cities_Repository.dart
 import 'package:projeto_final_academy/presentation/pages/city_Screen.dart';
 
 import '../../l10n/app_localizations.dart';
-import '../widgets/city_Details.dart';
+import '../utils/city_Details.dart';
 
 class MapsController extends ChangeNotifier {
   double lat = 0.0;
   double long = 0.0;
   String error = '';
+  final Completer<GoogleMapController> _controllerCompleter = Completer();
+  bool _isMapReady = true;
   Set<Marker> markers = Set<Marker>();
 
-  late GoogleMapController _mapsController;
+  GoogleMapController? _mapsController;
 
   get mapsController => _mapsController;
 
@@ -23,8 +26,9 @@ class MapsController extends ChangeNotifier {
     GoogleMapController googleMapController,
   ) async {
     _mapsController = googleMapController;
-    getPosition(context);
-    _mapsController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, long))));
+    _controllerCompleter.complete(googleMapController);
+    await getPosition(context);
+    _mapsController?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, long))));
     loadCities();
   }
 
@@ -47,7 +51,26 @@ class MapsController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getPosition(BuildContext context) async {
+  void updatePosition(double newLat, double newLong) {
+    lat = newLat;
+    long = newLong;
+
+    markers = {
+      Marker(
+        markerId: MarkerId("selected-location"),
+        position: LatLng(lat, long),
+      )
+    };
+    if (_isMapReady && _mapsController != null) {
+      _mapsController!.animateCamera(
+        CameraUpdate.newLatLngZoom(LatLng(lat, long), 15),
+      );
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> getPosition(BuildContext context) async {
     try {
       Position? position;
       String? hasPosition;
@@ -110,7 +133,7 @@ class MapsController extends ChangeNotifier {
 
       lat = position!.latitude;
       long = position.longitude;
-      _mapsController.animateCamera(CameraUpdate.newLatLng(LatLng(lat, long)));
+      _mapsController!.animateCamera(CameraUpdate.newLatLng(LatLng(lat, long)));
     } catch (e) {
       error = e.toString();
     }

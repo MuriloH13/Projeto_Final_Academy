@@ -23,7 +23,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => ParticipantState()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
-        ChangeNotifierProvider(create: (context) => MapsController()), // no context here),
+        ChangeNotifierProvider(create: (context) => MapsController()),
       ],
       child: MaterialApp(
         theme: AppTheme.lightTheme,
