@@ -47,7 +47,13 @@ class AppTheme {
       labelTextStyle: WidgetStateProperty.all(
         TextStyle(color: Colors.blue)
       )
-    )
+    ),
+    listTileTheme: ListTileThemeData(
+      titleTextStyle: TextStyle(
+        fontWeight: FontWeight.bold,
+        color: Colors.black54,
+      )
+    ),
     // Add more light theme customizations here
   );
 
@@ -97,7 +103,13 @@ class AppTheme {
       labelTextStyle: WidgetStateProperty.all(
         TextStyle(color: Colors.white)
       )
-    )
+    ),
+    listTileTheme: ListTileThemeData(
+        titleTextStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.white70,
+        )
+    ),
     // Add more dark theme customizations here
   );
 }

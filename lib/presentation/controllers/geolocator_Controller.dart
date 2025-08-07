@@ -42,7 +42,7 @@ class MapsController extends ChangeNotifier {
           onTap: () {
             showModalBottomSheet(
               context: citiesKey.currentState!.context,
-              builder: (context) => CityDetails(city: city),
+              builder: (context) => CityDetails(city: city, groupId: city.groupId),
             );
           },
         ),

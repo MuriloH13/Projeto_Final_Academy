@@ -8,8 +8,8 @@ import 'package:provider/provider.dart';
 import '../../core/routes/app_Routes.dart';
 import '../../core/theme/theme_provider.dart';
 import '../../l10n/app_localizations.dart';
-import '../providers/language_provider.dart';
 import '../providers/language_selector.dart';
+import '../states/city_State.dart';
 import '../states/group_State.dart';
 import '../states/participant_State.dart';
 import '../utils/bottom_NavBar.dart';
@@ -60,10 +60,10 @@ class TravelPlannerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final local = context.watch<MapsController>();
     final groupState = Provider.of<GroupState>(context);
     final participantState = Provider.of<ParticipantState>(context);
     final transportState = Provider.of<TransportState>(context);
+    final cityState = Provider.of<CityState>(context);
 
     groupState.load();
     participantState.load();
@@ -114,6 +114,10 @@ class TravelPlannerScreen extends StatelessWidget {
                           .toList();
 
                       final transportsInGroup = transportState.transportList
+                          .where((t) => t.groupId == group.id)
+                          .toList();
+
+                      final citiesInGroup = cityState.citiesList
                           .where((t) => t.groupId == group.id)
                           .toList();
 
@@ -196,6 +200,18 @@ class TravelPlannerScreen extends StatelessWidget {
                                   ),
                                 );
                               }).toList(),
+                              if(citiesInGroup.isNotEmpty)
+                                ListTile(
+                                  title: Text('paradas'
+                                  ),
+                                ),
+                              ...citiesInGroup.map((city) {
+                                return ListTile(
+                                  title: Text(
+                                    'nome da parada: ${city.name}',
+                                  ),
+                                );
+                              }).toList(),
                             ],
                           ),
                         ),
@@ -247,8 +263,6 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    final currentLocale = languageProvider.locale;
 
     return Scaffold(
       appBar: AppBar(
