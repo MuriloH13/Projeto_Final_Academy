@@ -44,7 +44,7 @@ class _CityScreenState extends State<CityScreen> {
                 },
               autocorrect: false,
               decoration: InputDecoration(
-                hintText: AppLocalizations.of(context)!.tripPlannerSearchBar,
+                hintText: AppLocalizations.of(context)!.searchBar,
                 prefixIcon: Icon(Icons.map),
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 border: OutlineInputBorder(

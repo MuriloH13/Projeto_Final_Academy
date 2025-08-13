@@ -22,8 +22,13 @@
   "groupScreenTitle" : "Viagem",
   "groupTripName" : "Viagem á Maldivas",
 
-  "transportScreenTitle" : "Transportes",
+  "transportScreenTitle" : "Transporte",
   "transportName" : "Nome do transporte:",
+  "transportCruise": "Cruzeiro",
+  "transportMotorcycle": "Moto",
+  "transportCar": "Carro",
+  "transportBus": "Ônibus",
+  "transportAirPlane": "Avião",
 
   "participantsScreenTitle" : "Participantes",
   "participantsPerson" : "Pessoa",

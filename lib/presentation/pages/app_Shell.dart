@@ -97,7 +97,7 @@ class TravelPlannerScreen extends StatelessWidget {
                         ),
                         hintText: AppLocalizations.of(
                           context,
-                        )!.tripPlannerSearchBar,
+                        )!.searchBar,
                       ),
                     ),
                   ),
@@ -142,9 +142,9 @@ class TravelPlannerScreen extends StatelessWidget {
                                   IconButton(
                                     icon: Icon(Icons.edit),
                                     onPressed: () {
-                                      Navigator.pushReplacementNamed(
+                                      Navigator.pushNamed(
                                         context,
-                                        AppRoutes.participantScreen,
+                                        AppRoutes.editDialog,
                                         arguments: group.id,
                                       );
                                     },
@@ -182,24 +182,14 @@ class TravelPlannerScreen extends StatelessWidget {
                                   ),
                                 );
                               }).toList(),
-                              if (transportsInGroup.isNotEmpty)
+                                if(transportsInGroup.isNotEmpty)
                                 ListTile(
-                                  title: Text(
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.transportScreenTitle,
+                                  title: Text('${AppLocalizations.of(context)!.transportName} ${transportsInGroup.first.transportName}' ,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
-                              ...transportsInGroup.map((transport) {
-                                return ListTile(
-                                  title: Text(
-                                    '${AppLocalizations.of(context)!.transportName} ${transport.transportName}',
-                                  ),
-                                );
-                              }).toList(),
                               if(citiesInGroup.isNotEmpty)
                                 ListTile(
                                   title: Text('paradas'

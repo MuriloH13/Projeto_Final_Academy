@@ -24,6 +24,11 @@
 
   "transportScreenTitle" : "Transporte",
   "transportName" : "Nombre del transporte:",
+  "transportCruise": "Crucero",
+  "transportMotorcycle": "Motocicleta",
+  "transportCar": "Auto",
+  "transportBus": "Autobús",
+  "transportAirPlane": "Avión",
 
   "participantsScreenTitle": "Participantes",
   "participantsPerson": "Persona",

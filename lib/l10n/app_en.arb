@@ -22,10 +22,15 @@
   "groupScreenTitle" : "Trip",
   "groupTripName" : "Trip to the Maldives",
 
-  "transportScreenTitle" : "Transports",
+  "transportScreenTitle" : "Transport",
   "transportName" : "Transport Name:",
+  "transportCruise": "Cruise",
+  "transportMotorcycle": "Motorcycle",
+  "transportCar": "Car",
+  "transportBus": "Bus",
+  "transportAirPlane": "Airplane",
 
-  "participantsScreenTitle" : "Participants",
+  "participantsScreenTitle": "Participants",
   "participantsPerson" : "Pessoa",
   "participantsName" : "Name",
   "participantsAge" : "Age",

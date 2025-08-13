@@ -53,16 +53,6 @@ class CityController {
     return;
   }
 
-  Future<void> delete(City city) async {
-    final database = await getDatabase();
-
-    database.delete(
-      CityTable.tableName,
-      where: '${CityTable.id} = ?',
-      whereArgs: [city.id],
-    );
-  }
-
   Future<List<City>> select() async {
     final database = await getDatabase();
 
@@ -86,4 +76,29 @@ class CityController {
     }
     return list;
   }
+
+  Future<void> update(City city) async {
+    final database = await getDatabase();
+
+    var map = CityTable.toMap(city);
+
+    await database.update(
+        CityTable.tableName,
+        map,
+        where: '${CityTable.id} = ?',
+        whereArgs: [city.id]
+    );
+
+  }
+
+  Future<void> delete(City city) async {
+    final database = await getDatabase();
+
+    database.delete(
+      CityTable.tableName,
+      where: '${CityTable.id} = ?',
+      whereArgs: [city.id],
+    );
+  }
+
 }

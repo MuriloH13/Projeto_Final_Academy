@@ -17,5 +17,4 @@ enum Experience {
   culinary,
   historical,
   leisure,
-
 }

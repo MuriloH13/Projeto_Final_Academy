@@ -145,12 +145,6 @@ abstract class AppLocalizations {
   /// **'Trips'**
   String get tripPlannerScreenTitle;
 
-  /// No description provided for @tripPlannerSearchBar.
-  ///
-  /// In en, this message translates to:
-  /// **'Search'**
-  String get tripPlannerSearchBar;
-
   /// No description provided for @tripPlannerTripName.
   ///
   /// In en, this message translates to:
@@ -208,7 +202,7 @@ abstract class AppLocalizations {
   /// No description provided for @transportScreenTitle.
   ///
   /// In en, this message translates to:
-  /// **'Transports'**
+  /// **'Transport'**
   String get transportScreenTitle;
 
   /// No description provided for @transportName.
@@ -216,6 +210,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Transport Name:'**
   String get transportName;
+
+  /// No description provided for @transportCruise.
+  ///
+  /// In en, this message translates to:
+  /// **'Cruise'**
+  String get transportCruise;
+
+  /// No description provided for @transportMotorcycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Motorcycle'**
+  String get transportMotorcycle;
+
+  /// No description provided for @transportCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Car'**
+  String get transportCar;
+
+  /// No description provided for @transportBus.
+  ///
+  /// In en, this message translates to:
+  /// **'Bus'**
+  String get transportBus;
+
+  /// No description provided for @transportAirPlane.
+  ///
+  /// In en, this message translates to:
+  /// **'Airplane'**
+  String get transportAirPlane;
 
   /// No description provided for @participantsScreenTitle.
   ///
@@ -246,6 +270,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Trip duration'**
   String get durationScreenTitle;
+
+  /// No description provided for @searchBar.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchBar;
 
   /// No description provided for @generalConfirmButton.
   ///

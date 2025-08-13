@@ -33,9 +33,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tripPlannerScreenTitle => 'Trips';
 
   @override
-  String get tripPlannerSearchBar => 'Search';
-
-  @override
   String get tripPlannerTripName => 'Trip name:';
 
   @override
@@ -63,10 +60,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupTripName => 'Trip to the Maldives';
 
   @override
-  String get transportScreenTitle => 'Transports';
+  String get transportScreenTitle => 'Transport';
 
   @override
   String get transportName => 'Transport Name:';
+
+  @override
+  String get transportCruise => 'Cruise';
+
+  @override
+  String get transportMotorcycle => 'Motorcycle';
+
+  @override
+  String get transportCar => 'Car';
+
+  @override
+  String get transportBus => 'Bus';
+
+  @override
+  String get transportAirPlane => 'Airplane';
 
   @override
   String get participantsScreenTitle => 'Participants';
@@ -82,6 +94,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get durationScreenTitle => 'Trip duration';
+
+  @override
+  String get searchBar => 'Search';
 
   @override
   String get generalConfirmButton => 'Confirm';
