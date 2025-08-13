@@ -46,16 +46,6 @@ class ParticipantController {
     return;
   }
 
-  Future<void> delete(Participant participant) async {
-    final database = await getDatabase();
-
-    database.delete(
-      ParticipantTable.tableName,
-      where: '${ParticipantTable.id} = ?',
-      whereArgs: [participant.id],
-    );
-  }
-
   Future<List<Participant>> select() async {
     final database = await getDatabase();
 
@@ -77,4 +67,29 @@ class ParticipantController {
     }
     return list;
   }
+
+  Future<void> update(Participant participant) async {
+    final database = await getDatabase();
+
+    var map = ParticipantTable.toMap(participant);
+
+    await database.update(
+        ParticipantTable.tableName,
+        map,
+        where: '${ParticipantTable.id} = ?',
+        whereArgs: [participant.id]
+    );
+
+  }
+
+  Future<void> delete(Participant participant) async {
+    final database = await getDatabase();
+
+    database.delete(
+      ParticipantTable.tableName,
+      where: '${ParticipantTable.id} = ?',
+      whereArgs: [participant.id],
+    );
+  }
+
 }

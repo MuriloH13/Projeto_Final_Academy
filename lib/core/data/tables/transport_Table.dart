@@ -1,7 +1,6 @@
 import 'package:projeto_final_academy/domain/entities/transport.dart';
 
 import '../database/app_database.dart';
-import 'group_Table.dart';  // importe a GroupTable para usar as constantes
 
 class TransportTable {
   static const String tableName = 'transports';  // declare antes
@@ -33,21 +32,12 @@ class TransportTable {
 }
 
 class TransportController {
+
   Future<void> insert(Transport transport) async {
     final database = await getDatabase();
     final map = TransportTable.toMap(transport);
 
     await database.insert(TransportTable.tableName, map);
-  }
-
-  Future<void> delete(Transport transport) async {
-    final database = await getDatabase();
-
-    await database.delete(
-      TransportTable.tableName,
-      where: '${TransportTable.id} = ?',
-      whereArgs: [transport.id],
-    );
   }
 
   Future<List<Transport>> select() async {
@@ -70,4 +60,29 @@ class TransportController {
     }
     return list;
   }
+
+  Future<void> update(Transport transport) async {
+    final database = await getDatabase();
+
+    var map = TransportTable.toMap(transport);
+
+    await database.update(
+        TransportTable.tableName,
+        map,
+        where: '${TransportTable.id} = ?',
+        whereArgs: [transport.id]
+    );
+
+  }
+
+  Future<void> delete(Transport transport) async {
+    final database = await getDatabase();
+
+    await database.delete(
+      TransportTable.tableName,
+      where: '${TransportTable.id} = ?',
+      whereArgs: [transport.id],
+    );
+  }
+
 }
