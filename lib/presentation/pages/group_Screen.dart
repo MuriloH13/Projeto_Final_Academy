@@ -38,7 +38,7 @@ class _GroupScreenState extends State<GroupScreen> {
 
               Navigator.pushReplacementNamed(
                 context,
-                AppRoutes.transportScreen,
+                AppRoutes.participantScreen,
                 arguments: groupId,
               );
             },

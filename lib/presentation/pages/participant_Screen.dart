@@ -38,7 +38,7 @@ class ParticipantScreen extends StatelessWidget {
                 await state.insert(groupId);
                 Navigator.pushReplacementNamed(
                   context,
-                  AppRoutes.cityScreen,
+                  AppRoutes.transportScreen,
                   arguments: groupId,
                 );
               },
