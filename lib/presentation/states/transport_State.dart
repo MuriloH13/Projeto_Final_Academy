@@ -6,43 +6,47 @@ import '../../domain/entities/transport.dart';
 
 class TransportState extends ChangeNotifier {
   TransportState() {
-    addTransport();
     load();
   }
 
-  final List<TextEditingController> transportControllers = [];
+  String selectedTransport = "";
+
   final controllerDatabase = TransportController();
+
+  final _controllerTransportName = TextEditingController();
+
+  TextEditingController get controllerTransportName => _controllerTransportName;
+
+  final List<TextEditingController> transportControllers = [];
   final _transportList = <Transport>[];
 
   List<Transport> get transportList => _transportList;
 
-  void addTransport() {
-    transportControllers.add(TextEditingController());
-    notifyListeners();
-  }
-
   Future<void> insert(int groupId) async {
-    for (int i = 0; i < transportControllers.length; i++) {
-      final transport = Transport(
-        transportName: transportControllers[i].text,
-        groupId: groupId,
-      );
-      await controllerDatabase.insert(transport);
+    // Remove any existing transport for this group
+    final existingTransports = _transportList.where((t) => t.groupId == groupId).toList();
+    for (final t in existingTransports) {
+      await controllerDatabase.delete(t);
     }
 
-    transportControllers.clear();
+    // Insert the new transport
+    final transport = Transport(
+      transportName: selectedTransport,
+      groupId: groupId,
+    );
+    await controllerDatabase.insert(transport);
+
+    await load();
+    controllerTransportName.clear();
     notifyListeners();
   }
 
-  void removeTransport(int index) {
-    if(index >= 1) {
-      transportControllers[index].dispose();
-      transportControllers.removeAt(index);
-      notifyListeners();
-    }
-    else {
-      // ShowErrorCode
-    }
+  Future<void> delete(Transport transport) async {
+
+    await controllerDatabase.delete(transport);
+    await load();
+
+    notifyListeners();
   }
 
   Future<void> load() async {
@@ -51,5 +55,10 @@ class TransportState extends ChangeNotifier {
       ..clear()
       ..addAll(list);
     notifyListeners();
+  }
+  @override
+  void dispose() {
+    _controllerTransportName.dispose();
+    super.dispose();
   }
 }

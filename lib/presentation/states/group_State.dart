@@ -9,9 +9,13 @@ class GroupState extends ChangeNotifier {
   }
   final controllerDatabase = GroupController();
 
+  Group? _currentGroup;
+
   final _controllerGroupName = TextEditingController();
 
   TextEditingController get controllerGroupName => _controllerGroupName;
+
+  Group? get currentGroup => _currentGroup;
 
 
   final _groupList = <Group>[];
@@ -27,6 +31,20 @@ class GroupState extends ChangeNotifier {
     controllerGroupName.clear();
     notifyListeners();
     return id;
+  }
+
+  Future<void> updateGroup(Group group) async {
+    final editedGroup = Group(
+      id: _currentGroup?.id,
+      cities: _currentGroup?.cities,
+      participants: _currentGroup?.participants,
+      experiences: _currentGroup?.experiences,
+      groupName: controllerGroupName.text,
+    );
+    await controllerDatabase.update(editedGroup);
+    _currentGroup = null;
+    _controllerGroupName.clear();
+    await load();
   }
 
   Future<void> delete(Group group) async {
