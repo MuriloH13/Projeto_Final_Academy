@@ -14,9 +14,9 @@ class CityDetails extends StatelessWidget {
     return Container(
       child: Wrap(
         children: [
-          city.photo.isNotEmpty
+          city.photo!.isNotEmpty
               ? Image.network(
-            city.photo,
+            city.photo!,
             height: 250,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,

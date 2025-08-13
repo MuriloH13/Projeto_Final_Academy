@@ -4,7 +4,7 @@ class City {
   final String address;
   final double latitude;
   final double longitude;
-  final String photo;
+  final String? photo;
   final int groupId;
 
   City({
@@ -13,7 +13,7 @@ class City {
     required this.address,
     required this.latitude,
     required this.longitude,
-    required this.photo,
+    this.photo,
     required this.groupId,
 });
 }
