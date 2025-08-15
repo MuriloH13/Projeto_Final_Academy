@@ -1,20 +1,12 @@
-class ExperienceType {
-  final String name;
-  final Experience category;
+class Experience {
+  final int? id;
+  final String type;
+  final int groupId;
 
-  const ExperienceType(this.name, this.category);
-}
+  Experience({
+    this.id,
+    required this.type,
+    required this.groupId
+  });
 
-const allExperiencesType = [
-  ExperienceType('Cultural Immersion', Experience.culture),
-  ExperienceType('Culinary', Experience.culinary),
-  ExperienceType('Historical Places', Experience.historical),
-  ExperienceType('Leisure', Experience.leisure),
-];
-
-enum Experience {
-  culture,
-  culinary,
-  historical,
-  leisure,
 }

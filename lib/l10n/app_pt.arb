@@ -30,6 +30,14 @@
   "transportBus": "Ônibus",
   "transportAirPlane": "Avião",
 
+  "experienceScreenTitle": "Experiências",
+  "experienceName": "Nome da experiência:",
+  "experienceCulturalImmersion": "Imersão em uma cultura diferente",
+  "experienceAlternativeCuisine": "Explorar culinárias alternativas",
+  "experienceHistoricalSites": "Visitar locais históricos",
+  "experienceLocalEstablishments": "Visitar estabelecimentos locais como parques/bares/shows",
+  "experienceContactWithNature": "Contato com a natureza",
+
   "participantsScreenTitle" : "Participantes",
   "participantsPerson" : "Pessoa",
   "participantsName" : "Nome",

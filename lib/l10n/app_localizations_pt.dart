@@ -81,6 +81,27 @@ class AppLocalizationsPt extends AppLocalizations {
   String get transportAirPlane => 'Avião';
 
   @override
+  String get experienceScreenTitle => 'Experiências';
+
+  @override
+  String get experienceName => 'Nome da experiência:';
+
+  @override
+  String get experienceCulturalImmersion => 'Imersão em uma cultura diferente';
+
+  @override
+  String get experienceAlternativeCuisine => 'Explorar culinárias alternativas';
+
+  @override
+  String get experienceHistoricalSites => 'Visitar locais históricos';
+
+  @override
+  String get experienceLocalEstablishments => 'Visitar estabelecimentos locais como parques/bares/shows';
+
+  @override
+  String get experienceContactWithNature => 'Contato com a natureza';
+
+  @override
   String get participantsScreenTitle => 'Participantes';
 
   @override

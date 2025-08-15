@@ -241,6 +241,48 @@ abstract class AppLocalizations {
   /// **'Airplane'**
   String get transportAirPlane;
 
+  /// No description provided for @experienceScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Experiences'**
+  String get experienceScreenTitle;
+
+  /// No description provided for @experienceName.
+  ///
+  /// In en, this message translates to:
+  /// **'Experience name:'**
+  String get experienceName;
+
+  /// No description provided for @experienceCulturalImmersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Immersion in a different culture'**
+  String get experienceCulturalImmersion;
+
+  /// No description provided for @experienceAlternativeCuisine.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore alternative cuisine'**
+  String get experienceAlternativeCuisine;
+
+  /// No description provided for @experienceHistoricalSites.
+  ///
+  /// In en, this message translates to:
+  /// **'Visit historical sites'**
+  String get experienceHistoricalSites;
+
+  /// No description provided for @experienceLocalEstablishments.
+  ///
+  /// In en, this message translates to:
+  /// **'Visit local establishments such as parks/bars/shows'**
+  String get experienceLocalEstablishments;
+
+  /// No description provided for @experienceContactWithNature.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact with nature'**
+  String get experienceContactWithNature;
+
   /// No description provided for @participantsScreenTitle.
   ///
   /// In en, this message translates to:
