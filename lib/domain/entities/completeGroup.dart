@@ -9,7 +9,7 @@ class CompleteGroup {
   final List<Participant> participants;
   final List<Transport> transports;
   final List<City> cities;
-  // final List<Experience> experiences;
+  final List<Experience> experiences;
 
   CompleteGroup({
     this.id,
@@ -17,6 +17,6 @@ class CompleteGroup {
     required this.participants,
     required this.transports,
     required this.cities,
-    // required this.experiences,
+    required this.experiences,
 });
 }

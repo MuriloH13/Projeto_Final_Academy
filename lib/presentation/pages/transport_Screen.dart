@@ -56,9 +56,7 @@ class _TransportScreenState extends State<TransportScreen> {
                     children: [
                       Text(AppLocalizations.of(context)!.transportName),
                       DropdownButton<String>(
-                        value: state.selectedTransport.isNotEmpty
-                          ? state.selectedTransport
-                        : transportList.first,
+                        value: transportList.contains(dropDownValue) ? dropDownValue : transportList.first,
                           icon: Icon(Icons.arrow_downward),
                           onChanged: (String? value) {
                             state.selectedTransport = value!;

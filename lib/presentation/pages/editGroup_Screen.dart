@@ -32,12 +32,11 @@ class _EditgroupScreenState extends State<EditgroupScreen> {
   final groupNameController = TextEditingController();
   final participantsController = TextEditingController();
   final citiesController = TextEditingController();
-  final transportsController = TextEditingController();
-  // final experiencesController = TextEditingController();
 
   List<TextEditingController> _participantNameControllers = [];
   List<TextEditingController> _participantAgeControllers = [];
   List<TextEditingController> _transportNameControllers = [];
+  List<TextEditingController> _experienceTypeControllers = [];
   List<TextEditingController> _cityControllers = [];
 
   @override
@@ -61,9 +60,7 @@ class _EditgroupScreenState extends State<EditgroupScreen> {
         group = result;
         groupNameController.text = group.groupName;
         participantsController.text = group.participants.length.toString();
-        transportsController.text = group.transports.length.toString();
         citiesController.text = group.cities.length.toString();
-        // experiencesController.text = group.experiences?.length.toString() ?? '0';
 
         _participantNameControllers = group.participants
             .map((p) => TextEditingController(text: p.name))
@@ -74,6 +71,10 @@ class _EditgroupScreenState extends State<EditgroupScreen> {
             .toList();
 
         _transportNameControllers = group.transports
+            .map((p) => TextEditingController(text: p.transportName.toString()))
+            .toList();
+
+        _experienceTypeControllers = group.transports
             .map((p) => TextEditingController(text: p.transportName.toString()))
             .toList();
 
@@ -91,11 +92,10 @@ class _EditgroupScreenState extends State<EditgroupScreen> {
     groupNameController.dispose();
     participantsController.dispose();
     citiesController.dispose();
-    transportsController.dispose();
-    // experiencesController.dispose();
     _participantNameControllers.forEach((c) => c.dispose());
     _participantAgeControllers.forEach((c) => c.dispose());
     _transportNameControllers.forEach((c) => c.dispose());
+    _experienceTypeControllers.forEach((c) => c.dispose());
     _cityControllers.forEach((c) => c.dispose());
     super.dispose();
   }
@@ -109,6 +109,14 @@ class _EditgroupScreenState extends State<EditgroupScreen> {
       AppLocalizations.of(context)!.transportBus,
       AppLocalizations.of(context)!.transportAirPlane,
       AppLocalizations.of(context)!.transportCruise,
+    ];
+
+    List<String> experienceOptions = <String>[
+      AppLocalizations.of(context)!.experienceCulturalImmersion,
+      AppLocalizations.of(context)!.experienceAlternativeCuisine,
+      AppLocalizations.of(context)!.experienceHistoricalSites,
+      AppLocalizations.of(context)!.experienceLocalEstablishments,
+      AppLocalizations.of(context)!.experienceContactWithNature,
     ];
 
     return Scaffold(
@@ -217,6 +225,42 @@ class _EditgroupScreenState extends State<EditgroupScreen> {
                               ),
                             ),
                         ],
+                      );
+                    },
+                  ),
+                  Center(
+                    child: Text('Experiências preferidas'),
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: group.experiences.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.all(4),
+                        child: DropdownButtonFormField<String>(
+                          value: _experienceTypeControllers[index].text.isNotEmpty
+                              ? _experienceTypeControllers[index].text
+                              : experienceOptions.first,
+                          decoration: InputDecoration(
+                            labelText: 'Experiência preferida',
+                            prefixIcon: Icon(Icons.train),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          items: experienceOptions.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _experienceTypeControllers[index].text = newValue!;
+                            });
+                          },
+                        ),
                       );
                     },
                   ),

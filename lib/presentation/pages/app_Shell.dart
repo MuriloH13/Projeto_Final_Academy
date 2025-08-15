@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:projeto_final_academy/presentation/controllers/geolocator_Controller.dart';
+import 'package:projeto_final_academy/presentation/states/experience_State.dart';
 import 'package:projeto_final_academy/presentation/states/transport_State.dart';
 import 'package:projeto_final_academy/presentation/utils/dynamic_AppBar.dart';
 import 'package:provider/provider.dart';
@@ -63,6 +64,7 @@ class TravelPlannerScreen extends StatelessWidget {
     final groupState = Provider.of<GroupState>(context);
     final participantState = Provider.of<ParticipantState>(context);
     final transportState = Provider.of<TransportState>(context);
+    final experienceState = Provider.of<ExperienceState>(context);
     final cityState = Provider.of<CityState>(context);
 
     groupState.load();
@@ -116,6 +118,10 @@ class TravelPlannerScreen extends StatelessWidget {
                       final transportsInGroup = transportState.transportList
                           .where((t) => t.groupId == group.id)
                           .toList();
+
+                      final experiencesInGroup = experienceState.experienceList
+                      .where((t) => t.groupId == group.id)
+                      .toList();
 
                       final citiesInGroup = cityState.citiesList
                           .where((t) => t.groupId == group.id)
@@ -185,6 +191,14 @@ class TravelPlannerScreen extends StatelessWidget {
                                 if(transportsInGroup.isNotEmpty)
                                 ListTile(
                                   title: Text('${AppLocalizations.of(context)!.transportName} ${transportsInGroup.first.transportName}' ,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              if(experiencesInGroup.isNotEmpty)
+                                ListTile(
+                                  title: Text('${AppLocalizations.of(context)!.experienceName} ${experiencesInGroup.first.type}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),

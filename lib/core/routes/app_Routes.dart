@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:projeto_final_academy/presentation/pages/city_Screen.dart';
 import 'package:projeto_final_academy/presentation/pages/editGroup_Screen.dart';
 import 'package:projeto_final_academy/presentation/pages/transport_Screen.dart';
-import 'package:projeto_final_academy/presentation/utils/editGroup_Message.dart';
+import 'package:projeto_final_academy/presentation/utils/editGroup_Dialog.dart';
 
 import '../../presentation/pages/app_Shell.dart';
 import '../../presentation/pages/duration_Screen.dart';

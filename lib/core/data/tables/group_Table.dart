@@ -5,9 +5,11 @@ import 'package:projeto_final_academy/domain/entities/city.dart';
 import 'package:projeto_final_academy/domain/entities/completeGroup.dart';
 import 'package:projeto_final_academy/domain/entities/transport.dart';
 
+import '../../../domain/entities/experience.dart';
 import '../../../domain/entities/group.dart';
 import '../../../domain/entities/participant.dart';
 import '../database/app_database.dart';
+import 'experience_Table.dart';
 
 class GroupTable {
   static const String createTable =
@@ -73,11 +75,11 @@ class GroupController {
       whereArgs: [groupId]
     );
 
-    // final experiencesResult = await database.query(
-    //     ExperienceTable.tableName,
-    //     where: 'groupId = ?',
-    //     whereArgs: [groupId]
-    // );
+    final experiencesResult = await database.query(
+        ExperienceTable.tableName,
+        where: 'groupId = ?',
+        whereArgs: [groupId]
+    );
 
     final participants = participantsResult.map((item) {
       return Participant(
@@ -93,6 +95,14 @@ class GroupController {
       return Transport(
       id: item['id'] as int?,
         transportName: item['transportName'] as String,
+        groupId: item['groupId'] as int,
+      );
+    }).toList();
+
+    final experiences = experiencesResult.map((item) {
+      return Experience(
+        id: item['id'] as int?,
+        type: item['type'] as String,
         groupId: item['groupId'] as int,
       );
     }).toList();
@@ -115,7 +125,7 @@ class GroupController {
         participants: participants,
         transports: transports,
         cities: cities,
-        // experiences: experiences,
+        experiences: experiences,
     );
   }
 

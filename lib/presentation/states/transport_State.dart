@@ -17,7 +17,6 @@ class TransportState extends ChangeNotifier {
 
   TextEditingController get controllerTransportName => _controllerTransportName;
 
-  final List<TextEditingController> transportControllers = [];
   final _transportList = <Transport>[];
 
   List<Transport> get transportList => _transportList;
@@ -55,10 +54,5 @@ class TransportState extends ChangeNotifier {
       ..clear()
       ..addAll(list);
     notifyListeners();
-  }
-  @override
-  void dispose() {
-    _controllerTransportName.dispose();
-    super.dispose();
   }
 }
