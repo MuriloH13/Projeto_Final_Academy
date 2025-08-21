@@ -40,9 +40,11 @@
   "experienceLocalEstablishments": "Visit local establishments such as parks/bars/shows",
   "experienceContactWithNature": "Contact with nature",
 
-  "cityScreenTitle" : "Stops",
+  "stopScreenTitle" : "Stops",
+  "stopName" : "Stop Name:",
+  "stopAddDestination" : "Add Destination",
 
-  "editTripScreenTitle": "Edit group",
+  "editTripScreenTitle": "Edit Trip",
 
   "participantsScreenTitle": "Participants",
   "participantsPerson" : "Pessoa",

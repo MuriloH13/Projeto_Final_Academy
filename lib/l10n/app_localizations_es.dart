@@ -108,10 +108,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get experienceContactWithNature => 'Contacto con la naturaleza';
 
   @override
-  String get cityScreenTitle => 'Paradas';
+  String get stopScreenTitle => 'Paradas';
 
   @override
-  String get editTripScreenTitle => 'Editar grupo';
+  String get stopName => 'Nombre de la parada:';
+
+  @override
+  String get stopAddDestination => 'Agregar destino';
+
+  @override
+  String get editTripScreenTitle => 'Editar viaje';
 
   @override
   String get participantsScreenTitle => 'Participantes';

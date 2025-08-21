@@ -295,16 +295,28 @@ abstract class AppLocalizations {
   /// **'Contact with nature'**
   String get experienceContactWithNature;
 
-  /// No description provided for @cityScreenTitle.
+  /// No description provided for @stopScreenTitle.
   ///
   /// In en, this message translates to:
   /// **'Stops'**
-  String get cityScreenTitle;
+  String get stopScreenTitle;
+
+  /// No description provided for @stopName.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop Name:'**
+  String get stopName;
+
+  /// No description provided for @stopAddDestination.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Destination'**
+  String get stopAddDestination;
 
   /// No description provided for @editTripScreenTitle.
   ///
   /// In en, this message translates to:
-  /// **'Edit group'**
+  /// **'Edit Trip'**
   String get editTripScreenTitle;
 
   /// No description provided for @participantsScreenTitle.
