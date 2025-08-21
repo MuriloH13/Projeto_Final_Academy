@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/routes/app_Routes.dart';
 import '../../l10n/app_localizations.dart';
-import '../states/group_State.dart';
+import '../states/trip_State.dart';
 
-class GroupScreen extends StatefulWidget {
-  const GroupScreen({super.key});
+class TripScreen extends StatefulWidget {
+  const TripScreen({super.key});
 
   @override
-  State<GroupScreen> createState() => _GroupScreenState();
+  State<TripScreen> createState() => _TripScreenState();
 }
 
-class _GroupScreenState extends State<GroupScreen> {
+class _TripScreenState extends State<TripScreen> {
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<GroupState>(context);
+    final state = Provider.of<TripState>(context);
 
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.groupScreenTitle)),

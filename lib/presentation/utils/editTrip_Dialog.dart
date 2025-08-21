@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../core/routes/app_Routes.dart';
 
-class EditgroupMessage extends StatelessWidget {
-  const EditgroupMessage({super.key});
+class EditTripMessage extends StatelessWidget {
+  const EditTripMessage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class EditgroupMessage extends StatelessWidget {
                     onPressed: (){
                       Navigator.pushReplacementNamed(
                         context,
-                        AppRoutes.editgroupScreen,
+                        AppRoutes.editTripScreen,
                         arguments: groupId,
                       );
                     },

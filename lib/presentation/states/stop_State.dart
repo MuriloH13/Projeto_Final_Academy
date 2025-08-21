@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:projeto_final_academy/domain/entities/city.dart';
+import 'package:projeto_final_academy/domain/entities/stop.dart';
 import 'package:projeto_final_academy/presentation/controllers/geolocator_Controller.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import '../../core/data/tables/stop_Table.dart';
+import '../utils/stop_Details.dart';
 
-import '../../core/data/tables/city_Table.dart';
-import '../utils/city_Details.dart';
-class CityState extends ChangeNotifier {
-  CityState() {
+class StopState extends ChangeNotifier {
+  StopState() {
     load();
   }
   List<dynamic> placeList = [];
@@ -19,10 +19,12 @@ class CityState extends ChangeNotifier {
   String? photo;
   double? latitude;
   double? longitude;
-  final controllerDatabase = CityController();
-  final _citiesList = <City>[];
+  DateTime? departure;
+  DateTime? arrival;
+  final controllerDatabase = StopController();
+  final _citiesList = <Stop>[];
 
-  List<City> get citiesList => _citiesList;
+  List<Stop> get citiesList => _citiesList;
 
   final String _apiKey = dotenv.env['ANDROID_MAPS_APIKEY'] ?? '';
   Uuid _sessionToken = new Uuid();
@@ -32,7 +34,7 @@ class CityState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setCityDetails({
+  void setStopDetails({
     required String name,
     required String address,
     required String photo,
@@ -47,14 +49,23 @@ class CityState extends ChangeNotifier {
     notifyListeners();
   }
 
-  City toCity(int groupId) {
-    return City(
+  void setStopDates({
+    required DateTime departure,
+    required DateTime arrival,
+}) {
+    this.departure = departure;
+    this.arrival = arrival;
+    notifyListeners();
+  }
+
+  Stop toStop(int tripId) {
+    return Stop(
       name: name!,
       address: address!,
       photo: photo ?? '',
       latitude: latitude!,
       longitude: longitude!,
-      groupId: groupId,
+      tripId: tripId,
     );
   }
 
@@ -69,15 +80,17 @@ class CityState extends ChangeNotifier {
   }
 
   Future<void> insert(int groupId) async {
-    final city = City(
+    final stop = Stop(
       name: name!,
       address: address!,
       latitude: latitude!,
       longitude: longitude!,
+      departure: departure!,
+      arrival: arrival!,
       photo: photo ?? '',
-      groupId: groupId,
+      tripId: groupId,
     );
-    await controllerDatabase.insert(city);
+    await controllerDatabase.insert(stop);
     clear(); // Clean the data after the insert
   }
 
@@ -130,7 +143,7 @@ class CityState extends ChangeNotifier {
         'https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=$photoReference&key=$_apiKey';
       }
 
-      setCityDetails(
+      setStopDetails(
         name: name,
         address: address,
         photo: photoUrl,
@@ -142,7 +155,7 @@ class CityState extends ChangeNotifier {
 
       showModalBottomSheet(
         context: context,
-        builder: (_) => CityDetails(city: toCity(groupId), groupId: groupId,),
+        builder: (_) => StopDetails(stop: toStop(groupId), groupId: groupId,),
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(16)),

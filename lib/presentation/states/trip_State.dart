@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 
-import '../../core/data/tables/group_Table.dart';
-import '../../domain/entities/group.dart';
+import '../../core/data/tables/trip_Table.dart';
+import '../../domain/entities/trip.dart';
 
-class GroupState extends ChangeNotifier {
-  GroupState() {
+class TripState extends ChangeNotifier {
+  TripState() {
     load();
   }
-  final controllerDatabase = GroupController();
+  final controllerDatabase = TripController();
 
-  Group? _currentGroup;
+  Trip? _currentGroup;
 
   final _controllerGroupName = TextEditingController();
 
   TextEditingController get controllerGroupName => _controllerGroupName;
 
-  Group? get currentGroup => _currentGroup;
+  Trip? get currentGroup => _currentGroup;
 
 
-  final _groupList = <Group>[];
+  final _groupList = <Trip>[];
 
-  List<Group> get groupList => _groupList;
+  List<Trip> get groupList => _groupList;
 
   Future<int> insert() async{
-    final group = Group(groupName: controllerGroupName.text);
+    final group = Trip(groupName: controllerGroupName.text);
 
     final int id = await controllerDatabase.insert(group);
     await load();
@@ -33,8 +33,8 @@ class GroupState extends ChangeNotifier {
     return id;
   }
 
-  Future<void> updateGroup(Group group) async {
-    final editedGroup = Group(
+  Future<void> updateGroup(Trip trip) async {
+    final editedGroup = Trip(
       id: _currentGroup?.id,
       cities: _currentGroup?.cities,
       participants: _currentGroup?.participants,
@@ -47,9 +47,9 @@ class GroupState extends ChangeNotifier {
     await load();
   }
 
-  Future<void> delete(Group group) async {
+  Future<void> delete(Trip trip) async {
 
-    await controllerDatabase.delete(group);
+    await controllerDatabase.delete(trip);
     await load();
 
     notifyListeners();

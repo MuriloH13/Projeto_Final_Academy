@@ -1,19 +1,19 @@
-import 'package:projeto_final_academy/domain/entities/city.dart';
+import 'package:projeto_final_academy/domain/entities/stop.dart';
 import 'package:projeto_final_academy/domain/entities/experience.dart';
 import 'package:projeto_final_academy/domain/entities/participant.dart';
 import 'package:projeto_final_academy/domain/entities/transport.dart';
 
-class CompleteGroup {
+class CompleteTrip {
   final int? id;
-  final String groupName;
+  final String tripName;
   final List<Participant> participants;
   final List<Transport> transports;
-  final List<City> cities;
+  final List<Stop> cities;
   final List<Experience> experiences;
 
-  CompleteGroup({
+  CompleteTrip({
     this.id,
-    required this.groupName,
+    required this.tripName,
     required this.participants,
     required this.transports,
     required this.cities,

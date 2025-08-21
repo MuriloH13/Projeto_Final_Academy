@@ -4,7 +4,7 @@ import 'package:projeto_final_academy/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../controllers/geolocator_Controller.dart';
 
-import '../states/city_State.dart';
+import '../states/stop_State.dart';
 
 final citiesKey = GlobalKey();
 
@@ -26,7 +26,7 @@ class _CityScreenState extends State<CityScreen> {
     return Scaffold(
       key: citiesKey,
       appBar: AppBar(
-        title: Text('Stops'),
+        title: Text(AppLocalizations.of(context)!.stopScreenTitle),
       ),
       body: Column(
         children: [
@@ -37,9 +37,9 @@ class _CityScreenState extends State<CityScreen> {
               child: TextFormField(
                 onChanged: (value) {
                   if (value.isNotEmpty) {
-                    context.read<CityState>().fetchSuggestions(value);
+                    context.read<StopState>().fetchSuggestions(value);
                   } else {
-                    context.read<CityState>().clear();
+                    context.read<StopState>().clear();
                   }
                 },
               autocorrect: false,
@@ -54,7 +54,7 @@ class _CityScreenState extends State<CityScreen> {
               ),
             ),
           ),
-          Consumer<CityState>(
+          Consumer<StopState>(
             builder: (context, state, _) {
               return ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
