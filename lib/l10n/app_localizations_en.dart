@@ -48,6 +48,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tripPlannerTripButton => 'New travel plan';
 
   @override
+  String get tripDepartureDate => 'Departure date';
+
+  @override
+  String get tripArrivalDate => 'Arrival date';
+
+  @override
   String get settingsDarkModeSwitch => 'Dark Mode';
 
   @override
@@ -100,6 +106,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get experienceContactWithNature => 'Contact with nature';
+
+  @override
+  String get cityScreenTitle => 'Stops';
+
+  @override
+  String get editTripScreenTitle => 'Edit group';
 
   @override
   String get participantsScreenTitle => 'Participants';

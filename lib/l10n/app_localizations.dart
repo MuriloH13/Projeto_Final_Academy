@@ -175,6 +175,18 @@ abstract class AppLocalizations {
   /// **'New travel plan'**
   String get tripPlannerTripButton;
 
+  /// No description provided for @tripDepartureDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Departure date'**
+  String get tripDepartureDate;
+
+  /// No description provided for @tripArrivalDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrival date'**
+  String get tripArrivalDate;
+
   /// No description provided for @settingsDarkModeSwitch.
   ///
   /// In en, this message translates to:
@@ -282,6 +294,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Contact with nature'**
   String get experienceContactWithNature;
+
+  /// No description provided for @cityScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stops'**
+  String get cityScreenTitle;
+
+  /// No description provided for @editTripScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit group'**
+  String get editTripScreenTitle;
 
   /// No description provided for @participantsScreenTitle.
   ///
