@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 
-import '../../core/data/database/app_database.dart';
 import '../../core/data/tables/participant_Table.dart';
 import '../../domain/entities/participant.dart';
 
@@ -27,13 +26,13 @@ class ParticipantState extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> insert(int groupId) async {
+  Future<void> insert(int tripId) async {
     for (int i = 0; i < nameControllers.length; i++) {
       final participant = Participant(
-        photo: participantImage[i]?.path,
         name: nameControllers[i].text,
         age: int.tryParse(ageControllers[i].text) ?? 0,
-        groupId: groupId,
+        photo: participantImage[i]?.path,
+        tripId: tripId,
       );
       await controllerDatabase.insert(participant);
     }

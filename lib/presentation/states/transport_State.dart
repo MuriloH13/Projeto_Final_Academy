@@ -21,9 +21,9 @@ class TransportState extends ChangeNotifier {
 
   List<Transport> get transportList => _transportList;
 
-  Future<void> insert(int groupId) async {
+  Future<void> insert(int tripId) async {
     // Remove any existing transport for this group
-    final existingTransports = _transportList.where((t) => t.groupId == groupId).toList();
+    final existingTransports = _transportList.where((t) => t.tripId == tripId).toList();
     for (final t in existingTransports) {
       await controllerDatabase.delete(t);
     }
@@ -31,7 +31,7 @@ class TransportState extends ChangeNotifier {
     // Insert the new transport
     final transport = Transport(
       transportName: selectedTransport,
-      groupId: groupId,
+      tripId: tripId,
     );
     await controllerDatabase.insert(transport);
 

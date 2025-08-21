@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:projeto_final_academy/domain/repositories/cities_Repository.dart';
-import 'package:projeto_final_academy/presentation/pages/city_Screen.dart';
+import 'package:projeto_final_academy/domain/repositories/stops_Repository.dart';
+import 'package:projeto_final_academy/presentation/pages/stop_Screen.dart';
 
 import '../../l10n/app_localizations.dart';
-import '../utils/city_Details.dart';
+import '../utils/stop_Details.dart';
 
 class MapsController extends ChangeNotifier {
   double lat = 0.0;
@@ -33,16 +33,16 @@ class MapsController extends ChangeNotifier {
   }
 
   loadCities() {
-    final cities = CitiesRepository().cities;
-    cities.forEach((city) {
+    final stops = StopsRepository().cities;
+    stops.forEach((stop) {
       markers.add(
         Marker(
-          markerId: MarkerId(city.name),
-          position: LatLng(city.latitude, city.longitude),
+          markerId: MarkerId(stop.name),
+          position: LatLng(stop.latitude, stop.longitude),
           onTap: () {
             showModalBottomSheet(
               context: citiesKey.currentState!.context,
-              builder: (context) => CityDetails(city: city, groupId: city.groupId),
+              builder: (context) => StopDetails(stop: stop, groupId: stop.groupId),
             );
           },
         ),
@@ -127,9 +127,6 @@ class MapsController extends ChangeNotifier {
       }
 
 
-      print('ÇÇÇÇÇÇ788787');
-      print(position?.latitude);
-      print(position?.longitude);
 
       lat = position!.latitude;
       long = position.longitude;
@@ -145,14 +142,9 @@ class MapsController extends ChangeNotifier {
     permission = await Geolocator.checkPermission();
     bool activated = await Geolocator.isLocationServiceEnabled();
 
-    print('LLLÇÇÇÇÇÇ0001');
-    print(permission);
 
     if (permission == LocationPermission.denied) {
-      print('LLLÇÇÇÇÇÇ0002');
       permission = await Geolocator.requestPermission();
-      print('LLLÇÇÇÇÇÇ0003');
-      print(permission);
 
       if (permission == LocationPermission.deniedForever) {
         return (
@@ -163,10 +155,7 @@ class MapsController extends ChangeNotifier {
     }
 
     if (permission == LocationPermission.unableToDetermine) {
-      print('LLLÇÇÇÇÇÇ0002');
       permission = await Geolocator.requestPermission();
-      print('LLLÇÇÇÇÇÇ0003');
-      print(permission);
 
       if (permission == LocationPermission.deniedForever) {
         return (

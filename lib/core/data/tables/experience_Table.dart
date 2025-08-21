@@ -7,14 +7,14 @@ class ExperienceTable {
 
   static const String id = 'id';
   static const String type = 'type';
-  static const String groupId = 'groupId';
+  static const String tripId = 'tripId';
 
   static const String createTable = '''
     CREATE TABLE IF NOT EXISTS $tableName(
       $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       $type TEXT NOT NULL,
-      $groupId INTEGER NOT NULL,
-      FOREIGN KEY (groupId) REFERENCES GroupTable(id) ON DELETE CASCADE
+      $tripId INTEGER NOT NULL,
+      FOREIGN KEY (tripId) REFERENCES TripTable(id) ON DELETE CASCADE
     );
   ''';
 
@@ -25,7 +25,7 @@ class ExperienceTable {
       map[id] = experience.id;
     }
     map[type] = experience.type;
-    map[groupId] = experience.groupId;
+    map[tripId] = experience.tripId;
 
     return map;
   }
@@ -54,7 +54,7 @@ class ExperienceController {
         Experience(
           id: item[ExperienceTable.id],
           type: item[ExperienceTable.type],
-          groupId: item[ExperienceTable.groupId],
+          tripId: item[ExperienceTable.tripId],
         ),
       );
     }

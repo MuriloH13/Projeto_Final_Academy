@@ -14,7 +14,9 @@ class ParticipantScreen extends StatelessWidget {
     final int groupId = ModalRoute.of(context)!.settings.arguments as int;
     final state = Provider.of<ParticipantState>(context);
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.participantsScreenTitle)),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.participantsScreenTitle),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

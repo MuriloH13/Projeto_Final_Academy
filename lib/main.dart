@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_final_academy/presentation/controllers/geolocator_Controller.dart';
 import 'package:projeto_final_academy/presentation/providers/language_provider.dart';
-import 'package:projeto_final_academy/presentation/states/city_State.dart';
+import 'package:projeto_final_academy/presentation/states/stop_State.dart';
 import 'package:projeto_final_academy/presentation/states/experience_State.dart';
-import 'package:projeto_final_academy/presentation/states/group_State.dart';
+import 'package:projeto_final_academy/presentation/states/trip_State.dart';
 import 'package:projeto_final_academy/presentation/states/participant_State.dart';
 import 'package:projeto_final_academy/presentation/states/transport_State.dart';
 import 'package:provider/provider.dart';
@@ -20,11 +20,11 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => GroupState()),
+        ChangeNotifierProvider(create: (context) => TripState()),
         ChangeNotifierProvider(create: (context) => ParticipantState()),
         ChangeNotifierProvider(create: (context) => TransportState()),
         ChangeNotifierProvider(create: (context) => ExperienceState()),
-        ChangeNotifierProvider(create: (context) => CityState()),
+        ChangeNotifierProvider(create: (context) => StopState()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
         ChangeNotifierProvider(create: (context) => MapsController()),

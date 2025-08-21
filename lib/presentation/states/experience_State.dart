@@ -5,32 +5,37 @@ import '../../domain/entities/experience.dart';
 
 class ExperienceState extends ChangeNotifier {
   ExperienceState() {
-    // load();
+    load();
   }
 
   String selectedExperience = "";
 
   final controllerDatabase = ExperienceController();
 
+  final _controllerExperienceName = TextEditingController();
+
+  TextEditingController get controllerExperienceName => _controllerExperienceName;
+
   final _experienceList = <Experience>[];
 
   List<Experience> get experienceList => _experienceList;
 
-  Future<void> insert(int groupId) async {
-    // Remove any existing transport for this group
-    final existingTransports = experienceList.where((t) => t.groupId == groupId).toList();
+  Future<void> insert(int tripId) async {
+    // Remove any existing experience for this group
+    final existingTransports = experienceList.where((t) => t.tripId == tripId).toList();
     for (final t in existingTransports) {
       await controllerDatabase.delete(t);
     }
 
-    // Insert the new transport
+    // Insert the new experience
     final experience = Experience(
       type: selectedExperience,
-      groupId: groupId,
+      tripId: tripId,
     );
     await controllerDatabase.insert(experience);
 
     await load();
+    controllerExperienceName.clear();
     notifyListeners();
   }
 
@@ -49,5 +54,4 @@ class ExperienceState extends ChangeNotifier {
       ..addAll(list);
     notifyListeners();
   }
-
 }

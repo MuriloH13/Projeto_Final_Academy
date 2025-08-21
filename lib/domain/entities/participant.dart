@@ -3,13 +3,13 @@ class Participant {
   final String? photo;
   final String name;
   final int age;
-  final int groupId;
+  final int tripId;
 
   Participant({
     this.id,
     this.photo,
     required this.name,
     required this.age,
-    required this.groupId,
+    required this.tripId,
   });
 }

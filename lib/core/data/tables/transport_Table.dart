@@ -7,14 +7,14 @@ class TransportTable {
 
   static const String id = 'id';
   static const String transportName = 'transportName';
-  static const String groupId = 'groupId';
+  static const String tripId = 'tripId';
 
   static const String createTable = '''
     CREATE TABLE IF NOT EXISTS $tableName(
       $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       $transportName TEXT NOT NULL,
-      $groupId INTEGER NOT NULL,
-      FOREIGN KEY (groupId) REFERENCES GroupTable(id) ON DELETE CASCADE
+      $tripId INTEGER NOT NULL,
+      FOREIGN KEY (tripId) REFERENCES TripTable(id) ON DELETE CASCADE
     );
   ''';
 
@@ -25,7 +25,7 @@ class TransportTable {
       map[id] = transport.id;
     }
     map[transportName] = transport.transportName;
-    map[groupId] = transport.groupId;
+    map[tripId] = transport.tripId;
 
     return map;
   }
@@ -54,7 +54,7 @@ class TransportController {
         Transport(
           id: item[TransportTable.id],
           transportName: item[TransportTable.transportName],
-          groupId: item[TransportTable.groupId],
+          tripId: item[TransportTable.tripId],
         ),
       );
     }

@@ -1,12 +1,12 @@
 class Experience {
   final int? id;
   final String type;
-  final int groupId;
+  final int tripId;
 
   Experience({
     this.id,
     required this.type,
-    required this.groupId
+    required this.tripId
   });
 
 }

@@ -3,14 +3,14 @@ import '../database/app_database.dart';
 
 class ParticipantTable {
   static const String createTable =
-  '''
+      '''
   CREATE TABLE IF NOT EXISTS $tableName(
   $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   $photo TEXT,
   $name TEXT NOT NULL,
   $age INTEGER NOT NULL,
-  $groupId INTEGER NOT NULL,
-  FOREIGN KEY (groupId) REFERENCES GroupTable(id) ON DELETE CASCADE
+  $tripId INTEGER NOT NULL,
+  FOREIGN KEY (tripId) REFERENCES TripTable(id) ON DELETE CASCADE
   );
   ''';
 
@@ -19,14 +19,14 @@ class ParticipantTable {
   static const String photo = 'photo';
   static const String name = 'name';
   static const String age = 'age';
-  static const String groupId = 'groupId';
+  static const String tripId = 'tripId';
 
   static Map<String, dynamic> toMap(Participant participant) {
     final map = <String, dynamic>{};
     map[ParticipantTable.photo] = participant.photo;
     map[ParticipantTable.name] = participant.name;
     map[ParticipantTable.age] = participant.age;
-    map[ParticipantTable.groupId] = participant.groupId;
+    map[ParticipantTable.tripId] = participant.tripId;
 
     if (participant.id != null) {
       map[ParticipantTable.id] = participant.id;
@@ -55,15 +55,15 @@ class ParticipantController {
 
     var list = <Participant>[];
 
-    for(final item in result) {
+    for (final item in result) {
       list.add(
-          Participant(
-            photo: item[ParticipantTable.photo],
-              name: item[ParticipantTable.name],
-              age: item[ParticipantTable.age],
-              groupId: item[ParticipantTable.groupId])
+        Participant(
+          photo: item[ParticipantTable.photo],
+          name: item[ParticipantTable.name],
+          age: item[ParticipantTable.age],
+          tripId: item[ParticipantTable.tripId],
+        ),
       );
-
     }
     return list;
   }
@@ -74,12 +74,11 @@ class ParticipantController {
     var map = ParticipantTable.toMap(participant);
 
     await database.update(
-        ParticipantTable.tableName,
-        map,
-        where: '${ParticipantTable.id} = ?',
-        whereArgs: [participant.id]
+      ParticipantTable.tableName,
+      map,
+      where: '${ParticipantTable.id} = ?',
+      whereArgs: [participant.id],
     );
-
   }
 
   Future<void> delete(Participant participant) async {
@@ -91,5 +90,4 @@ class ParticipantController {
       whereArgs: [participant.id],
     );
   }
-
 }

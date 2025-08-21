@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../core/routes/app_Routes.dart';
 import '../../l10n/app_localizations.dart';
 import '../states/transport_State.dart';
+import '../utils/dropdown_Menu.dart';
 
 class TransportScreen extends StatefulWidget {
   const TransportScreen({super.key});
@@ -27,12 +28,16 @@ class _TransportScreenState extends State<TransportScreen> {
     final state = Provider.of<TransportState>(context);
 
     List<String> transportList = <String>[
-      AppLocalizations.of(context)!.transportCar,
-      AppLocalizations.of(context)!.transportMotorcycle,
-      AppLocalizations.of(context)!.transportBus,
-      AppLocalizations.of(context)!.transportAirPlane,
-      AppLocalizations.of(context)!.transportCruise,
+      // Make so it gets exactly the name passed in AppLocalization without spaces or characters
+      "Car",
+      "Bus",
+      "Motorcycle",
+      "Cruise",
+      "Airplane",
     ];
+
+    // Pass the list to a set making sure that it only exists one of each value
+    transportList.toSet().toList();
 
     if (dropDownValue.isEmpty) {
       dropDownValue = state.selectedTransport.isNotEmpty
@@ -51,23 +56,21 @@ class _TransportScreenState extends State<TransportScreen> {
             Expanded(
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(AppLocalizations.of(context)!.transportName),
-                      DropdownButton<String>(
-                        value: transportList.contains(dropDownValue) ? dropDownValue : transportList.first,
-                          icon: Icon(Icons.arrow_downward),
-                          onChanged: (String? value) {
-                            state.selectedTransport = value!;
-                          },
-                        items:
-                        transportList.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(value: value, child: Text(value),
-                          );
-                      }).toList(),
-                      ),
-                    ],
+                  Text(AppLocalizations.of(context)!.transportName),
+                  Container(
+                    width: double.infinity,
+                    child: DynamicDropdownButton(
+                      items: transportList,
+                      value: transportList.contains(dropDownValue) ? dropDownValue : transportList.first,
+                      onChanged: (String? value) {
+                        if (value != null) {
+                          setState(() {
+                            dropDownValue = value;
+                            state.selectedTransport = value;
+                          });
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),

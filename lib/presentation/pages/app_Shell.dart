@@ -13,8 +13,8 @@ import '../../core/theme/theme_provider.dart';
 import '../../l10n/app_localizations.dart';
 import '../providers/language_provider.dart';
 import '../providers/language_selector.dart';
-import '../states/city_State.dart';
-import '../states/group_State.dart';
+import '../states/stop_State.dart';
+import '../states/trip_State.dart';
 import '../states/participant_State.dart';
 import '../utils/bottom_NavBar.dart';
 
@@ -76,17 +76,17 @@ class TravelPlannerScreen extends StatelessWidget {
           return DateFormat('dd/MM/yyyy');
       }
     })();
-    final groupState = Provider.of<GroupState>(context);
+    final groupState = Provider.of<TripState>(context);
     final participantState = Provider.of<ParticipantState>(context);
     final transportState = Provider.of<TransportState>(context);
     final experienceState = Provider.of<ExperienceState>(context);
-    final cityState = Provider.of<CityState>(context);
+    final stopState = Provider.of<StopState>(context);
 
     groupState.load();
     participantState.load();
     transportState.load();
     experienceState.load();
-    cityState.load();
+    stopState.load();
 
     return Scaffold(
       appBar: DynamicAppBar(
@@ -126,19 +126,19 @@ class TravelPlannerScreen extends StatelessWidget {
 
                       final participantsInGroup = participantState
                           .participantList
-                          .where((p) => p.groupId == group.id)
+                          .where((p) => p.tripId == group.id)
                           .toList();
 
                       final transportsInGroup = transportState.transportList
-                          .where((t) => t.groupId == group.id)
+                          .where((t) => t.tripId == group.id)
                           .toList();
 
                       final experiencesInGroup = experienceState.experienceList
-                      .where((t) => t.groupId == group.id)
+                      .where((t) => t.tripId == group.id)
                       .toList();
 
-                      final citiesInGroup = cityState.citiesList
-                          .where((t) => t.groupId == group.id)
+                      final citiesInGroup = stopState.citiesList
+                          .where((t) => t.tripId == group.id)
                           .toList();
 
                       return Padding(
@@ -250,7 +250,7 @@ class TravelPlannerScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, AppRoutes.groupScreen);
+                Navigator.pushNamed(context, AppRoutes.tripScreen);
               },
               child: Text(AppLocalizations.of(context)!.tripPlannerTripButton),
             ),

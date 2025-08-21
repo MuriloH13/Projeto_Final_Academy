@@ -10,34 +10,34 @@ import '../../l10n/app_localizations.dart';
 class DynamicParticipantFields extends StatefulWidget {
   final List<TextEditingController> nameControllers;
   final List<TextEditingController> ageControllers;
-  final VoidCallback onAdd;
+  final VoidCallback? onAdd;
   final void Function(int index)? onRemove;
 
-   const DynamicParticipantFields({
+  const DynamicParticipantFields({
     super.key,
     required this.nameControllers,
     required this.ageControllers,
-    required this.onAdd,
+    this.onAdd,
     this.onRemove,
   });
 
   @override
-  State<DynamicParticipantFields> createState() => _DynamicParticipantFieldsState();
+  State<DynamicParticipantFields> createState() =>
+      _DynamicParticipantFieldsState();
 }
 
-
-
 class _DynamicParticipantFieldsState extends State<DynamicParticipantFields> {
-
-
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<ParticipantState>(context);
 
     return Column(
       children: [
-        Expanded(
+        Container(
+          width: double.infinity,
           child: ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
             itemCount: widget.nameControllers.length,
             itemBuilder: (context, index) {
               return Padding(
@@ -48,9 +48,10 @@ class _DynamicParticipantFieldsState extends State<DynamicParticipantFields> {
                     Center(
                       child: Column(
                         children: [
-
-                          Text('${AppLocalizations.of(context)!.participantsPerson} ${index + 1}', style: const TextStyle(fontWeight: FontWeight.bold)),
-
+                          Text(
+                            '${AppLocalizations.of(context)!.participantsPerson} ${index + 1}',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ],
                       ),
                     ),
@@ -59,25 +60,45 @@ class _DynamicParticipantFieldsState extends State<DynamicParticipantFields> {
                       children: [
                         state.participantImage[index] != null
                             ? CircleAvatar(
-                          radius: 24,
-                          backgroundImage: FileImage(state.participantImage[index]!),
-                        )
+                                radius: 24,
+                                backgroundImage: FileImage(
+                                  state.participantImage[index]!,
+                                ),
+                              )
                             : const CircleAvatar(child: Icon(Icons.person)),
                         Flexible(
                           flex: 3,
-                          child: TextFormField(
-                            controller: widget.nameControllers[index],
-                            decoration:  InputDecoration(
-                              hintText: AppLocalizations.of(context)!.participantsName,
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: TextFormField(
+                              controller: widget.nameControllers[index],
+                              decoration: InputDecoration(
+                                hintText: AppLocalizations.of(
+                                  context,
+                                )!.participantsName,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
                             ),
                           ),
                         ),
                         Flexible(
                           flex: 1,
-                          child: TextFormField(
-                            controller: widget.ageControllers[index],
-                            keyboardType: TextInputType.number,
-                            decoration:  InputDecoration(hintText: AppLocalizations.of(context)!.participantsAge),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: TextFormField(
+                              controller: widget.ageControllers[index],
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: AppLocalizations.of(
+                                  context,
+                                )!.participantsAge,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -85,32 +106,34 @@ class _DynamicParticipantFieldsState extends State<DynamicParticipantFields> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        if(widget.onRemove != null)
-                          IconButton(onPressed: () async {
+                        IconButton(
+                          onPressed: () async {
                             _pickImageFromGallery(index);
                           },
-                              icon: Icon(Icons.photo)),
-                        IconButton(
-                            onPressed: () async {
-                              await _pickImageFromCamera(index);
-                        },
-                            icon: Icon(Icons.camera)
+                          icon: Icon(Icons.photo),
                         ),
+                        IconButton(
+                          onPressed: () async {
+                            await _pickImageFromCamera(index);
+                          },
+                          icon: Icon(Icons.camera),
+                        ),
+                        if (widget.onAdd != null)
                           IconButton(
-                            onPressed: () async{
+                            onPressed: () async {
                               state.addParticipant();
-                              },
+                            },
                             icon: Icon(Icons.add_circle_outline),
                           ),
+                        if (widget.onRemove != null)
                           IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red,),
-                              onPressed: () {
-                                state.removeParticipant(index);
-                              },
-                          )
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () async {
+                              state.removeParticipant(index);
+                            },
+                          ),
                       ],
                     ),
-                    const Divider(),
                   ],
                 ),
               );
@@ -121,22 +144,23 @@ class _DynamicParticipantFieldsState extends State<DynamicParticipantFields> {
     );
   }
 
-
-
   Future _pickImageFromGallery(int index) async {
-    final participantImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final participantImage = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
     if (participantImage == null) return;
 
     final state = Provider.of<ParticipantState>(context, listen: false);
     state.updateParticipantImage(index, File(participantImage.path));
   }
-  Future _pickImageFromCamera(int index) async{
-    final participantImage = await ImagePicker().pickImage(source: ImageSource.camera);
 
-    if(participantImage == null) return;
+  Future _pickImageFromCamera(int index) async {
+    final participantImage = await ImagePicker().pickImage(
+      source: ImageSource.camera,
+    );
+
+    if (participantImage == null) return;
     final state = Provider.of<ParticipantState>(context, listen: false);
     state.updateParticipantImage(index, File(participantImage.path));
-
   }
 }
-

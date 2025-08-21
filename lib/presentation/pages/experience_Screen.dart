@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_final_academy/l10n/app_localizations.dart';
+import 'package:projeto_final_academy/presentation/utils/dropdown_Menu.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/routes/app_Routes.dart';
@@ -25,13 +26,17 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
     final int groupId = ModalRoute.of(context)!.settings.arguments as int;
     final state = Provider.of<ExperienceState>(context);
 
+    //Make so it gets exactly the name passed in AppLocalization without spaces or characters
     List<String> experienceList = <String>[
-      AppLocalizations.of(context)!.experienceCulturalImmersion,
-      AppLocalizations.of(context)!.experienceAlternativeCuisine,
-      AppLocalizations.of(context)!.experienceHistoricalSites,
-      AppLocalizations.of(context)!.experienceLocalEstablishments,
-      AppLocalizations.of(context)!.experienceContactWithNature,
+      "Immersion in a different culture",
+      "Explore alternative cuisine",
+      "Historical sites tour",
+      "Visit local establishments",
+      "Contact with nature",
     ];
+
+    //Pass the list to a set making sure that it only exists one of each value
+    experienceList.toSet().toList();
 
     if(dropDownValue.isEmpty) {
       dropDownValue = state.selectedExperience.isNotEmpty
@@ -50,17 +55,20 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
             Expanded(
               child: Column(
                 children: [
-                  DropdownButton<String>(
-                  value: experienceList.contains(dropDownValue) ? dropDownValue : experienceList.first,
-                  icon: Icon(Icons.arrow_downward),
-                  onChanged: (String? value) {
-                  state.selectedExperience = value!;
-                  },
-                  items:
-                  experienceList.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(value: value, child: Text(value),
-                  );
-                  }).toList(),
+                  Container(
+                    width: double.infinity,
+                    child: DynamicDropdownButton(
+                        items: experienceList,
+                        value: experienceList.contains(dropDownValue) ? dropDownValue : experienceList.first,
+                        onChanged: (String? value) {
+                          if (value != null) {
+                            setState(() {
+                              dropDownValue = value;
+                              state.selectedExperience = value;
+                            });
+                          }
+                        },
+                    ),
                   ),
                 ],
               ),
