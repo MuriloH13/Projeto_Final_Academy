@@ -1,0 +1,112 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:projeto_final_academy/domain/entities/stop.dart';
+import 'package:projeto_final_academy/l10n/app_localizations.dart';
+import 'package:projeto_final_academy/presentation/providers/language_provider.dart';
+import 'package:projeto_final_academy/presentation/states/stop_State.dart';
+import 'package:projeto_final_academy/presentation/utils/date_FormField.dart';
+import 'package:provider/provider.dart';
+
+class StopDetails extends StatelessWidget {
+  final Stop stop;
+  final int groupId;
+  final _departureDate = TextEditingController();
+  final _arrivalDate = TextEditingController();
+
+  TextEditingController get departureDate => _departureDate;
+  TextEditingController get arrivalDate => _arrivalDate;
+
+  StopDetails({super.key, required this.stop, required this.groupId});
+
+  @override
+  Widget build(BuildContext context) {
+    final state = Provider.of<StopState>(context, listen: false);
+    final languageProvider = Provider.of<LanguageProvider>(
+      context,
+      listen: false,
+    );
+    return Container(
+      child: Wrap(
+        children: [
+          stop.photo!.isNotEmpty
+              ? Image.network(
+                  stop.photo!,
+                  height: 250,
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.cover,
+                )
+              : Image.asset(
+                  'assets/naoDisponivel.jpg',
+                  height: 250,
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.cover,
+                ),
+          Padding(
+            padding: EdgeInsets.only(top: 24, left: 24),
+            child: Text(stop.name),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 60, left: 24),
+            child: Text(stop.address),
+          ),
+          Row(
+            children: [
+              dateFormField(
+                context: context,
+                controller: departureDate,
+                locale: languageProvider.locale,
+                label: AppLocalizations.of(context)!.tripDepartureDate,
+              ),
+              dateFormField(
+                context: context,
+                controller: arrivalDate,
+                locale: languageProvider.locale,
+                label: AppLocalizations.of(context)!.tripArrivalDate,
+              ),
+            ],
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: ElevatedButton(
+                onPressed: () async {
+
+                  final departure = tryParseDate(departureDate.text);
+                  final arrival = tryParseDate(arrivalDate.text);
+
+                    state.setStopDates(departure: departure!, arrival: arrival!);
+                    await state.insert(groupId);
+                    Navigator.pop(context);
+                },
+                child: Text(AppLocalizations.of(context)!.stopAddDestination),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+DateTime? tryParseDate(String input) {
+
+  String datePart = input.split(' ').first;
+
+  final formats = [
+    DateFormat("dd/MM/yyyy"), // BR and ES
+    DateFormat("MM/dd/yyyy"), // US
+    DateFormat("yyyy-MM-dd"), // ISO (db/API)
+  ];
+
+  for (var format in formats) {
+    try {
+      return format.parseStrict(datePart);
+    } catch (_) {}
+  }
+
+  try {
+    return DateTime.parse(input);
+  } catch (_) {}
+
+  return null;
+}
