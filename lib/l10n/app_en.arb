@@ -15,6 +15,8 @@
   "tripPlannerParticipantName" : "Name:",
   "tripPlannerParticipantAge" : "Age:",
   "tripPlannerTripButton" : "New travel plan",
+  "tripDepartureDate" : "Departure date",
+  "tripArrivalDate" : "Arrival date",
 
   "settingsDarkModeSwitch" : "Dark Mode",
   "settingsLanguageSwitch" : "Languages",
@@ -37,6 +39,10 @@
   "experienceHistoricalSites": "Visit historical sites",
   "experienceLocalEstablishments": "Visit local establishments such as parks/bars/shows",
   "experienceContactWithNature": "Contact with nature",
+
+  "cityScreenTitle" : "Stops",
+
+  "editTripScreenTitle": "Edit group",
 
   "participantsScreenTitle": "Participants",
   "participantsPerson" : "Pessoa",
