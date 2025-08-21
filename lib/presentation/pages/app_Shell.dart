@@ -1,14 +1,17 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:projeto_final_academy/presentation/controllers/geolocator_Controller.dart';
 import 'package:projeto_final_academy/presentation/states/experience_State.dart';
 import 'package:projeto_final_academy/presentation/states/transport_State.dart';
 import 'package:projeto_final_academy/presentation/utils/dynamic_AppBar.dart';
+import 'package:projeto_final_academy/presentation/utils/translation_Util.dart';
 import 'package:provider/provider.dart';
 import '../../core/routes/app_Routes.dart';
 import '../../core/theme/theme_provider.dart';
 import '../../l10n/app_localizations.dart';
+import '../providers/language_provider.dart';
 import '../providers/language_selector.dart';
 import '../states/city_State.dart';
 import '../states/group_State.dart';
@@ -61,6 +64,18 @@ class TravelPlannerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context, listen: false);
+    // Display format for the date on the stops departure/arrival date
+    final displayFormat = (() {
+      switch (languageProvider.locale.languageCode) {
+        case 'en':
+          return DateFormat('MM/dd/yyyy');
+        case 'es':
+        case 'pt':
+        default:
+          return DateFormat('dd/MM/yyyy');
+      }
+    })();
     final groupState = Provider.of<GroupState>(context);
     final participantState = Provider.of<ParticipantState>(context);
     final transportState = Provider.of<TransportState>(context);
@@ -70,13 +85,12 @@ class TravelPlannerScreen extends StatelessWidget {
     groupState.load();
     participantState.load();
     transportState.load();
+    experienceState.load();
+    cityState.load();
 
     return Scaffold(
       appBar: DynamicAppBar(
         title: AppLocalizations.of(context)!.tripPlannerScreenTitle,
-        subtitle:
-          'Gaspar'
-            // '${AppLocalizations.of(context)!.locationLatitude} ${local.lat} ${AppLocalizations.of(context)!.locationLongitude} ${local.long}',
       ),
       body: Column(
         children: [
@@ -190,7 +204,8 @@ class TravelPlannerScreen extends StatelessWidget {
                               }).toList(),
                                 if(transportsInGroup.isNotEmpty)
                                 ListTile(
-                                  title: Text('${AppLocalizations.of(context)!.transportName} ${transportsInGroup.first.transportName}' ,
+                                  title: Text('${AppLocalizations.of(context)!.transportName} '
+                                    '${TranslationUtil.translate(context, transportsInGroup.first.transportName)}' ,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -198,7 +213,8 @@ class TravelPlannerScreen extends StatelessWidget {
                                 ),
                               if(experiencesInGroup.isNotEmpty)
                                 ListTile(
-                                  title: Text('${AppLocalizations.of(context)!.experienceName} ${experiencesInGroup.first.type}',
+                                  title: Text('${AppLocalizations.of(context)!.experienceName} '
+                                      '${TranslationUtil.translate(context, experiencesInGroup.first.type)}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -206,13 +222,17 @@ class TravelPlannerScreen extends StatelessWidget {
                                 ),
                               if(citiesInGroup.isNotEmpty)
                                 ListTile(
-                                  title: Text('paradas'
+                                  title: Text(AppLocalizations.of(context)!.stopScreenTitle
                                   ),
                                 ),
                               ...citiesInGroup.map((city) {
                                 return ListTile(
                                   title: Text(
-                                    'nome da parada: ${city.name}',
+                                    '${AppLocalizations.of(context)!.stopName} ${city.name}',
+                                  ),
+                                  subtitle: Text(
+                                    '${AppLocalizations.of(context)!.tripDepartureDate}: ${city.departure != null ? displayFormat.format(city.departure!) : '-'}\n'
+                                      '${AppLocalizations.of(context)!.tripArrivalDate}: ${city.arrival != null ? displayFormat.format(city.arrival!) : '-'}'
                                   ),
                                 );
                               }).toList(),
