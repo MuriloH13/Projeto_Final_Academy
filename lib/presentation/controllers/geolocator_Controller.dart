@@ -28,7 +28,7 @@ class MapsController extends ChangeNotifier {
     _mapsController = googleMapController;
     _controllerCompleter.complete(googleMapController);
     await getPosition(context);
-    _mapsController?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, long))));
+    _mapsController?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, long), zoom: 15)));
     loadCities();
   }
 

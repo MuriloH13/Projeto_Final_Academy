@@ -10,11 +10,8 @@ import 'package:provider/provider.dart';
 class StopDetails extends StatelessWidget {
   final Stop stop;
   final int groupId;
-  final _departureDate = TextEditingController();
-  final _arrivalDate = TextEditingController();
-
-  TextEditingController get departureDate => _departureDate;
-  TextEditingController get arrivalDate => _arrivalDate;
+  final controllerStopDepartureDate = ValueNotifier<DateTime?>(null);
+  final controllerStopArrivalDate = ValueNotifier<DateTime?>(null);
 
   StopDetails({super.key, required this.stop, required this.groupId});
 
@@ -53,13 +50,13 @@ class StopDetails extends StatelessWidget {
             children: [
               dateFormField(
                 context: context,
-                controller: departureDate,
+                controller: controllerStopDepartureDate,
                 locale: languageProvider.locale,
                 label: AppLocalizations.of(context)!.tripDepartureDate,
               ),
               dateFormField(
                 context: context,
-                controller: arrivalDate,
+                controller: controllerStopArrivalDate,
                 locale: languageProvider.locale,
                 label: AppLocalizations.of(context)!.tripArrivalDate,
               ),
@@ -71,8 +68,8 @@ class StopDetails extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () async {
 
-                  final departure = tryParseDate(departureDate.text);
-                  final arrival = tryParseDate(arrivalDate.text);
+                  final departure = controllerStopDepartureDate.value;
+                  final arrival = controllerStopArrivalDate.value;
 
                     state.setStopDates(departure: departure!, arrival: arrival!);
                     await state.insert(groupId);

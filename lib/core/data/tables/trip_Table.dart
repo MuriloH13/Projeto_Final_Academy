@@ -17,6 +17,9 @@ class TripTable {
   CREATE TABLE IF NOT EXISTS $tableName(
   $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   $tripName TEXT NOT NULL,
+  $status INTEGER NOT NULL,
+  $departure DATETIME NOT NULL,
+  $arrival DATETIME NOT NULL,
   $participants INTEGER,
   $cities INTEGER,
   $experiences INTEGER
@@ -26,8 +29,10 @@ class TripTable {
   static const String tableName = 'groups';
 
   static const String id = 'id';
-
   static const String tripName = 'tripName';
+  static const String status = 'status';
+  static const String departure = 'departure';
+  static const String arrival = 'arrival';
   static const String participants = 'participants';
   static const String cities = 'cities';
   static const String experiences = 'experiences';
@@ -37,12 +42,16 @@ class TripTable {
 
     map[TripTable.id] = trip.id;
     map[TripTable.tripName] = trip.groupName;
+    map[TripTable.status] = trip.status;
+    map[TripTable.departure] = trip.departure?.toIso8601String();
+    map[TripTable.arrival] = trip.arrival?.toIso8601String();
 
     return map;
   }
 }
 
 class TripController {
+
   Future<CompleteTrip?> getCompleteTrip(int tripId) async {
     final database = await getDatabase();
 
@@ -123,6 +132,9 @@ class TripController {
     return CompleteTrip(
       id: groupRow['id'] as int?,
       tripName: groupRow['tripName'] as String,
+      status: groupRow['status'] as int,
+      departure: DateTime.parse(groupRow['departure'] as String),
+      arrival: DateTime.parse(groupRow['arrival'] as String),
       participants: participants,
       transports: transports,
       cities: cities,
@@ -151,6 +163,7 @@ class TripController {
         Trip(
           id: item[TripTable.id],
           groupName: item[TripTable.tripName],
+          status: item[TripTable.status],
           participants: item[TripTable.participants],
           cities: item[TripTable.cities],
           experiences: item[TripTable.experiences],

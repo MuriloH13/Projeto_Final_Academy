@@ -12,18 +12,28 @@ class TripState extends ChangeNotifier {
   Trip? _currentGroup;
 
   final _controllerGroupName = TextEditingController();
+  final _controllerTripDepartureDate = ValueNotifier<DateTime?>(null);
+  final _controllerTripArrivalDate = ValueNotifier<DateTime?>(null);
 
   TextEditingController get controllerGroupName => _controllerGroupName;
+  ValueNotifier<DateTime?> get controllerTripDepartureDate => _controllerTripDepartureDate;
+  ValueNotifier<DateTime?> get controllerTripArrivalDate => _controllerTripArrivalDate;
+
+  int groupStatus = 0;
 
   Trip? get currentGroup => _currentGroup;
-
 
   final _groupList = <Trip>[];
 
   List<Trip> get groupList => _groupList;
 
-  Future<int> insert() async{
-    final group = Trip(groupName: controllerGroupName.text);
+  Future<int> insert() async {
+    final group = Trip(
+      groupName: controllerGroupName.text,
+      departure: controllerTripDepartureDate.value,
+      arrival: controllerTripArrivalDate.value,
+      status: groupStatus,
+    );
 
     final int id = await controllerDatabase.insert(group);
     await load();
@@ -36,10 +46,13 @@ class TripState extends ChangeNotifier {
   Future<void> updateGroup(Trip trip) async {
     final editedGroup = Trip(
       id: _currentGroup?.id,
+      groupName: controllerGroupName.text,
+      departure: controllerTripDepartureDate.value,
+      arrival: controllerTripArrivalDate.value,
+      status: groupStatus,
       cities: _currentGroup?.cities,
       participants: _currentGroup?.participants,
       experiences: _currentGroup?.experiences,
-      groupName: controllerGroupName.text,
     );
     await controllerDatabase.update(editedGroup);
     _currentGroup = null;
@@ -48,7 +61,6 @@ class TripState extends ChangeNotifier {
   }
 
   Future<void> delete(Trip trip) async {
-
     await controllerDatabase.delete(trip);
     await load();
 

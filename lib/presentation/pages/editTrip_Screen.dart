@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:projeto_final_academy/core/data/tables/stop_Table.dart';
 import 'package:projeto_final_academy/core/data/tables/experience_Table.dart';
 import 'package:projeto_final_academy/core/data/tables/participant_Table.dart';
@@ -51,6 +50,8 @@ class _EditTripScreenState extends State<EditTripScreen> {
   List<TextEditingController> _experienceTypeControllers = [];
   List<TextEditingController> _cityDepartureControllers = [];
   List<TextEditingController> _cityArrivalControllers = [];
+  List<ValueNotifier<DateTime?>> controllerStopDepartureDate = [];
+  List<ValueNotifier<DateTime?>> controllerStopArrivalDate = [];
 
   @override
   void didChangeDependencies() {
@@ -69,9 +70,11 @@ class _EditTripScreenState extends State<EditTripScreen> {
     final result = await tripController.getCompleteTrip(tripId);
 
     if (result != null) {
+
       setState(() {
         group = result;
         groupNameController.text = group.tripName;
+
         participantsController.text = group.participants.length.toString();
 
         _participantNameControllers = group.participants
@@ -91,12 +94,23 @@ class _EditTripScreenState extends State<EditTripScreen> {
             .toList();
 
         _cityDepartureControllers = group.cities
-            .map((p) => TextEditingController(text: p.departure.toString()))
+            .map((p) {
+          final date = p.departure.toString();
+          return TextEditingController(
+            text: tryParseDate(date).toString(),
+          );
+        })
             .toList();
 
         _cityArrivalControllers = group.cities
-            .map((p) => TextEditingController(text: p.arrival.toString()))
+            .map((p) {
+          final date = p.arrival.toString();
+          return TextEditingController(
+            text: tryParseDate(date).toString(),
+          );
+        })
             .toList();
+
 
         isLoading = false;
       });
@@ -140,8 +154,6 @@ class _EditTripScreenState extends State<EditTripScreen> {
 
     experienceOptions = experienceOptions.map((e) => e.trim()).toSet().toList();
 
-
-
     return Scaffold(
       appBar: DynamicAppBar(title: AppLocalizations.of(context)!.editTripScreenTitle),
       body: isLoading
@@ -157,7 +169,8 @@ class _EditTripScreenState extends State<EditTripScreen> {
                       labelText: AppLocalizations.of(context)!.tripPlannerTripName,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                      )
+                      ),
+                      suffix: Text(group.status.toString())
                     ),
                   ),
                   Text(
@@ -274,13 +287,13 @@ class _EditTripScreenState extends State<EditTripScreen> {
                             children: [
                               dateFormField(
                                   context: context,
-                                  controller: _cityDepartureControllers[index],
+                                  controller: controllerStopDepartureDate[index],
                                   locale: languageProvider.locale,
                                   label: AppLocalizations.of(context)!.tripDepartureDate
                               ),
                               dateFormField(
                                   context: context,
-                                  controller: _cityArrivalControllers[index],
+                                  controller: controllerStopArrivalDate[index],
                                   locale: languageProvider.locale,
                                   label: AppLocalizations.of(context)!.tripArrivalDate
                               ),
@@ -296,6 +309,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
                       final updatedTrip = Trip(
                         id: tripId,
                         groupName: groupNameController.text,
+                        status: group.status,
                         participants: group.participants.length,
                         cities: group.cities.length,
                         experiences: group.experiences.length,
@@ -373,27 +387,4 @@ class _EditTripScreenState extends State<EditTripScreen> {
             ),
     );
   }
-}
-
-DateTime? tryParseDate(String input) {
-
-  String datePart = input.split(' ').first;
-
-  final formats = [
-    DateFormat("dd/MM/yyyy"), // BR and ES
-    DateFormat("MM/dd/yyyy"), // US
-    DateFormat("yyyy-MM-dd"), // ISO (db/API)
-  ];
-
-  for (var format in formats) {
-    try {
-      return format.parseStrict(datePart);
-    } catch (_) {}
-  }
-
-  try {
-    return DateTime.parse(input);
-  } catch (_) {}
-
-  return null;
 }

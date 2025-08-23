@@ -6,6 +6,9 @@ import 'package:projeto_final_academy/domain/entities/transport.dart';
 class CompleteTrip {
   final int? id;
   final String tripName;
+  final int status;
+  final DateTime? departure;
+  final DateTime? arrival;
   final List<Participant> participants;
   final List<Transport> transports;
   final List<Stop> cities;
@@ -14,6 +17,9 @@ class CompleteTrip {
   CompleteTrip({
     this.id,
     required this.tripName,
+    required this.status,
+    this.departure,
+    this.arrival,
     required this.participants,
     required this.transports,
     required this.cities,

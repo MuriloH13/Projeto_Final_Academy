@@ -152,6 +152,9 @@ class TravelPlannerScreen extends StatelessWidget {
                               '${AppLocalizations.of(context)!.tripPlannerTripName} ${group.groupName}',
                             ),
                             subtitle: Text(
+                              '${AppLocalizations.of(context)!.tripDepartureDate}: ${group.departure != null ? displayFormat.format(group.departure!) : '-'}\n'
+                              '${AppLocalizations.of(context)!.tripArrivalDate}: ${group.arrival != null ? displayFormat.format(group.arrival!) : '-'}\n'
+                              'Status: ${group.status}\n'
                               '${AppLocalizations.of(context)!.tripPlannerParticipants} ${participantsInGroup.length}',
                             ),
                             trailing: SizedBox(
