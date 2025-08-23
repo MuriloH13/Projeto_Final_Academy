@@ -12,7 +12,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get appShellTripPlannerText => 'Planificar viajes';
 
   @override
-  String get appShellMyTripText => 'Mi viaje';
+  String get appShellMyTripText => 'Viajes en curso';
 
   @override
   String get appShellSettingsText => 'Configuraciones';
@@ -52,6 +52,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tripArrivalDate => 'Fecha de llegada';
+
+  @override
+  String get settingsThemeSwitchText => 'Cambiar tema';
+
+  @override
+  String get settingsLanguageSelection => 'Seleccionar idioma';
 
   @override
   String get settingsDarkModeSwitch => 'Modo oscuro';

@@ -26,33 +26,36 @@ Widget dateFormField({
         valueListenable: controller,
         builder: (context, value, _)
   {
-    return TextFormField(
-      readOnly: true,
-      decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12)
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+        readOnly: true,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12)
+          ),
         ),
+        controller: TextEditingController(
+          text: value != null ? displayFormat.format(value) : '',
+        ),
+        onTap: () async {
+          final picked = await showDatePicker(
+            context: context,
+            // Turn the starting date to today at the time that you click
+            initialDate: value ?? DateTime.now(),
+            // Turn the minimum date to today at the time that you click
+            firstDate: DateTime(2000),
+            // Turn the maximum date to a specific year(can be changed based on app specifications)
+            lastDate: DateTime(2050),
+            // Receive the app locale to specific data format
+            locale: locale,
+          );
+          if (picked != null) {
+            controller.value = picked;
+          }
+        },
       ),
-      controller: TextEditingController(
-        text: value != null ? displayFormat.format(value) : '',
-      ),
-      onTap: () async {
-        final picked = await showDatePicker(
-          context: context,
-          // Turn the starting date to today at the time that you click
-          initialDate: value ?? DateTime.now(),
-          // Turn the minimum date to today at the time that you click
-          firstDate: DateTime.now(),
-          // Turn the maximum date to a specific year(can be changed based on app specifications)
-          lastDate: DateTime(2050),
-          // Receive the app locale to specific data format
-          locale: locale,
-        );
-        if (picked != null) {
-          controller.value = picked;
-        }
-      },
     );
 }
       ),

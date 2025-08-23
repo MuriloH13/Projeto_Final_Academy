@@ -21,7 +21,7 @@ class TripTable {
   $departure DATETIME NOT NULL,
   $arrival DATETIME NOT NULL,
   $participants INTEGER,
-  $cities INTEGER,
+  $stops INTEGER,
   $experiences INTEGER
   );
   ''';
@@ -34,7 +34,7 @@ class TripTable {
   static const String departure = 'departure';
   static const String arrival = 'arrival';
   static const String participants = 'participants';
-  static const String cities = 'cities';
+  static const String stops = 'stops';
   static const String experiences = 'experiences';
 
   static Map<String, dynamic> toMap(Trip trip) {
@@ -43,8 +43,8 @@ class TripTable {
     map[TripTable.id] = trip.id;
     map[TripTable.tripName] = trip.groupName;
     map[TripTable.status] = trip.status;
-    map[TripTable.departure] = trip.departure?.toIso8601String();
-    map[TripTable.arrival] = trip.arrival?.toIso8601String();
+    map[TripTable.departure] = trip.departure!.toIso8601String();
+    map[TripTable.arrival] = trip.arrival!.toIso8601String();
 
     return map;
   }
@@ -77,7 +77,7 @@ class TripController {
       whereArgs: [tripId],
     );
 
-    final citiesResult = await database.query(
+    final stopsResult = await database.query(
       StopTable.tableName,
       where: 'tripId = ?',
       whereArgs: [tripId],
@@ -115,7 +115,7 @@ class TripController {
       );
     }).toList();
 
-    final cities = citiesResult.map((item) {
+    final stops = stopsResult.map((item) {
       return Stop(
         id: item['id'] as int?,
         name: item['name'] as String,
@@ -137,7 +137,7 @@ class TripController {
       arrival: DateTime.parse(groupRow['arrival'] as String),
       participants: participants,
       transports: transports,
-      cities: cities,
+      stops: stops,
       experiences: experiences,
     );
   }
@@ -164,8 +164,10 @@ class TripController {
           id: item[TripTable.id],
           groupName: item[TripTable.tripName],
           status: item[TripTable.status],
+          departure: DateTime.parse(item[TripTable.departure]),
+          arrival: DateTime.parse(item[TripTable.arrival]),
           participants: item[TripTable.participants],
-          cities: item[TripTable.cities],
+          stops: item[TripTable.stops],
           experiences: item[TripTable.experiences],
         ),
       );

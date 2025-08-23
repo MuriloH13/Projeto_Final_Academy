@@ -11,7 +11,7 @@ class CompleteTrip {
   final DateTime? arrival;
   final List<Participant> participants;
   final List<Transport> transports;
-  final List<Stop> cities;
+  final List<Stop> stops;
   final List<Experience> experiences;
 
   CompleteTrip({
@@ -22,7 +22,7 @@ class CompleteTrip {
     this.arrival,
     required this.participants,
     required this.transports,
-    required this.cities,
+    required this.stops,
     required this.experiences,
 });
 }

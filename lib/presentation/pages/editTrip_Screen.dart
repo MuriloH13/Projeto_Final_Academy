@@ -48,10 +48,10 @@ class _EditTripScreenState extends State<EditTripScreen> {
   List<TextEditingController> _participantAgeControllers = [];
   List<TextEditingController> _transportNameControllers = [];
   List<TextEditingController> _experienceTypeControllers = [];
-  List<TextEditingController> _cityDepartureControllers = [];
-  List<TextEditingController> _cityArrivalControllers = [];
-  List<ValueNotifier<DateTime?>> controllerStopDepartureDate = [];
-  List<ValueNotifier<DateTime?>> controllerStopArrivalDate = [];
+  List<ValueNotifier<DateTime?>> _cityDepartureControllers = [];
+  List<ValueNotifier<DateTime?>> _cityArrivalControllers = [];
+  ValueNotifier<DateTime?> _controllerTripDepartureDate = ValueNotifier(null);
+  ValueNotifier<DateTime?> _controllerTripArrivalDate = ValueNotifier(null);
 
   @override
   void didChangeDependencies() {
@@ -93,23 +93,26 @@ class _EditTripScreenState extends State<EditTripScreen> {
             .map((p) => TextEditingController(text: p.type.toString()))
             .toList();
 
-        _cityDepartureControllers = group.cities
-            .map((p) {
-          final date = p.departure.toString();
-          return TextEditingController(
-            text: tryParseDate(date).toString(),
-          );
-        })
-            .toList();
 
-        _cityArrivalControllers = group.cities
-            .map((p) {
-          final date = p.arrival.toString();
-          return TextEditingController(
-            text: tryParseDate(date).toString(),
+        _controllerTripDepartureDate = ValueNotifier(group.departure);
+
+        _controllerTripArrivalDate = ValueNotifier(group.arrival);
+
+        _cityDepartureControllers = group.stops
+        .map((p){
+          final date = p.departure;
+          return ValueNotifier<DateTime?>(
+            date,
           );
-        })
-            .toList();
+        }).toList();
+
+        _cityArrivalControllers = group.stops
+            .map((p) {
+          final date = p.arrival;
+          return ValueNotifier<DateTime?>(
+            date,
+          );
+        }).toList();
 
 
         isLoading = false;
@@ -172,6 +175,20 @@ class _EditTripScreenState extends State<EditTripScreen> {
                       ),
                       suffix: Text(group.status.toString())
                     ),
+                  ),
+                  Row(
+                    children: [
+                      dateFormField(
+                          context: context,
+                          controller: _controllerTripDepartureDate,
+                          locale: languageProvider.locale,
+                          label: AppLocalizations.of(context)!.tripDepartureDate),
+                      dateFormField(
+                          context: context,
+                          controller: _controllerTripArrivalDate,
+                          locale: languageProvider.locale,
+                          label: AppLocalizations.of(context)!.tripArrivalDate),
+                    ],
                   ),
                   Text(
                     AppLocalizations.of(context)!.participantsScreenTitle,
@@ -274,12 +291,17 @@ class _EditTripScreenState extends State<EditTripScreen> {
                       );
                     },
                   ),
+
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: group.cities.length,
+                    itemCount: group.stops.length,
                     itemBuilder: (context, index) {
-                      final cityName = group.cities[index].name;
+
+                      print('Ç1');
+                      print(index);
+                      print(_cityDepartureControllers[index]);
+                      final cityName = group.stops[index].name;
                       return Column(
                         children: [
                           Text(cityName),
@@ -287,13 +309,13 @@ class _EditTripScreenState extends State<EditTripScreen> {
                             children: [
                               dateFormField(
                                   context: context,
-                                  controller: controllerStopDepartureDate[index],
+                                  controller: _cityDepartureControllers[index],
                                   locale: languageProvider.locale,
                                   label: AppLocalizations.of(context)!.tripDepartureDate
                               ),
                               dateFormField(
                                   context: context,
-                                  controller: controllerStopArrivalDate[index],
+                                  controller: _cityArrivalControllers[index],
                                   locale: languageProvider.locale,
                                   label: AppLocalizations.of(context)!.tripArrivalDate
                               ),
@@ -311,7 +333,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
                         groupName: groupNameController.text,
                         status: group.status,
                         participants: group.participants.length,
-                        cities: group.cities.length,
+                        stops: group.stops.length,
                         experiences: group.experiences.length,
                       );
 
@@ -359,19 +381,16 @@ class _EditTripScreenState extends State<EditTripScreen> {
                         );
                         await experienceController.update(updatedExperience);
                       }
-                      for (int i = 0; i < group.cities.length; i++) {
-                        final departureInput = _cityDepartureControllers[i].text;
-                        final arrivalInput = _cityArrivalControllers[i].text;
-
-                        final departureDate = tryParseDate(departureInput);
-                        final arrivalDate = tryParseDate(arrivalInput);
+                      for (int i = 0; i < group.stops.length; i++) {
+                        final departureDate = _cityDepartureControllers[i].value;
+                        final arrivalDate = _cityArrivalControllers[i].value;
 
                         final updatedStop = Stop(
-                          id: group.cities[i].id,
-                          name: group.cities[i].name,
-                          address: group.cities[i].address,
-                          latitude: group.cities[i].latitude,
-                          longitude: group.cities[i].longitude,
+                          id: group.stops[i].id,
+                          name: group.stops[i].name,
+                          address: group.stops[i].address,
+                          latitude: group.stops[i].latitude,
+                          longitude: group.stops[i].longitude,
                           departure: departureDate,
                           arrival: arrivalDate,
                           tripId: tripId,

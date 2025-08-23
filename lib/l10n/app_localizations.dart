@@ -106,7 +106,7 @@ abstract class AppLocalizations {
   /// No description provided for @appShellMyTripText.
   ///
   /// In en, this message translates to:
-  /// **'My trip'**
+  /// **'Ongoing trips'**
   String get appShellMyTripText;
 
   /// No description provided for @appShellSettingsText.
@@ -186,6 +186,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Arrival date'**
   String get tripArrivalDate;
+
+  /// No description provided for @settingsThemeSwitchText.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch theme'**
+  String get settingsThemeSwitchText;
+
+  /// No description provided for @settingsLanguageSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Select language'**
+  String get settingsLanguageSelection;
 
   /// No description provided for @settingsDarkModeSwitch.
   ///

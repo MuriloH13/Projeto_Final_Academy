@@ -79,7 +79,7 @@ class StopState extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> insert(int groupId) async {
+  Future<void> insert(int tripId) async {
     final stop = Stop(
       name: name!,
       address: address!,
@@ -88,7 +88,7 @@ class StopState extends ChangeNotifier {
       departure: departure!,
       arrival: arrival!,
       photo: photo ?? '',
-      tripId: groupId,
+      tripId: tripId,
     );
     await controllerDatabase.insert(stop);
     clear(); // Clean the data after the insert
@@ -120,7 +120,7 @@ class StopState extends ChangeNotifier {
   Future<void> fetchPlaceDetails({
     required String placeId,
     required BuildContext context,
-    required int groupId,
+    required int stopId,
   }) async {
     final String url =
         'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=name,geometry,formatted_address,photos&key=$_apiKey';
@@ -155,7 +155,7 @@ class StopState extends ChangeNotifier {
 
       showModalBottomSheet(
         context: context,
-        builder: (_) => StopDetails(stop: toStop(groupId), groupId: groupId,),
+        builder: (_) => StopDetails(stop: toStop(stopId), stopId: stopId),
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(16)),

@@ -21,7 +21,7 @@ class _CityScreenState extends State<CityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final int groupId = ModalRoute.of(context)!.settings.arguments as int;
+    final int tripId = ModalRoute.of(context)!.settings.arguments as int;
 
     return Scaffold(
       key: citiesKey,
@@ -67,7 +67,7 @@ class _CityScreenState extends State<CityScreen> {
                     onTap: () {
                       state.fetchPlaceDetails(placeId: place['place_id'],
                         context: context,
-                        groupId: groupId,
+                        stopId: tripId,
                       );
                     },
                   );
@@ -90,6 +90,8 @@ class _CityScreenState extends State<CityScreen> {
                   local.onMapCreated(context, controller);
                 },
                 markers: local.markers,
+                onTap: (markers){
+                },
               ),
             );
           }),
@@ -98,5 +100,3 @@ class _CityScreenState extends State<CityScreen> {
     );
   }
 }
-
-

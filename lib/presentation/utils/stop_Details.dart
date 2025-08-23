@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:projeto_final_academy/domain/entities/stop.dart';
 import 'package:projeto_final_academy/l10n/app_localizations.dart';
 import 'package:projeto_final_academy/presentation/providers/language_provider.dart';
@@ -9,11 +8,11 @@ import 'package:provider/provider.dart';
 
 class StopDetails extends StatelessWidget {
   final Stop stop;
-  final int groupId;
+  final int stopId;
   final controllerStopDepartureDate = ValueNotifier<DateTime?>(null);
   final controllerStopArrivalDate = ValueNotifier<DateTime?>(null);
 
-  StopDetails({super.key, required this.stop, required this.groupId});
+  StopDetails({super.key, required this.stop, required this.stopId});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class StopDetails extends StatelessWidget {
                   fit: BoxFit.cover,
                 )
               : Image.asset(
-                  'assets/naoDisponivel.jpg',
+                  'assets/notAvailable.jpg',
                   height: 250,
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.cover,
@@ -72,7 +71,7 @@ class StopDetails extends StatelessWidget {
                   final arrival = controllerStopArrivalDate.value;
 
                     state.setStopDates(departure: departure!, arrival: arrival!);
-                    await state.insert(groupId);
+                    await state.insert(stopId);
                     Navigator.pop(context);
                 },
                 child: Text(AppLocalizations.of(context)!.stopAddDestination),
@@ -83,27 +82,4 @@ class StopDetails extends StatelessWidget {
       ),
     );
   }
-}
-
-DateTime? tryParseDate(String input) {
-
-  String datePart = input.split(' ').first;
-
-  final formats = [
-    DateFormat("dd/MM/yyyy"), // BR and ES
-    DateFormat("MM/dd/yyyy"), // US
-    DateFormat("yyyy-MM-dd"), // ISO (db/API)
-  ];
-
-  for (var format in formats) {
-    try {
-      return format.parseStrict(datePart);
-    } catch (_) {}
-  }
-
-  try {
-    return DateTime.parse(input);
-  } catch (_) {}
-
-  return null;
 }

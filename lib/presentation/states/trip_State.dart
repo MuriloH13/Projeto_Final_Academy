@@ -12,12 +12,10 @@ class TripState extends ChangeNotifier {
   Trip? _currentGroup;
 
   final _controllerGroupName = TextEditingController();
-  final _controllerTripDepartureDate = ValueNotifier<DateTime?>(null);
-  final _controllerTripArrivalDate = ValueNotifier<DateTime?>(null);
+  final controllerTripDepartureDate = ValueNotifier<DateTime?>(null);
+  final controllerTripArrivalDate = ValueNotifier<DateTime?>(null);
 
   TextEditingController get controllerGroupName => _controllerGroupName;
-  ValueNotifier<DateTime?> get controllerTripDepartureDate => _controllerTripDepartureDate;
-  ValueNotifier<DateTime?> get controllerTripArrivalDate => _controllerTripArrivalDate;
 
   int groupStatus = 0;
 
@@ -28,14 +26,14 @@ class TripState extends ChangeNotifier {
   List<Trip> get groupList => _groupList;
 
   Future<int> insert() async {
-    final group = Trip(
+    final trip = Trip(
       groupName: controllerGroupName.text,
       departure: controllerTripDepartureDate.value,
       arrival: controllerTripArrivalDate.value,
       status: groupStatus,
     );
 
-    final int id = await controllerDatabase.insert(group);
+    final int id = await controllerDatabase.insert(trip);
     await load();
 
     controllerGroupName.clear();
@@ -50,7 +48,7 @@ class TripState extends ChangeNotifier {
       departure: controllerTripDepartureDate.value,
       arrival: controllerTripArrivalDate.value,
       status: groupStatus,
-      cities: _currentGroup?.cities,
+      stops: _currentGroup?.stops,
       participants: _currentGroup?.participants,
       experiences: _currentGroup?.experiences,
     );

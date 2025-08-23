@@ -23,7 +23,9 @@ class _TripScreenState extends State<TripScreen> {
     );
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.groupScreenTitle)),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.groupScreenTitle),
+      ),
       body: Column(
         children: [
           TextFormField(
@@ -54,27 +56,26 @@ class _TripScreenState extends State<TripScreen> {
           ),
           ElevatedButton(
             onPressed: () async {
-
-                final arrivalDate = state.controllerTripArrivalDate.value;
-
-                if (arrivalDate == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Data inválida')),
-                  );
-                  return;
-                }
-
-                final now = DateTime.now();
-                final int isFuture = arrivalDate.isAfter(now) ? 1 : 0;
-                state.groupStatus = isFuture;
-
-                final groupId = await state.insert();
-
-                Navigator.pushReplacementNamed(
+              final arrivalDate = state.controllerTripArrivalDate.value;
+              if (arrivalDate == null) {
+                ScaffoldMessenger.of(
                   context,
-                  AppRoutes.participantScreen,
-                  arguments: groupId,
-                );
+                ).showSnackBar(SnackBar(content: Text('Data inválida')));
+                return;
+              }
+
+              final now = DateTime.now();
+              final int isFuture = arrivalDate.isAfter(now) ? 1 : 0;
+              print('status: ${isFuture}');
+              print('status: ${state.controllerTripDepartureDate.value}');
+              state.groupStatus = isFuture;
+              final groupId = await state.insert();
+
+              Navigator.pushReplacementNamed(
+                context,
+                AppRoutes.participantScreen,
+                arguments: groupId,
+              );
             },
             child: Text(AppLocalizations.of(context)!.generalConfirmButton),
           ),

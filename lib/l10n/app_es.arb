@@ -1,7 +1,7 @@
 {
   "@@locale": "es",
   "appShellTripPlannerText": "Planificar viajes",
-  "appShellMyTripText": "Mi viaje",
+  "appShellMyTripText": "Viajes en curso",
   "appShellSettingsText": "Configuraciones",
 
   "locationDisabledLocationMessage": "Habilite la localización de su dispositivo",
@@ -18,7 +18,9 @@
   "tripDepartureDate" : "Fecha de salida",
   "tripArrivalDate" : "Fecha de llegada",
 
+  "settingsThemeSwitchText" : "Cambiar tema",
   "settingsDarkModeSwitch": "Modo oscuro",
+  "settingsLanguageSelection" : "Seleccionar idioma",
   "settingsLanguageSwitch": "Idiomas",
 
   "groupScreenTitle": "Viaje",

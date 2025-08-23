@@ -42,7 +42,7 @@ class MapsController extends ChangeNotifier {
           onTap: () {
             showModalBottomSheet(
               context: citiesKey.currentState!.context,
-              builder: (context) => StopDetails(stop: stop, groupId: stop.groupId),
+              builder: (context) => StopDetails(stop: stop, stopId: stop.tripId),
             );
           },
         ),
@@ -66,7 +66,7 @@ class MapsController extends ChangeNotifier {
         CameraUpdate.newLatLngZoom(LatLng(lat, long), 15),
       );
     }
-
+    loadCities();
     notifyListeners();
   }
 
@@ -93,7 +93,6 @@ class MapsController extends ChangeNotifier {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(hasPosition ?? 'ççç'),
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -112,7 +111,7 @@ class MapsController extends ChangeNotifier {
                              Navigator.of(context).pop(true);
 
                             },
-                            child: Text('Ok'),
+                            child: Text(AppLocalizations.of(context)!.generalConfirmButton),
                           ),
                         ],
                       ),

@@ -5,7 +5,7 @@ class Trip {
   final DateTime? departure;
   final DateTime? arrival;
   final int? participants;
-  final int? cities;
+  final int? stops;
   final int? experiences;
 
   Trip({
@@ -15,7 +15,7 @@ class Trip {
     this.departure,
     this.arrival,
     this.participants,
-    this.cities,
+    this.stops,
     this.experiences,
   });
 }
