@@ -23,8 +23,11 @@
   "settingsDarkModeSwitch" : "Dark Mode",
   "settingsLanguageSwitch" : "Languages",
 
-  "groupScreenTitle" : "Trip",
-  "groupTripName" : "Trip to the Maldives",
+  "tripScreenTitle" : "Trip",
+  "tripName" : "Trip to the Maldives",
+  "tripStatusOngoing" : "Ongoing",
+  "tripStatusCompleted" : "Completed",
+  "tripStatusNoOngoingTrips" : "No ongoing trips",
 
   "transportScreenTitle" : "Transport",
   "transportName" : "Transport Name:",

@@ -42,35 +42,36 @@ class MyTripScreen extends StatelessWidget {
     experienceState.load();
     stopState.load();
 
+    final ongoingTrips = tripState.groupList.where((trip) => trip.status == 1).toList();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.appShellMyTripText),
       ),
-      body: SingleChildScrollView(
+      body: ongoingTrips.isEmpty
+          ? Center(child: Text(AppLocalizations.of(context)!.tripStatusNoOngoingTrips))
+          : SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
         child: Column(
           children: [
             SizedBox(
               height: 40,
               child: TextFormField(
-                // controller: travelController,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  hintText: AppLocalizations.of(
-                    context,
-                  )!.searchBar,
+                  hintText: AppLocalizations.of(context)!.searchBar,
                 ),
               ),
             ),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: tripState.groupList.length,
+              itemCount: ongoingTrips.length,
               itemBuilder: (context, index) {
-                final trip = tripState.groupList[index];
+                final trip = ongoingTrips[index];
 
                 final participantsInGroup = participantState
                     .participantList
@@ -102,7 +103,7 @@ class MyTripScreen extends StatelessWidget {
                       subtitle: Text(
                         '${AppLocalizations.of(context)!.tripDepartureDate}: ${trip.departure != null ? displayFormat.format(trip.departure!) : '-'}\n'
                             '${AppLocalizations.of(context)!.tripArrivalDate}: ${trip.arrival != null ? displayFormat.format(trip.arrival!) : '-'}\n'
-                            'Status: ${trip.status}\n'
+                            'Status: ${AppLocalizations.of(context)!.tripStatusOngoing}\n'
                             '${AppLocalizations.of(context)!.tripPlannerParticipants} ${participantsInGroup.length}',
                       ),
                       trailing: SizedBox(

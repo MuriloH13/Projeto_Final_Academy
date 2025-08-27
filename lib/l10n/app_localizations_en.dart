@@ -66,10 +66,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLanguageSwitch => 'Languages';
 
   @override
-  String get groupScreenTitle => 'Trip';
+  String get tripScreenTitle => 'Trip';
 
   @override
-  String get groupTripName => 'Trip to the Maldives';
+  String get tripName => 'Trip to the Maldives';
+
+  @override
+  String get tripStatusOngoing => 'Ongoing';
+
+  @override
+  String get tripStatusCompleted => 'Completed';
+
+  @override
+  String get tripStatusNoOngoingTrips => 'No ongoing trips';
 
   @override
   String get transportScreenTitle => 'Transport';

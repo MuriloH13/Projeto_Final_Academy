@@ -14,36 +14,12 @@ class TransportScreen extends StatefulWidget {
 }
 
 class _TransportScreenState extends State<TransportScreen> {
-  late String dropDownValue;
-
-  @override
-  void initState() {
-    super.initState();
-    dropDownValue = "";
-  }
+  String? dropDownValue;
 
   @override
   Widget build(BuildContext context) {
     final int groupId = ModalRoute.of(context)!.settings.arguments as int;
     final state = Provider.of<TransportState>(context);
-
-    List<String> transportList = <String>[
-      // Make so it gets exactly the name passed in AppLocalization without spaces or characters
-      "Car",
-      "Bus",
-      "Motorcycle",
-      "Cruise",
-      "Airplane",
-    ];
-
-    // Pass the list to a set making sure that it only exists one of each value
-    transportList.toSet().toList();
-
-    if (dropDownValue.isEmpty) {
-      dropDownValue = state.selectedTransport.isNotEmpty
-          ? state.selectedTransport
-          : transportList.first;
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -60,8 +36,8 @@ class _TransportScreenState extends State<TransportScreen> {
                   Container(
                     width: double.infinity,
                     child: DynamicDropdownButton(
-                      items: transportList,
-                      value: transportList.contains(dropDownValue) ? dropDownValue : transportList.first,
+                      items: state.transportOptions,
+                      value: state.selectedTransport,
                       onChanged: (String? value) {
                         if (value != null) {
                           setState(() {

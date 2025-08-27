@@ -24,7 +24,7 @@ class _TripScreenState extends State<TripScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.groupScreenTitle),
+        title: Text(AppLocalizations.of(context)!.tripScreenTitle),
       ),
       body: Column(
         children: [
@@ -34,7 +34,7 @@ class _TripScreenState extends State<TripScreen> {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              hintText: AppLocalizations.of(context)!.groupTripName,
+              hintText: AppLocalizations.of(context)!.tripName,
               prefixIcon: Icon(Icons.archive),
             ),
           ),

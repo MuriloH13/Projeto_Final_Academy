@@ -37,6 +37,8 @@ class TripState extends ChangeNotifier {
     await load();
 
     controllerGroupName.clear();
+    controllerTripDepartureDate.value = null;
+    controllerTripArrivalDate.value = null;
     notifyListeners();
     return id;
   }
@@ -55,6 +57,8 @@ class TripState extends ChangeNotifier {
     await controllerDatabase.update(editedGroup);
     _currentGroup = null;
     _controllerGroupName.clear();
+    controllerTripDepartureDate.value = null;
+    controllerTripArrivalDate.value = null;
     await load();
   }
 
@@ -73,9 +77,15 @@ class TripState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void reset() {
+
+  }
+
   @override
   void dispose() {
     _controllerGroupName.dispose();
+    controllerTripDepartureDate.dispose();
+    controllerTripArrivalDate.dispose();
     super.dispose();
   }
 }

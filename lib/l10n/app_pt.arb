@@ -23,8 +23,11 @@
   "settingsLanguageSelection" : "Selecione o idioma",
   "settingsLanguageSwitch" : "Linguagens",
 
-  "groupScreenTitle" : "Viagem",
-  "groupTripName" : "Viagem á Maldivas",
+  "tripScreenTitle" : "Viagem",
+  "tripName" : "Viagem á Maldivas",
+  "tripStatusOngoing" : "Em andamento",
+  "tripStatusCompleted" : "Finalizada",
+  "tripStatusNoOngoingTrips" : "Nenhuma viagem em andamento",
 
   "transportScreenTitle" : "Transporte",
   "transportName" : "Nome do transporte:",

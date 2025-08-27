@@ -18,7 +18,10 @@ class TravelPlannerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final languageProvider = Provider.of<LanguageProvider>(context, listen: false);
+    final languageProvider = Provider.of<LanguageProvider>(
+      context,
+      listen: false,
+    );
     // Display format for the date on the stops departure/arrival date
     final displayFormat = (() {
       switch (languageProvider.locale.languageCode) {
@@ -65,9 +68,7 @@ class TravelPlannerScreen extends StatelessWidget {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        hintText: AppLocalizations.of(
-                          context,
-                        )!.searchBar,
+                        hintText: AppLocalizations.of(context)!.searchBar,
                       ),
                     ),
                   ),
@@ -107,9 +108,9 @@ class TravelPlannerScreen extends StatelessWidget {
                             ),
                             subtitle: Text(
                               '${AppLocalizations.of(context)!.tripDepartureDate}: ${trip.departure != null ? displayFormat.format(trip.departure!) : '-'}\n'
-                                  '${AppLocalizations.of(context)!.tripArrivalDate}: ${trip.arrival != null ? displayFormat.format(trip.arrival!) : '-'}\n'
-                                  'Status: ${trip.status}\n'
-                                  '${AppLocalizations.of(context)!.tripPlannerParticipants} ${participantsInGroup.length}',
+                              '${AppLocalizations.of(context)!.tripArrivalDate}: ${trip.arrival != null ? displayFormat.format(trip.arrival!) : '-'}\n'
+                              'Status: ${trip.status == 0 ? AppLocalizations.of(context)!.tripStatusCompleted : AppLocalizations.of(context)!.tripStatusOngoing}\n'
+                              '${AppLocalizations.of(context)!.tripPlannerParticipants} ${participantsInGroup.length}',
                             ),
                             trailing: SizedBox(
                               width: 96,
@@ -141,13 +142,13 @@ class TravelPlannerScreen extends StatelessWidget {
                                   leading: CircleAvatar(
                                     radius: 24,
                                     backgroundImage:
-                                    participant.photo != null &&
-                                        participant.photo!.isNotEmpty
+                                        participant.photo != null &&
+                                            participant.photo!.isNotEmpty
                                         ? FileImage(File(participant.photo!))
                                         : null,
                                     child:
-                                    participant.photo == null ||
-                                        participant.photo!.isEmpty
+                                        participant.photo == null ||
+                                            participant.photo!.isEmpty
                                         ? Icon(Icons.person)
                                         : null,
                                   ),
@@ -159,27 +160,34 @@ class TravelPlannerScreen extends StatelessWidget {
                                   ),
                                 );
                               }).toList(),
-                              if(transportsInGroup.isNotEmpty)
+                              if (transportsInGroup.isNotEmpty)
                                 ListTile(
-                                  title: Text('${AppLocalizations.of(context)!.transportName} '
-                                      '${TranslationUtil.translate(context, transportsInGroup.first.transportName)}' ,
+                                  title: Text(
+                                    '${AppLocalizations.of(context)!.transportName} '
+                                    '${TranslationUtil.translate(context, transportsInGroup.first.transportName)}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
-                              if(experiencesInGroup.isNotEmpty)
-                                ListTile(
-                                  title: Text('${AppLocalizations.of(context)!.experienceName} '
-                                      '${TranslationUtil.translate(context, experiencesInGroup.first.type)}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
+                              if (experiencesInGroup.isNotEmpty)
+                                ...experiencesInGroup.map((experience) {
+                                  return ListTile(
+                                    title: Text(
+                                      '${AppLocalizations.of(context)!.experienceName} '
+                                      '${TranslationUtil.translate(context, experience.type)}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              if(citiesInGroup.isNotEmpty)
+                                  );
+                                }).toList(),
+                              if (citiesInGroup.isNotEmpty)
                                 ListTile(
-                                  title: Text(AppLocalizations.of(context)!.stopScreenTitle
+                                  title: Text(
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.stopScreenTitle,
                                   ),
                                 ),
                               ...citiesInGroup.map((city) {
@@ -188,8 +196,8 @@ class TravelPlannerScreen extends StatelessWidget {
                                     '${AppLocalizations.of(context)!.stopName} ${city.name}',
                                   ),
                                   subtitle: Text(
-                                      '${AppLocalizations.of(context)!.tripDepartureDate}: ${city.departure != null ? displayFormat.format(city.departure!) : '-'}\n'
-                                          '${AppLocalizations.of(context)!.tripArrivalDate}: ${city.arrival != null ? displayFormat.format(city.arrival!) : '-'}'
+                                    '${AppLocalizations.of(context)!.tripDepartureDate}: ${city.departure != null ? displayFormat.format(city.departure!) : '-'}\n'
+                                    '${AppLocalizations.of(context)!.tripArrivalDate}: ${city.arrival != null ? displayFormat.format(city.arrival!) : '-'}',
                                   ),
                                 );
                               }).toList(),

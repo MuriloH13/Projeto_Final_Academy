@@ -9,7 +9,16 @@ class TransportState extends ChangeNotifier {
     load();
   }
 
-  String selectedTransport = "";
+  String selectedTransport = "Car";
+
+  List<String> transportOptions = <String>[
+    // Make so it gets exactly the name passed in AppLocalization without spaces or characters
+    "Car",
+    "Bus",
+    "Motorcycle",
+    "Cruise",
+    "Airplane",
+  ];
 
   final controllerDatabase = TransportController();
 

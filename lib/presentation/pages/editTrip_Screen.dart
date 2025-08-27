@@ -173,7 +173,6 @@ class _EditTripScreenState extends State<EditTripScreen> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      suffix: Text(group.status.toString())
                     ),
                   ),
                   Row(

@@ -20,9 +20,6 @@ class TripTable {
   $status INTEGER NOT NULL,
   $departure DATETIME NOT NULL,
   $arrival DATETIME NOT NULL,
-  $participants INTEGER,
-  $stops INTEGER,
-  $experiences INTEGER
   );
   ''';
 

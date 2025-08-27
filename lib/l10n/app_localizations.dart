@@ -211,17 +211,35 @@ abstract class AppLocalizations {
   /// **'Languages'**
   String get settingsLanguageSwitch;
 
-  /// No description provided for @groupScreenTitle.
+  /// No description provided for @tripScreenTitle.
   ///
   /// In en, this message translates to:
   /// **'Trip'**
-  String get groupScreenTitle;
+  String get tripScreenTitle;
 
-  /// No description provided for @groupTripName.
+  /// No description provided for @tripName.
   ///
   /// In en, this message translates to:
   /// **'Trip to the Maldives'**
-  String get groupTripName;
+  String get tripName;
+
+  /// No description provided for @tripStatusOngoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Ongoing'**
+  String get tripStatusOngoing;
+
+  /// No description provided for @tripStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get tripStatusCompleted;
+
+  /// No description provided for @tripStatusNoOngoingTrips.
+  ///
+  /// In en, this message translates to:
+  /// **'No ongoing trips'**
+  String get tripStatusNoOngoingTrips;
 
   /// No description provided for @transportScreenTitle.
   ///
