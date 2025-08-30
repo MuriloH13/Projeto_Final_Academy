@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import '../../../domain/entities/participant.dart';
 import '../database/app_database.dart';
 
@@ -62,6 +64,8 @@ class ParticipantController {
           name: item[ParticipantTable.name],
           age: item[ParticipantTable.age],
           tripId: item[ParticipantTable.tripId],
+          nameController: TextEditingController(text: item[ParticipantTable.name]),
+          ageController: TextEditingController(text: '${item[ParticipantTable.age]}'),
         ),
       );
     }

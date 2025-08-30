@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_final_academy/domain/entities/participant.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/routes/app_routes.dart';
@@ -13,6 +14,7 @@ class ParticipantScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final int groupId = ModalRoute.of(context)!.settings.arguments as int;
     final state = Provider.of<ParticipantState>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.participantsScreenTitle),
@@ -26,10 +28,7 @@ class ParticipantScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: DynamicParticipantFields(
-                      nameControllers: state.nameControllers,
-                      ageControllers: state.ageControllers,
-                      participantImage: state.imageControllers,
-                      participantList: state.participantList,
+                      isDetails: false,
                       onAdd: state.addParticipant,
                       onRemove: state.removeParticipant,
                     ),

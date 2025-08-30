@@ -2,7 +2,7 @@ class TripImage {
   final int? id;
   final String photo;
   final int tripId;
-  final int? participantId;
+  final int participantId;
 
   TripImage({
     this.id,

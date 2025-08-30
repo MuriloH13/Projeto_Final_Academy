@@ -1,9 +1,11 @@
 import 'package:projeto_final_academy/core/data/tables/stop_Table.dart';
 import 'package:projeto_final_academy/core/data/tables/participant_Table.dart';
 import 'package:projeto_final_academy/core/data/tables/transport_Table.dart';
+import 'package:projeto_final_academy/core/data/tables/tripImages_Table.dart';
 import 'package:projeto_final_academy/domain/entities/stop.dart';
 import 'package:projeto_final_academy/domain/entities/completeTrip.dart';
 import 'package:projeto_final_academy/domain/entities/transport.dart';
+import 'package:projeto_final_academy/domain/entities/tripImage.dart';
 
 import '../../../domain/entities/experience.dart';
 import '../../../domain/entities/trip.dart';
@@ -30,9 +32,6 @@ class TripTable {
   static const String status = 'status';
   static const String departure = 'departure';
   static const String arrival = 'arrival';
-  static const String participants = 'participants';
-  static const String stops = 'stops';
-  static const String experiences = 'experiences';
 
   static Map<String, dynamic> toMap(Trip trip) {
     final map = <String, dynamic>{};
@@ -62,6 +61,12 @@ class TripController {
 
     final groupRow = groupResult.first;
 
+    final photosResult = await database.query(
+      TripImagesTable.tableName,
+      where: 'id = ?',
+      whereArgs: [tripId],
+    );
+
     final participantsResult = await database.query(
       ParticipantTable.tableName,
       where: 'tripId = ?',
@@ -85,6 +90,15 @@ class TripController {
       where: 'tripId = ?',
       whereArgs: [tripId],
     );
+
+    final photos = photosResult.map((item) {
+      return TripImage(
+          id: item['id'] as int?,
+          photo: item['photo'] as String,
+          tripId: item['tripId'] as int,
+          participantId: item['participantId'] as int,
+      );
+    }).toList();
 
     final participants = participantsResult.map((item) {
       return Participant(
@@ -130,8 +144,9 @@ class TripController {
       id: groupRow['id'] as int?,
       tripName: groupRow['tripName'] as String,
       status: groupRow['status'] as int,
-      departure: DateTime.parse(groupRow['departure'] as String),
       arrival: DateTime.parse(groupRow['arrival'] as String),
+      departure: DateTime.parse(groupRow['departure'] as String),
+      tripImages: photos,
       participants: participants,
       transports: transports,
       stops: stops,
@@ -163,9 +178,6 @@ class TripController {
           status: item[TripTable.status],
           departure: DateTime.parse(item[TripTable.departure]),
           arrival: DateTime.parse(item[TripTable.arrival]),
-          participants: item[TripTable.participants],
-          stops: item[TripTable.stops],
-          experiences: item[TripTable.experiences],
         ),
       );
     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_final_academy/presentation/states/participant_State.dart';
 import 'package:provider/provider.dart';
 import '../../core/routes/app_Routes.dart';
 import '../../l10n/app_localizations.dart';
@@ -28,56 +29,67 @@ class _TripScreenState extends State<TripScreen> {
       ),
       body: Column(
         children: [
-          TextFormField(
-            controller: state.controllerGroupName,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              hintText: AppLocalizations.of(context)!.tripName,
-              prefixIcon: Icon(Icons.archive),
+          Expanded(
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: state.controllerGroupName,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintText: AppLocalizations.of(context)!.tripName,
+                    prefixIcon: Icon(Icons.archive),
+                  ),
+                ),
+                Row(
+                  children: [
+                    dateFormField(
+                      context: context,
+                      controller: state.controllerTripDepartureDate,
+                      locale: languageProvider.locale,
+                      label: AppLocalizations.of(context)!.tripDepartureDate,
+                    ),
+                    dateFormField(
+                      context: context,
+                      controller: state.controllerTripArrivalDate,
+                      locale: languageProvider.locale,
+                      label: AppLocalizations.of(context)!.tripArrivalDate,
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
-          Row(
-            children: [
-              dateFormField(
-                context: context,
-                controller: state.controllerTripDepartureDate,
-                locale: languageProvider.locale,
-                label: AppLocalizations.of(context)!.tripDepartureDate,
-              ),
-              dateFormField(
-                context: context,
-                controller: state.controllerTripArrivalDate,
-                locale: languageProvider.locale,
-                label: AppLocalizations.of(context)!.tripArrivalDate,
-              ),
-            ],
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              final arrivalDate = state.controllerTripArrivalDate.value;
-              if (arrivalDate == null) {
-                ScaffoldMessenger.of(
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+              onPressed: () async {
+                final participantState = Provider.of<ParticipantState>(context, listen: false);
+
+                final arrivalDate = state.controllerTripArrivalDate.value;
+                if (arrivalDate == null) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('Data inválida')));
+                  return;
+                }
+
+                final now = DateTime.now();
+                final int isFuture = arrivalDate.isAfter(now) ? 1 : 0;
+                state.groupStatus = isFuture;
+                final groupId = await state.insert();
+
+                participantState.addParticipant();
+
+                Navigator.pushReplacementNamed(
                   context,
-                ).showSnackBar(SnackBar(content: Text('Data inválida')));
-                return;
-              }
-
-              final now = DateTime.now();
-              final int isFuture = arrivalDate.isAfter(now) ? 1 : 0;
-              print('status: ${isFuture}');
-              print('status: ${state.controllerTripDepartureDate.value}');
-              state.groupStatus = isFuture;
-              final groupId = await state.insert();
-
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutes.participantScreen,
-                arguments: groupId,
-              );
-            },
-            child: Text(AppLocalizations.of(context)!.generalConfirmButton),
+                  AppRoutes.participantScreen,
+                  arguments: groupId,
+                );
+              },
+              child: Text(AppLocalizations.of(context)!.generalConfirmButton),
+            ),
           ),
         ],
       ),

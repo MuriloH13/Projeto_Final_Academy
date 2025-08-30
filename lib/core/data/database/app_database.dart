@@ -1,5 +1,6 @@
 import 'package:path/path.dart';
 import 'package:projeto_final_academy/core/data/tables/transport_Table.dart';
+import 'package:projeto_final_academy/core/data/tables/tripImages_Table.dart';
 import 'package:sqflite/sqflite.dart';
 import '../tables/stop_Table.dart';
 import '../tables/experience_Table.dart';
@@ -13,6 +14,7 @@ Future<Database> getDatabase() async {
     path,
     onCreate: (db, version) {
       db.execute(TripTable.createTable);
+      db.execute(TripImagesTable.createTable);
       db.execute(ParticipantTable.createTable);
       db.execute(TransportTable.createTable);
       db.execute(StopTable.createTable);
