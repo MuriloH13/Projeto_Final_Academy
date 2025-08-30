@@ -30,7 +30,7 @@ class EditTripScreen extends StatefulWidget {
 }
 
 class _EditTripScreenState extends State<EditTripScreen> {
-  late CompleteTrip group;
+  late CompleteTrip completeTrip;
   late int tripId;
   bool isLoading = true;
   bool hasLoaded = false;
@@ -49,6 +49,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
 
   List<TextEditingController> _participantNameControllers = [];
   List<TextEditingController> _participantAgeControllers = [];
+  List<File?> _tripImageControllers = [];
   List<File?> _participantImageControllers = [];
   List<TextEditingController> _transportNameControllers = [];
   List<TextEditingController> _experienceTypeControllers = [];
@@ -74,59 +75,53 @@ class _EditTripScreenState extends State<EditTripScreen> {
     final result = await tripController.getCompleteTrip(tripId);
 
     if (result != null) {
-
       setState(() {
-        group = result;
-        groupNameController.text = group.tripName;
+        completeTrip = result;
+        groupNameController.text = completeTrip.tripName;
 
-        participantsController.text = group.participants.length.toString();
+        participantsController.text = completeTrip.participants.length
+            .toString();
 
-        _participantNameControllers = group.participants
+        _participantNameControllers = completeTrip.participants
             .map((p) => TextEditingController(text: p.name))
             .toList();
 
-        _participantAgeControllers = group.participants
+        _participantAgeControllers = completeTrip.participants
             .map((p) => TextEditingController(text: p.age.toString()))
             .toList();
 
-        _participantImageControllers = group.participants
-        .map((p) {
+        _tripImageControllers = completeTrip.tripImages.map((p) {
+          return File(p.photo);
+        }).toList();
+
+        _participantImageControllers = completeTrip.participants.map((p) {
           final image = p.photo;
-          if(image != null){
+          if (image != null) {
             return File(image);
           }
         }).toList();
 
-
-        _transportNameControllers = group.transports
+        _transportNameControllers = completeTrip.transports
             .map((p) => TextEditingController(text: p.transportName.toString()))
             .toList();
 
-        _experienceTypeControllers = group.experiences
+        _experienceTypeControllers = completeTrip.experiences
             .map((p) => TextEditingController(text: p.type.toString()))
             .toList();
 
+        _controllerTripDepartureDate = ValueNotifier(completeTrip.departure);
 
-        _controllerTripDepartureDate = ValueNotifier(group.departure);
+        _controllerTripArrivalDate = ValueNotifier(completeTrip.arrival);
 
-        _controllerTripArrivalDate = ValueNotifier(group.arrival);
-
-        _cityDepartureControllers = group.stops
-        .map((p){
+        _cityDepartureControllers = completeTrip.stops.map((p) {
           final date = p.departure;
-          return ValueNotifier<DateTime?>(
-            date,
-          );
+          return ValueNotifier<DateTime?>(date);
         }).toList();
 
-        _cityArrivalControllers = group.stops
-            .map((p) {
+        _cityArrivalControllers = completeTrip.stops.map((p) {
           final date = p.arrival;
-          return ValueNotifier<DateTime?>(
-            date,
-          );
+          return ValueNotifier<DateTime?>(date);
         }).toList();
-
 
         isLoading = false;
       });
@@ -149,8 +144,10 @@ class _EditTripScreenState extends State<EditTripScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final languageProvider = Provider.of<LanguageProvider>(context, listen: false);
-    final participantState = Provider.of<ParticipantState>(context, listen: false);
+    final languageProvider = Provider.of<LanguageProvider>(
+      context,
+      listen: false,
+    );
 
     List<String> transportOptions = [
       "Car",
@@ -169,7 +166,9 @@ class _EditTripScreenState extends State<EditTripScreen> {
     ];
 
     return Scaffold(
-      appBar: DynamicAppBar(title: AppLocalizations.of(context)!.editTripScreenTitle),
+      appBar: DynamicAppBar(
+        title: AppLocalizations.of(context)!.editTripScreenTitle,
+      ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -180,72 +179,107 @@ class _EditTripScreenState extends State<EditTripScreen> {
                     controller: groupNameController,
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.archive),
-                      labelText: AppLocalizations.of(context)!.tripPlannerTripName,
+                      labelText: AppLocalizations.of(
+                        context,
+                      )!.tripPlannerTripName,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                   ),
+                  if (completeTrip.tripImages.isNotEmpty)
+                    SizedBox(
+                      height: 200,
+                      child: ListView.builder(
+                        itemCount: completeTrip.tripImages.length,
+                        itemBuilder: (context, index) {
+                          if (completeTrip.tripImages[index] != null) {
+                            return CircleAvatar(
+                              radius: 24,
+                              backgroundImage: FileImage(
+                                _tripImageControllers[index]!,
+                              ),
+                            );
+                          } else {
+                            return IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.add_circle_outline),
+                            );
+                          }
+                        },
+                      ),
+                    ),
                   Row(
                     children: [
                       dateFormField(
-                          context: context,
-                          controller: _controllerTripDepartureDate,
-                          locale: languageProvider.locale,
-                          label: AppLocalizations.of(context)!.tripDepartureDate),
+                        context: context,
+                        controller: _controllerTripDepartureDate,
+                        locale: languageProvider.locale,
+                        label: AppLocalizations.of(context)!.tripDepartureDate,
+                      ),
                       dateFormField(
-                          context: context,
-                          controller: _controllerTripArrivalDate,
-                          locale: languageProvider.locale,
-                          label: AppLocalizations.of(context)!.tripArrivalDate),
+                        context: context,
+                        controller: _controllerTripArrivalDate,
+                        locale: languageProvider.locale,
+                        label: AppLocalizations.of(context)!.tripArrivalDate,
+                      ),
                     ],
                   ),
                   Text(
                     AppLocalizations.of(context)!.participantsScreenTitle,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                          DynamicParticipantFields(
-                            participantList: participantState.participantList,
-                              nameControllers: _participantNameControllers,
-                              ageControllers: _participantAgeControllers,
-                              participantImage: _participantImageControllers,
-                          ),
+                  DynamicParticipantFields(
+                    isDetails: true,
+                  ),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: group.transports.length,
+                    itemCount: completeTrip.transports.length,
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
                           Center(
-                            child: Text(AppLocalizations.of(context)!.transportScreenTitle),
-                          ),
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: DropdownButtonFormField<String>(
-                                value: _transportNameControllers[index].text.isNotEmpty
-                                    ? _transportNameControllers[index].text
-                                    : transportOptions.first,
-                                decoration: InputDecoration(
-                                  labelText: AppLocalizations.of(context)!.transportName,
-                                  prefixIcon: Icon(Icons.train),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                items: transportOptions.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(TranslationUtil.translate(context, value)),
-                                  );
-                                }).toList(),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    _transportNameControllers[index].text = newValue!;
-                                  });
-                                },
-                              ),
+                            child: Text(
+                              AppLocalizations.of(
+                                context,
+                              )!.transportScreenTitle,
                             ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: DropdownButtonFormField<String>(
+                              value:
+                                  _transportNameControllers[index]
+                                      .text
+                                      .isNotEmpty
+                                  ? _transportNameControllers[index].text
+                                  : transportOptions.first,
+                              decoration: InputDecoration(
+                                labelText: AppLocalizations.of(
+                                  context,
+                                )!.transportName,
+                                prefixIcon: Icon(Icons.train),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              items: transportOptions.map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    TranslationUtil.translate(context, value),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _transportNameControllers[index].text =
+                                      newValue!;
+                                });
+                              },
+                            ),
+                          ),
                         ],
                       );
                     },
@@ -256,9 +290,11 @@ class _EditTripScreenState extends State<EditTripScreen> {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: group.experiences.length,
+                    itemCount: completeTrip.experiences.length,
                     itemBuilder: (context, index) {
-                      String currentValue = _experienceTypeControllers[index].text.trim();
+                      String currentValue = _experienceTypeControllers[index]
+                          .text
+                          .trim();
                       if (!experienceOptions.contains(currentValue)) {
                         currentValue = experienceOptions.first;
                       }
@@ -270,7 +306,9 @@ class _EditTripScreenState extends State<EditTripScreen> {
                             isExpanded: true,
                             value: currentValue,
                             decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context)!.experienceName,
+                              labelText: AppLocalizations.of(
+                                context,
+                              )!.experienceName,
                               prefixIcon: Icon(Icons.train),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -280,7 +318,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(
-                                    TranslationUtil.translate(context, value),
+                                  TranslationUtil.translate(context, value),
                                   softWrap: true,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
@@ -290,12 +328,13 @@ class _EditTripScreenState extends State<EditTripScreen> {
                             onChanged: (String? newValue) {
                               if (newValue != null) {
                                 setState(() {
-                                  _experienceTypeControllers[index].text = newValue;
+                                  _experienceTypeControllers[index].text =
+                                      newValue;
                                 });
                               }
                             },
                           ),
-                        )
+                        ),
                       );
                     },
                   ),
@@ -303,29 +342,30 @@ class _EditTripScreenState extends State<EditTripScreen> {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: group.stops.length,
+                    itemCount: completeTrip.stops.length,
                     itemBuilder: (context, index) {
-
-                      print('Ç1');
-                      print(index);
                       print(_cityDepartureControllers[index]);
-                      final cityName = group.stops[index].name;
+                      final cityName = completeTrip.stops[index].name;
                       return Column(
                         children: [
                           Text(cityName),
                           Row(
                             children: [
                               dateFormField(
-                                  context: context,
-                                  controller: _cityDepartureControllers[index],
-                                  locale: languageProvider.locale,
-                                  label: AppLocalizations.of(context)!.tripDepartureDate
+                                context: context,
+                                controller: _cityDepartureControllers[index],
+                                locale: languageProvider.locale,
+                                label: AppLocalizations.of(
+                                  context,
+                                )!.tripDepartureDate,
                               ),
                               dateFormField(
-                                  context: context,
-                                  controller: _cityArrivalControllers[index],
-                                  locale: languageProvider.locale,
-                                  label: AppLocalizations.of(context)!.tripArrivalDate
+                                context: context,
+                                controller: _cityArrivalControllers[index],
+                                locale: languageProvider.locale,
+                                label: AppLocalizations.of(
+                                  context,
+                                )!.tripArrivalDate,
                               ),
                             ],
                           ),
@@ -341,23 +381,29 @@ class _EditTripScreenState extends State<EditTripScreen> {
                       final updatedTrip = Trip(
                         id: tripId,
                         groupName: groupNameController.text,
-                        status: group.status,
-                        participants: group.participants.length,
+                        status: completeTrip.status,
+                        participants: completeTrip.participants.length,
                         departure: departureDate,
                         arrival: arrivalDate,
-                        stops: group.stops.length,
-                        experiences: group.experiences.length,
+                        stops: completeTrip.stops.length,
+                        experiences: completeTrip.experiences.length,
                       );
 
                       // List of the participants that are going to be updated
                       List<Participant> updatedParticipants = [];
-                      for (int i = 0; i < group.participants.length; i++) {
+                      for (
+                        int i = 0;
+                        i < completeTrip.participants.length;
+                        i++
+                      ) {
                         final name = _participantNameControllers[i].text;
-                        final age = int.tryParse(_participantAgeControllers[i].text) ?? 0;
+                        final age =
+                            int.tryParse(_participantAgeControllers[i].text) ??
+                            0;
                         final photoFile = _participantImageControllers[i];
 
                         final updatedParticipant = Participant(
-                          id: group.participants[i].id,
+                          id: completeTrip.participants[i].id,
                           name: name,
                           age: age,
                           photo: photoFile?.path,
@@ -375,9 +421,9 @@ class _EditTripScreenState extends State<EditTripScreen> {
                       }
 
                       // Update for the TransportTable
-                      for (int i = 0; i < group.transports.length; i++) {
+                      for (int i = 0; i < completeTrip.transports.length; i++) {
                         final updatedTransport = Transport(
-                          id: group.transports[i].id,
+                          id: completeTrip.transports[i].id,
                           transportName: _transportNameControllers[i].text,
                           tripId: tripId,
                         );
@@ -385,24 +431,29 @@ class _EditTripScreenState extends State<EditTripScreen> {
                       }
 
                       // Update for the ExperienceTable
-                      for (int i = 0; i < group.experiences.length; i++) {
+                      for (
+                        int i = 0;
+                        i < completeTrip.experiences.length;
+                        i++
+                      ) {
                         final updatedExperience = Experience(
-                          id: group.experiences[i].id,
+                          id: completeTrip.experiences[i].id,
                           type: _experienceTypeControllers[i].text,
                           tripId: tripId,
                         );
                         await experienceController.update(updatedExperience);
                       }
-                      for (int i = 0; i < group.stops.length; i++) {
-                        final departureDate = _cityDepartureControllers[i].value;
+                      for (int i = 0; i < completeTrip.stops.length; i++) {
+                        final departureDate =
+                            _cityDepartureControllers[i].value;
                         final arrivalDate = _cityArrivalControllers[i].value;
 
                         final updatedStop = Stop(
-                          id: group.stops[i].id,
-                          name: group.stops[i].name,
-                          address: group.stops[i].address,
-                          latitude: group.stops[i].latitude,
-                          longitude: group.stops[i].longitude,
+                          id: completeTrip.stops[i].id,
+                          name: completeTrip.stops[i].name,
+                          address: completeTrip.stops[i].address,
+                          latitude: completeTrip.stops[i].latitude,
+                          longitude: completeTrip.stops[i].longitude,
                           departure: departureDate,
                           arrival: arrivalDate,
                           tripId: tripId,
@@ -411,7 +462,9 @@ class _EditTripScreenState extends State<EditTripScreen> {
                       }
                       Navigator.pop(context, updatedTrip);
                     },
-                    child: Text(AppLocalizations.of(context)!.generalConfirmButton),
+                    child: Text(
+                      AppLocalizations.of(context)!.generalConfirmButton,
+                    ),
                   ),
                 ],
               ),

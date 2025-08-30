@@ -20,14 +20,6 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => TripState()),
-        ChangeNotifierProvider(create: (context) => ParticipantState()),
-        ChangeNotifierProvider(create: (context) => TransportState()),
-        ChangeNotifierProvider(create: (context) => ExperienceState()),
-        ChangeNotifierProvider(create: (context) => StopState()),
-        ChangeNotifierProvider(create: (context) => ThemeProvider()),
-        ChangeNotifierProvider(create: (context) => LanguageProvider()),
-        ChangeNotifierProvider(create: (context) => MapsController()),
       ],
       child: MaterialApp(
         theme: AppTheme.lightTheme,

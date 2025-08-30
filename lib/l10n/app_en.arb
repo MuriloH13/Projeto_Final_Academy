@@ -29,6 +29,7 @@
   "tripStatusOngoing" : "Ongoing",
   "tripStatusCompleted" : "Completed",
   "tripStatusNoOngoingTrips" : "No ongoing trips",
+  "tripStatusNoTrips" : "No trips registered",
 
   "transportScreenTitle" : "Transport",
   "transportName" : "Transport Name:",
@@ -61,5 +62,7 @@
 
   "searchBar" : "Search",
   "generalConfirmButton" : "Confirm",
-  "generalCancelButton" : "Cancel"
+  "generalCancelButton" : "Cancel",
+  "generalYesButton" : "Yes",
+  "generalNoButton" : "No",
 }

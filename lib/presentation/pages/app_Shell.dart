@@ -15,7 +15,6 @@ class AppShell extends StatefulWidget {
 
 class _AppShellState extends State<AppShell> {
   @override
-  @override
   void initState() {
     super.initState();
     Future.microtask(() {

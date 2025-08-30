@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:projeto_final_academy/domain/entities/trip.dart';
 import 'package:projeto_final_academy/presentation/utils/editTrip_Dialog.dart';
 import 'package:provider/provider.dart';
 import '../../core/routes/app_Routes.dart';
@@ -40,11 +41,7 @@ class TravelPlannerScreen extends StatelessWidget {
     final experienceState = Provider.of<ExperienceState>(context);
     final stopState = Provider.of<StopState>(context);
 
-    tripState.load();
-    participantState.load();
-    transportState.load();
-    experienceState.load();
-    stopState.load();
+    // final trips = tripState.tripList;
 
     return Scaffold(
       appBar: DynamicAppBar(
@@ -77,7 +74,7 @@ class TravelPlannerScreen extends StatelessWidget {
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: tripState.tripList.length,
-                    itemBuilder: (context, index) {
+                    itemBuilder: (listViewContext, index) {
                       final trip = tripState.tripList[index];
 
                       final participantsInGroup = participantState
@@ -120,12 +117,8 @@ class TravelPlannerScreen extends StatelessWidget {
                                 children: [
                                   IconButton(
                                     icon: Icon(Icons.edit),
-                                    onPressed: () async {
-                                      print("TripId recebido no dialog: ${trip.id}");
-                                      await showDialog(context: context, builder: (context) {
-                                        return EditTripDialog(context: context, tripId: trip.id!);
-                                      });
-                                    },
+                                    onPressed: () =>
+                                        _onEditPressed(context, trip),
                                   ),
                                   IconButton(
                                     icon: Icon(Icons.delete, color: Colors.red),
@@ -223,5 +216,25 @@ class TravelPlannerScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _onEditPressed(BuildContext context, Trip trip) async {
+    final shouldNavigate = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return EditTripDialog(tripId: trip.id!);
+      },
+    );
+    if (shouldNavigate != true) {
+      return;
+    }
+
+    if (context.mounted) {
+      Navigator.pushNamed(
+        context,
+        AppRoutes.editTripScreen,
+        arguments: trip.id!,
+      );
+    }
   }
 }
