@@ -17,6 +17,7 @@
   "tripPlannerTripButton" : "New travel plan",
   "tripDepartureDate" : "Departure date",
   "tripArrivalDate" : "Arrival date",
+  "tripEditMessage" : "Are you sure you want to edit this group?",
 
   "settingsThemeSwitchText" : "Switch theme",
   "settingsLanguageSelection" : "Select language",
@@ -59,5 +60,6 @@
   "durationScreenTitle" : "Trip duration",
 
   "searchBar" : "Search",
-  "generalConfirmButton" : "Confirm"
+  "generalConfirmButton" : "Confirm",
+  "generalCancelButton" : "Cancel"
 }

@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:projeto_final_academy/domain/repositories/stops_Repository.dart';
 import 'package:projeto_final_academy/presentation/pages/stop_Screen.dart';
+import 'package:projeto_final_academy/presentation/utils/localizationPermission_Dialog.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../utils/stop_Details.dart';
@@ -82,44 +83,7 @@ class MapsController extends ChangeNotifier {
           barrierDismissible: false,
           context: context,
           builder: (context) {
-            return Dialog(
-              child: SizedBox(
-                height: 150,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                            },
-                            child: Text('Cancelar'),
-                          ),
-                          TextButton(
-                            onPressed: () async {
-                             await Geolocator.openLocationSettings();
-                             Navigator.of(context).pop(true);
-
-                            },
-                            child: Text(AppLocalizations.of(context)!.generalConfirmButton),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
+            return LocalizationPermissionDialog(context: context);
           },
         );
          (position, hasPosition) = await _actualPosition(context);

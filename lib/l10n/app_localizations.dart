@@ -187,6 +187,12 @@ abstract class AppLocalizations {
   /// **'Arrival date'**
   String get tripArrivalDate;
 
+  /// No description provided for @tripEditMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to edit this group?'**
+  String get tripEditMessage;
+
   /// No description provided for @settingsThemeSwitchText.
   ///
   /// In en, this message translates to:
@@ -390,6 +396,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confirm'**
   String get generalConfirmButton;
+
+  /// No description provided for @generalCancelButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get generalCancelButton;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

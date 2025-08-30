@@ -85,28 +85,26 @@ class StopController {
     return list;
   }
 
-  Future<void> update(Stop city) async {
+  Future<void> update(Stop stop) async {
     final database = await getDatabase();
 
-    var map = StopTable.toMap(city);
+    var map = StopTable.toMap(stop);
 
     await database.update(
         StopTable.tableName,
         map,
         where: '${StopTable.id} = ?',
-        whereArgs: [city.id]
+        whereArgs: [stop.id]
     );
-
   }
 
-  Future<void> delete(Stop city) async {
+  Future<void> delete(Stop stop) async {
     final database = await getDatabase();
 
     database.delete(
       StopTable.tableName,
       where: '${StopTable.id} = ?',
-      whereArgs: [city.id],
+      whereArgs: [stop.id],
     );
   }
-
 }

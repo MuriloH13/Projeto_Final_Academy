@@ -5,11 +5,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:projeto_final_academy/presentation/states/participant_State.dart';
 import 'package:provider/provider.dart';
 
+import '../../domain/entities/participant.dart';
 import '../../l10n/app_localizations.dart';
 
 class DynamicParticipantFields extends StatefulWidget {
   final List<TextEditingController> nameControllers;
   final List<TextEditingController> ageControllers;
+  final List<File?> participantImage;
+  final List<Participant>participantList;
   final VoidCallback? onAdd;
   final void Function(int index)? onRemove;
 
@@ -17,6 +20,8 @@ class DynamicParticipantFields extends StatefulWidget {
     super.key,
     required this.nameControllers,
     required this.ageControllers,
+    required this.participantImage,
+    required this.participantList,
     this.onAdd,
     this.onRemove,
   });
@@ -58,11 +63,11 @@ class _DynamicParticipantFieldsState extends State<DynamicParticipantFields> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        state.participantImage[index] != null
+                        widget.participantImage[index] != null
                             ? CircleAvatar(
                                 radius: 24,
                                 backgroundImage: FileImage(
-                                  state.participantImage[index]!,
+                                  widget.participantImage[index]!,
                                 ),
                               )
                             : const CircleAvatar(child: Icon(Icons.person)),

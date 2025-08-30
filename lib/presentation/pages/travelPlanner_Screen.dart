@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:projeto_final_academy/presentation/utils/editTrip_Dialog.dart';
 import 'package:provider/provider.dart';
 import '../../core/routes/app_Routes.dart';
 import '../../l10n/app_localizations.dart';
@@ -75,9 +76,9 @@ class TravelPlannerScreen extends StatelessWidget {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: tripState.groupList.length,
+                    itemCount: tripState.tripList.length,
                     itemBuilder: (context, index) {
-                      final trip = tripState.groupList[index];
+                      final trip = tripState.tripList[index];
 
                       final participantsInGroup = participantState
                           .participantList
@@ -119,12 +120,11 @@ class TravelPlannerScreen extends StatelessWidget {
                                 children: [
                                   IconButton(
                                     icon: Icon(Icons.edit),
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        AppRoutes.editDialog,
-                                        arguments: trip.id,
-                                      );
+                                    onPressed: () async {
+                                      print("TripId recebido no dialog: ${trip.id}");
+                                      await showDialog(context: context, builder: (context) {
+                                        return EditTripDialog(context: context, tripId: trip.id!);
+                                      });
                                     },
                                   ),
                                   IconButton(

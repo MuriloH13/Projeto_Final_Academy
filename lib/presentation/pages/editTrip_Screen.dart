@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:projeto_final_academy/core/data/tables/stop_Table.dart';
 import 'package:projeto_final_academy/core/data/tables/experience_Table.dart';
@@ -12,6 +14,7 @@ import 'package:projeto_final_academy/presentation/states/participant_State.dart
 import 'package:projeto_final_academy/presentation/utils/date_FormField.dart';
 import 'package:projeto_final_academy/presentation/utils/dynamic_AppBar.dart';
 import 'package:projeto_final_academy/presentation/utils/dynamic_ParticipantForm.dart';
+import 'package:projeto_final_academy/presentation/utils/translation_Util.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/data/tables/trip_Table.dart';
@@ -46,6 +49,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
 
   List<TextEditingController> _participantNameControllers = [];
   List<TextEditingController> _participantAgeControllers = [];
+  List<File?> _participantImageControllers = [];
   List<TextEditingController> _transportNameControllers = [];
   List<TextEditingController> _experienceTypeControllers = [];
   List<ValueNotifier<DateTime?>> _cityDepartureControllers = [];
@@ -84,6 +88,15 @@ class _EditTripScreenState extends State<EditTripScreen> {
         _participantAgeControllers = group.participants
             .map((p) => TextEditingController(text: p.age.toString()))
             .toList();
+
+        _participantImageControllers = group.participants
+        .map((p) {
+          final image = p.photo;
+          if(image != null){
+            return File(image);
+          }
+        }).toList();
+
 
         _transportNameControllers = group.transports
             .map((p) => TextEditingController(text: p.transportName.toString()))
@@ -140,29 +153,27 @@ class _EditTripScreenState extends State<EditTripScreen> {
     final participantState = Provider.of<ParticipantState>(context, listen: false);
 
     List<String> transportOptions = [
-      AppLocalizations.of(context)!.transportCar.trim(),
-      AppLocalizations.of(context)!.transportMotorcycle.trim(),
-      AppLocalizations.of(context)!.transportBus.trim(),
-      AppLocalizations.of(context)!.transportAirPlane.trim(),
-      AppLocalizations.of(context)!.transportCruise.trim(),
+      "Car",
+      "Motorcycle",
+      "Bus",
+      "Airplane",
+      "Cruise",
     ];
 
     List<String> experienceOptions = <String>[
-      AppLocalizations.of(context)!.experienceCulturalImmersion.trim(),
-      AppLocalizations.of(context)!.experienceAlternativeCuisine.trim(),
-      AppLocalizations.of(context)!.experienceHistoricalSites.trim(),
-      AppLocalizations.of(context)!.experienceLocalEstablishments.trim(),
-      AppLocalizations.of(context)!.experienceContactWithNature.trim(),
+      "Immersion in a different culture",
+      "Explore alternative cuisine",
+      "Historical sites tour",
+      "Visit local establishments",
+      "Contact with nature",
     ];
-
-    experienceOptions = experienceOptions.map((e) => e.trim()).toSet().toList();
 
     return Scaffold(
       appBar: DynamicAppBar(title: AppLocalizations.of(context)!.editTripScreenTitle),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
                   TextFormField(
@@ -193,17 +204,12 @@ class _EditTripScreenState extends State<EditTripScreen> {
                     AppLocalizations.of(context)!.participantsScreenTitle,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: group.participants.length,
-                    itemBuilder: (context, index) {
-                          return DynamicParticipantFields(
+                          DynamicParticipantFields(
+                            participantList: participantState.participantList,
                               nameControllers: _participantNameControllers,
                               ageControllers: _participantAgeControllers,
-                          );
-                    },
-                  ),
+                              participantImage: _participantImageControllers,
+                          ),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -211,6 +217,9 @@ class _EditTripScreenState extends State<EditTripScreen> {
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
+                          Center(
+                            child: Text(AppLocalizations.of(context)!.transportScreenTitle),
+                          ),
                             Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: DropdownButtonFormField<String>(
@@ -227,7 +236,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
                                 items: transportOptions.map((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
-                                    child: Text(value),
+                                    child: Text(TranslationUtil.translate(context, value)),
                                   );
                                 }).toList(),
                                 onChanged: (String? newValue) {
@@ -271,7 +280,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(
-                                    value,
+                                    TranslationUtil.translate(context, value),
                                   softWrap: true,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
@@ -327,11 +336,15 @@ class _EditTripScreenState extends State<EditTripScreen> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () async {
+                      final departureDate = _controllerTripDepartureDate.value;
+                      final arrivalDate = _controllerTripArrivalDate.value;
                       final updatedTrip = Trip(
                         id: tripId,
                         groupName: groupNameController.text,
                         status: group.status,
                         participants: group.participants.length,
+                        departure: departureDate,
+                        arrival: arrivalDate,
                         stops: group.stops.length,
                         experiences: group.experiences.length,
                       );
@@ -341,7 +354,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
                       for (int i = 0; i < group.participants.length; i++) {
                         final name = _participantNameControllers[i].text;
                         final age = int.tryParse(_participantAgeControllers[i].text) ?? 0;
-                        final photoFile = participantState.participantImage[i];
+                        final photoFile = _participantImageControllers[i];
 
                         final updatedParticipant = Participant(
                           id: group.participants[i].id,

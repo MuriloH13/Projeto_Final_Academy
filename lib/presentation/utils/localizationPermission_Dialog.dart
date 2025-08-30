@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
-import '../../core/routes/app_Routes.dart';
 import '../../l10n/app_localizations.dart';
 
-Widget EditTripDialog({
-    required BuildContext context,
-    required int tripId,
-  }) {
+Widget LocalizationPermissionDialog({
+  required BuildContext context,
+}) {
   return Dialog(
     child: SizedBox(
       height: 150,
       child: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Text(AppLocalizations.of(context)!.locationNeedAccessMessage),
             Padding(
-              padding: EdgeInsets.all(8),
-              child: Text(AppLocalizations.of(context)!.tripEditMessage),
+              padding: const EdgeInsets.all(8.0),
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -27,22 +26,20 @@ Widget EditTripDialog({
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
-                  child: Text(
-                      AppLocalizations.of(context)!.generalCancelButton),
+                  child: Text(AppLocalizations.of(context)!.generalCancelButton),
                 ),
                 TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      AppRoutes.editTripScreen,
-                      arguments: tripId,
-                    );
+                  onPressed: () async {
+                    await Geolocator.openLocationSettings();
+                    Navigator.of(context).pop(true);
+
                   },
-                  child: Text('Sim'),
+                  child: Text(AppLocalizations.of(context)!.generalConfirmButton),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

@@ -13,7 +13,7 @@ class ParticipantState extends ChangeNotifier {
 
   final List<TextEditingController> nameControllers = [];
   final List<TextEditingController> ageControllers = [];
-  final List<File?> participantImage = [];
+  final List<File?> imageControllers = [];
   final controllerDatabase = ParticipantController();
   final _participantList = <Participant>[];
 
@@ -22,7 +22,7 @@ class ParticipantState extends ChangeNotifier {
   void addParticipant() {
     nameControllers.add(TextEditingController());
     ageControllers.add(TextEditingController());
-    participantImage.add(null);
+    imageControllers.add(null);
     notifyListeners();
   }
 
@@ -31,7 +31,7 @@ class ParticipantState extends ChangeNotifier {
       final participant = Participant(
         name: nameControllers[i].text,
         age: int.tryParse(ageControllers[i].text) ?? 0,
-        photo: participantImage[i]?.path,
+        photo: imageControllers[i]?.path,
         tripId: tripId,
       );
       await controllerDatabase.insert(participant);
@@ -43,8 +43,8 @@ class ParticipantState extends ChangeNotifier {
   }
 
   void updateParticipantImage(int index, File image) {
-    if (index >= 0 && index < participantImage.length) {
-      participantImage[index] = image;
+    if (index >= 0 && index < imageControllers.length) {
+      imageControllers[index] = image;
       notifyListeners();
     }
   }
@@ -55,7 +55,7 @@ class ParticipantState extends ChangeNotifier {
       ageControllers[index].dispose();
       nameControllers.removeAt(index);
       ageControllers.removeAt(index);
-      participantImage.removeAt(index);
+      imageControllers.removeAt(index);
       notifyListeners();
     }
     else {

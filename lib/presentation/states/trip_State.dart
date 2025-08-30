@@ -21,9 +21,9 @@ class TripState extends ChangeNotifier {
 
   Trip? get currentGroup => _currentGroup;
 
-  final _groupList = <Trip>[];
+  final _tripList = <Trip>[];
 
-  List<Trip> get groupList => _groupList;
+  List<Trip> get tripList => _tripList;
 
   Future<int> insert() async {
     final trip = Trip(
@@ -71,7 +71,7 @@ class TripState extends ChangeNotifier {
 
   Future<void> load() async {
     final list = await controllerDatabase.select();
-    _groupList
+    tripList
       ..clear()
       ..addAll(list);
     notifyListeners();

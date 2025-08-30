@@ -95,6 +95,11 @@ class _CityScreenState extends State<CityScreen> {
               ),
             );
           }),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(AppLocalizations.of(context)!.generalConfirmButton))
         ],
       )
     );

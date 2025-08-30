@@ -17,6 +17,7 @@
   "tripPlannerTripButton": "Nuevo plan de viaje",
   "tripDepartureDate" : "Fecha de salida",
   "tripArrivalDate" : "Fecha de llegada",
+  "tripEditMessage" : "¿Estás seguro de que deseas editar este grupo?",
 
   "settingsThemeSwitchText" : "Cambiar tema",
   "settingsDarkModeSwitch": "Modo oscuro",
@@ -59,6 +60,7 @@
   "durationScreenTitle": "Duración del viaje",
 
   "searchBar": "Buscar",
-  "generalConfirmButton": "Confirmar"
+  "generalConfirmButton": "Confirmar",
+  "generalCancelButton" : "Cancelar"
 }
 

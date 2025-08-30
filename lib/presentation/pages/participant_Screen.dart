@@ -28,6 +28,8 @@ class ParticipantScreen extends StatelessWidget {
                     child: DynamicParticipantFields(
                       nameControllers: state.nameControllers,
                       ageControllers: state.ageControllers,
+                      participantImage: state.imageControllers,
+                      participantList: state.participantList,
                       onAdd: state.addParticipant,
                       onRemove: state.removeParticipant,
                     ),

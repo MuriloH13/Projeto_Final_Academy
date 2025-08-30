@@ -19,11 +19,11 @@ class TripTable {
   $tripName TEXT NOT NULL,
   $status INTEGER NOT NULL,
   $departure DATETIME NOT NULL,
-  $arrival DATETIME NOT NULL,
+  $arrival DATETIME NOT NULL
   );
   ''';
 
-  static const String tableName = 'groups';
+  static const String tableName = 'trips';
 
   static const String id = 'id';
   static const String tripName = 'tripName';

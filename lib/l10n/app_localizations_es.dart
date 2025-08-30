@@ -54,6 +54,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tripArrivalDate => 'Fecha de llegada';
 
   @override
+  String get tripEditMessage => '¿Estás seguro de que deseas editar este grupo?';
+
+  @override
   String get settingsThemeSwitchText => 'Cambiar tema';
 
   @override
@@ -154,4 +157,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get generalConfirmButton => 'Confirmar';
+
+  @override
+  String get generalCancelButton => 'Cancelar';
 }

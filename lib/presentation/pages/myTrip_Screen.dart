@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:projeto_final_academy/presentation/utils/editTrip_Dialog.dart';
 import 'package:provider/provider.dart';
-import '../../core/routes/app_Routes.dart';
 import '../../l10n/app_localizations.dart';
 import '../providers/language_provider.dart';
 import '../states/experience_State.dart';
@@ -42,7 +42,7 @@ class MyTripScreen extends StatelessWidget {
     experienceState.load();
     stopState.load();
 
-    final ongoingTrips = tripState.groupList.where((trip) => trip.status == 1).toList();
+    final ongoingTrips = tripState.tripList.where((trip) => trip.status == 1).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -113,12 +113,10 @@ class MyTripScreen extends StatelessWidget {
                           children: [
                             IconButton(
                               icon: Icon(Icons.edit),
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  AppRoutes.editDialog,
-                                  arguments: trip.id,
-                                );
+                              onPressed: () async {
+                                await showDialog(context: context, builder: (context) {
+                                  return EditTripDialog(context: context, tripId: trip.id!);
+                                });
                               },
                             ),
                             IconButton(

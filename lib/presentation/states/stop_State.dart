@@ -137,6 +137,7 @@ class StopState extends ChangeNotifier {
       final long = location['lng'];
 
       String photoUrl = '';
+      // Set the photo reference to the variable if it has a default image set in google maps
       if (result['photos'] != null && result['photos'].isNotEmpty) {
         final photoReference = result['photos'][0]['photo_reference'];
         photoUrl =
