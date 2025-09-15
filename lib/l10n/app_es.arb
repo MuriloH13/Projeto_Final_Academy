@@ -71,5 +71,10 @@
   "generalConfirmButton": "Confirmar",
   "generalCancelButton" : "Cancelar",
   "generalYesButton" : "Sí",
-    "generalNoButton" : "No"
+    "generalNoButton" : "No",
+
+  "errorLoadingLogo" : "Error al cargar el logo: {error}",
+  "finalMessage" : "UN VIAJE NO SE MIDE EN MILLAS, SINO EN MOMENTOS",
+  "invalidDate" : "Fecha inválida",
+  "addStopImageDialogComment": "Agregar imagen de la parada"
 }

@@ -43,7 +43,7 @@ class _AppShellState extends State<AppShell> {
             .toList();
 
         final List<Widget> pages = [
-          isEmpty ? const NewtripScreen() : const TravelPlannerScreen(),
+          isEmpty ? const NewTripScreen() : const TravelPlannerScreen(),
           ongoingTrips.isEmpty ? const NoOngoingtrips() :  MyTripScreen(trips: ongoingTrips),
           const SettingsScreen(),
         ];

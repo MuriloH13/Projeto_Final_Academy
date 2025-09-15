@@ -184,4 +184,18 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get generalNoButton => 'No';
+
+  @override
+  String errorLoadingLogo(Object error) {
+    return 'Error al cargar el logo: $error';
+  }
+
+  @override
+  String get finalMessage => 'UN VIAJE NO SE MIDE EN MILLAS, SINO EN MOMENTOS';
+
+  @override
+  String get invalidDate => 'Fecha inválida';
+
+  @override
+  String get addStopImageDialogComment => 'Agregar imagen de la parada';
 }

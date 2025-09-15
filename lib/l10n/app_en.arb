@@ -70,5 +70,10 @@
   "generalConfirmButton" : "Confirm",
   "generalCancelButton" : "Cancel",
   "generalYesButton" : "Yes",
-  "generalNoButton" : "No"
+  "generalNoButton" : "No",
+
+  "errorLoadingLogo" : "Error loading logo: {error}",
+  "finalMessage" : "A JOURNEY ISN’T MEASURED IN MILES, BUT IN MOMENTS",
+  "invalidDate" : "Invalid date",
+  "addStopImageDialogComment": "Add stop image"
 }

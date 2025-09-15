@@ -450,6 +450,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No'**
   String get generalNoButton;
+
+  /// No description provided for @errorLoadingLogo.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading logo: {error}'**
+  String errorLoadingLogo(Object error);
+
+  /// No description provided for @finalMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'A JOURNEY ISN’T MEASURED IN MILES, BUT IN MOMENTS'**
+  String get finalMessage;
+
+  /// No description provided for @invalidDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid date'**
+  String get invalidDate;
+
+  /// No description provided for @addStopImageDialogComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Add stop image'**
+  String get addStopImageDialogComment;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

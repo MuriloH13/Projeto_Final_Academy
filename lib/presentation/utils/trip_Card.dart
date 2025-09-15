@@ -334,7 +334,7 @@ Future<File> generateTripPdfStaticMap(
   final experiences = await ExperienceController().selectWhere(trip.id!);
   final tripImagesController = TripImageController();
 
-  // Carregar imagens por stop
+  // Load images by stop
   Map<int, List<TripImage>> stopImagesMap = {};
   for (final stop in stops) {
     final stopImages = await tripImagesController.selectWhere(stop.id!);
@@ -448,8 +448,10 @@ Future<File> generateTripPdfStaticMap(
     final byteData = await rootBundle.load('assets/TravelMate.png');
     logoBytes = byteData.buffer.asUint8List();
   } catch (e) {
-    print("Erro ao carregar logo: $e");
+    print(AppLocalizations.of(context)!.errorLoadingLogo(e));
   }
+
+  final finalMessage = AppLocalizations.of(context)!.finalMessage;
 
   pdf.addPage(
     pw.Page(
@@ -467,7 +469,7 @@ Future<File> generateTripPdfStaticMap(
             ),
           pw.SizedBox(height: 20),
           pw.Text(
-            'UMA VIAGEM NÃO SE MEDE EM MILHAS, MAS EM MOMENTOS',
+            finalMessage,
             style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
             textAlign: pw.TextAlign.center,
           ),

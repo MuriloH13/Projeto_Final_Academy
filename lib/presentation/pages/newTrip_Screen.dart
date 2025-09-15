@@ -4,8 +4,8 @@ import 'package:projeto_final_academy/presentation/utils/dynamic_AppBar.dart';
 
 import '../../core/routes/app_Routes.dart';
 
-class NewtripScreen extends StatelessWidget {
-  const NewtripScreen({super.key});
+class NewTripScreen extends StatelessWidget {
+  const NewTripScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

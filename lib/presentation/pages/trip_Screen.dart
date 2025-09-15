@@ -72,7 +72,7 @@ class _TripScreenState extends State<TripScreen> {
                     if (arrivalDate == null) {
                       ScaffoldMessenger.of(
                         context,
-                      ).showSnackBar(SnackBar(content: Text('Data inválida')));
+                      ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.invalidDate)));
                       return;
                     }
 

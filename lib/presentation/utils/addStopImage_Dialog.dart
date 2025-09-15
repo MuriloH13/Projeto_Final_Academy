@@ -50,7 +50,7 @@ class _AddStopImageDialogState extends State<AddStopImageDialog> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'AppLocalizations.of(context)!.addStopImageDialogTitle',
+                  AppLocalizations.of(context)!.addStopImageDialogComment,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 GestureDetector(
@@ -70,7 +70,7 @@ class _AddStopImageDialogState extends State<AddStopImageDialog> {
                 TextField(
                   controller: commentController,
                   decoration: InputDecoration(
-                    labelText: 'AppLocalizations.of(context)!.addStopImageDialogComment',
+                    labelText: AppLocalizations.of(context)!.addStopImageDialogComment,
                   ),
                 ),
                 Row(
