@@ -5,7 +5,6 @@ import 'package:projeto_final_academy/presentation/pages/editTrip_Screen.dart';
 import 'package:projeto_final_academy/presentation/pages/transport_Screen.dart';
 
 import '../../presentation/pages/app_Shell.dart';
-import '../../presentation/pages/duration_Screen.dart';
 import '../../presentation/pages/experience_Screen.dart';
 import '../../presentation/pages/trip_Screen.dart';
 import '../../presentation/pages/participant_Screen.dart';
@@ -28,6 +27,5 @@ class AppRoutes {
     transportScreen: (_) => const TransportScreen(),
     experienceScreen: (_) => const ExperienceScreen(),
     cityScreen: (_) => const CityScreen(),
-    durationScreen: (_) => const DurationScreen(),
   };
 }

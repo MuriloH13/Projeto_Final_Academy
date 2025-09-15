@@ -57,6 +57,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tripEditMessage => 'Are you sure you want to edit this group?';
 
   @override
+  String get tripDeleteMessage => 'Are you sure you want to delete this group?';
+
+  @override
+  String get tripGeneratePDF => 'Do you want to create a PDF of this trip?';
+
+  @override
   String get settingsThemeSwitchText => 'Switch theme';
 
   @override
@@ -82,6 +88,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tripStatusNoOngoingTrips => 'No ongoing trips';
+
+  @override
+  String get tripStatusNoTrips => 'No trips registered';
+
+  @override
+  String get tripImageTitle => 'Trip images';
 
   @override
   String get transportScreenTitle => 'Transport';
@@ -117,7 +129,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get experienceAlternativeCuisine => 'Explore alternative cuisine';
 
   @override
-  String get experienceHistoricalSites => 'Visit historical sites';
+  String get experienceHistoricalSites => 'Historical sites tour';
 
   @override
   String get experienceLocalEstablishments => 'Visit local establishments such as parks/bars/shows';
@@ -133,6 +145,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stopAddDestination => 'Add Destination';
+
+  @override
+  String get stopDeparture => 'Departure:';
+
+  @override
+  String get stopArrival => 'Arrival';
 
   @override
   String get editTripScreenTitle => 'Edit Trip';
@@ -160,4 +178,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get generalCancelButton => 'Cancel';
+
+  @override
+  String get generalYesButton => 'Yes';
+
+  @override
+  String get generalNoButton => 'No';
 }

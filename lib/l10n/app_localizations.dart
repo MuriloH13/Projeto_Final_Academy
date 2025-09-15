@@ -193,6 +193,18 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to edit this group?'**
   String get tripEditMessage;
 
+  /// No description provided for @tripDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this group?'**
+  String get tripDeleteMessage;
+
+  /// No description provided for @tripGeneratePDF.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to create a PDF of this trip?'**
+  String get tripGeneratePDF;
+
   /// No description provided for @settingsThemeSwitchText.
   ///
   /// In en, this message translates to:
@@ -246,6 +258,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No ongoing trips'**
   String get tripStatusNoOngoingTrips;
+
+  /// No description provided for @tripStatusNoTrips.
+  ///
+  /// In en, this message translates to:
+  /// **'No trips registered'**
+  String get tripStatusNoTrips;
+
+  /// No description provided for @tripImageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip images'**
+  String get tripImageTitle;
 
   /// No description provided for @transportScreenTitle.
   ///
@@ -316,7 +340,7 @@ abstract class AppLocalizations {
   /// No description provided for @experienceHistoricalSites.
   ///
   /// In en, this message translates to:
-  /// **'Visit historical sites'**
+  /// **'Historical sites tour'**
   String get experienceHistoricalSites;
 
   /// No description provided for @experienceLocalEstablishments.
@@ -348,6 +372,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add Destination'**
   String get stopAddDestination;
+
+  /// No description provided for @stopDeparture.
+  ///
+  /// In en, this message translates to:
+  /// **'Departure:'**
+  String get stopDeparture;
+
+  /// No description provided for @stopArrival.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrival'**
+  String get stopArrival;
 
   /// No description provided for @editTripScreenTitle.
   ///
@@ -402,6 +438,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get generalCancelButton;
+
+  /// No description provided for @generalYesButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get generalYesButton;
+
+  /// No description provided for @generalNoButton.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get generalNoButton;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -14,11 +14,11 @@ class StopTable {
   $arrival DATETIME NOT NULL,
   $photo TEXT,
   $tripId INTEGER NOT NULL,
-  FOREIGN KEY (tripId) REFERENCES TripTable(id) ON DELETE CASCADE
+  FOREIGN KEY (tripId) REFERENCES trips(id) ON DELETE CASCADE
   );
   ''';
 
-  static const String tableName = 'cities';
+  static const String tableName = 'stops';
   static const String id = 'id';
   static const String name = 'name';
   static const String address = 'address';
@@ -71,6 +71,35 @@ class StopController {
     for(final item in result) {
       list.add(
           Stop(
+              name: item[StopTable.name],
+              address: item[StopTable.address],
+              latitude: item[StopTable.latitude],
+              longitude: item[StopTable.longitude],
+              departure: DateTime.parse(item[StopTable.departure]),
+              arrival: DateTime.parse(item[StopTable.arrival]),
+              photo: item[StopTable.photo],
+              tripId: item[StopTable.tripId])
+      );
+
+    }
+    return list;
+  }
+
+  Future<List<Stop>> selectWhere(int tripId) async {
+    final database = await getDatabase();
+
+    final List<Map<String, dynamic>> result = await database.query(
+      StopTable.tableName,
+      where: '${StopTable.tripId} = ?',
+      whereArgs: [tripId],
+    );
+
+    var list = <Stop>[];
+
+    for(final item in result) {
+      list.add(
+          Stop(
+            id: item[StopTable.id],
               name: item[StopTable.name],
               address: item[StopTable.address],
               latitude: item[StopTable.latitude],

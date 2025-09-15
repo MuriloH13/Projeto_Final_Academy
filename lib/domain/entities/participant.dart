@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 class Participant {
   final int? id;
-  final String? photo;
+  String? photo;
   final File? photoFile;
   final String? name;
   final int? age;
@@ -39,6 +39,8 @@ class Participant {
       photoFile: photoFile ?? this.photoFile,
       age: age ?? this.age,
       tripId: tripId ?? this.tripId,
+      nameController: nameController ?? this.nameController,
+      ageController: ageController ?? this.ageController,
     );
   }
 }

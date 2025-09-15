@@ -16,70 +16,96 @@ class StopDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<StopState>(context, listen: false);
     final languageProvider = Provider.of<LanguageProvider>(
       context,
       listen: false,
     );
-    return Container(
-      child: Wrap(
-        children: [
-          stop.photo!.isNotEmpty
-              ? Image.network(
-                  stop.photo!,
-                  height: 250,
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.cover,
-                )
-              : Image.asset(
-                  'assets/notAvailable.jpg',
-                  height: 250,
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.cover,
-                ),
-          Padding(
-            padding: EdgeInsets.only(top: 24, left: 24),
-            child: Text(stop.name),
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: 60, left: 24),
-            child: Text(stop.address),
-          ),
-          Row(
-            children: [
-              dateFormField(
-                context: context,
-                controller: controllerStopDepartureDate,
-                locale: languageProvider.locale,
-                label: AppLocalizations.of(context)!.tripDepartureDate,
-              ),
-              dateFormField(
-                context: context,
-                controller: controllerStopArrivalDate,
-                locale: languageProvider.locale,
-                label: AppLocalizations.of(context)!.tripArrivalDate,
-              ),
-            ],
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: ElevatedButton(
-                onPressed: () async {
 
-                  final departure = controllerStopDepartureDate.value;
-                  final arrival = controllerStopArrivalDate.value;
+    return ChangeNotifierProvider(
+      create: (_) => StopState(),
+      builder: (context, child) {
+        return Consumer<StopState>(
+          builder: (context, state, child) {
+            return Container(
+              child: Wrap(
+                children: [
+                  stop.photo!.isNotEmpty
+                      ? Image.network(
+                          stop.photo!,
+                          height: 250,
+                          width: MediaQuery.of(context).size.width,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          'assets/notAvailable.jpg',
+                          height: 250,
+                          width: MediaQuery.of(context).size.width,
+                          fit: BoxFit.cover,
+                        ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 24, left: 24),
+                    child: Text(stop.name),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 60, left: 24),
+                    child: Text(stop.address),
+                  ),
+                  Row(
+                    children: [
+                      dateFormField(
+                        context: context,
+                        controller: controllerStopDepartureDate,
+                        locale: languageProvider.locale,
+                        label: AppLocalizations.of(context)!.tripDepartureDate,
+                      ),
+                      dateFormField(
+                        context: context,
+                        controller: controllerStopArrivalDate,
+                        locale: languageProvider.locale,
+                        label: AppLocalizations.of(context)!.tripArrivalDate,
+                      ),
+                    ],
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          final departure = controllerStopDepartureDate.value;
+                          final arrival = controllerStopArrivalDate.value;
 
-                    state.setStopDates(departure: departure!, arrival: arrival!);
-                    await state.insert(stopId);
-                    Navigator.pop(context);
-                },
-                child: Text(AppLocalizations.of(context)!.stopAddDestination),
+                          if (departure != null && arrival != null) {
+                            final stopToInsert = Stop(
+                              name: stop.name,
+                              address: stop.address,
+                              latitude: stop.latitude,
+                              longitude: stop.longitude,
+                              departure: departure,
+                              arrival: arrival,
+                              photo: stop.photo,
+                              tripId: stopId,
+                            );
+
+                            await state.insert(stopToInsert);
+                            Navigator.pop(context);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Selecione datas válidas'),
+                              ),
+                            );
+                          }
+                        },
+                        child: Text(AppLocalizations.of(context)!.stopAddDestination),
+                      )
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ),
-        ],
-      ),
+            );
+          },
+        );
+      },
     );
   }
 }

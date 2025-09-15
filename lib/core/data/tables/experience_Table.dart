@@ -14,7 +14,7 @@ class ExperienceTable {
       $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       $type TEXT NOT NULL,
       $tripId INTEGER NOT NULL,
-      FOREIGN KEY (tripId) REFERENCES TripTable(id) ON DELETE CASCADE
+      FOREIGN KEY (tripId) REFERENCES trips(id) ON DELETE CASCADE
     );
   ''';
 
@@ -45,6 +45,29 @@ class ExperienceController {
 
     final List<Map<String, dynamic>> result = await database.query(
       ExperienceTable.tableName,
+    );
+
+    var list = <Experience>[];
+
+    for (final item in result) {
+      list.add(
+        Experience(
+          id: item[ExperienceTable.id],
+          type: item[ExperienceTable.type],
+          tripId: item[ExperienceTable.tripId],
+        ),
+      );
+    }
+    return list;
+  }
+
+  Future<List<Experience>> selectWhere(int tripId) async {
+    final database = await getDatabase();
+
+    final List<Map<String, dynamic>> result = await database.query(
+      ExperienceTable.tableName,
+      where: '${ExperienceTable.tripId} = ?',
+      whereArgs: [tripId],
     );
 
     var list = <Experience>[];

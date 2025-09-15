@@ -41,9 +41,9 @@ class TranslationUtil {
         return loc.experienceCulturalImmersion;
       case 'Explore alternative cuisine':
         return loc.experienceAlternativeCuisine;
-      case 'Visit historical sites':
+      case 'Historical sites tour':
         return loc.experienceHistoricalSites;
-      case 'Visit local establishments such as parks/bars/shows':
+      case 'Visit local establishments':
         return loc.experienceLocalEstablishments;
       case 'Contact with nature':
         return loc.experienceContactWithNature;

@@ -1,11 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:projeto_final_academy/presentation/states/participant_State.dart';
 import 'package:provider/provider.dart';
 
-import '../../domain/entities/participant.dart';
 import '../../l10n/app_localizations.dart';
 
 class DynamicParticipantFields extends StatelessWidget {
@@ -22,7 +20,7 @@ class DynamicParticipantFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<ParticipantState>(context);
+    final state = context.read<ParticipantState>();
 
     return Column(
       children: [
@@ -71,7 +69,7 @@ class DynamicParticipantFields extends StatelessWidget {
                                 child: Icon(Icons.person),
                               ),
                         Flexible(
-                          flex: 3,
+                          flex: 2,
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: TextFormField(
@@ -112,44 +110,39 @@ class DynamicParticipantFields extends StatelessWidget {
                       children: [
                         IconButton(
                           onPressed: () async {
-                            final file = await state.pickImageFromGallery(
-                              index,
+                            final file = await state.pickImage(
+                              participant: state.participantList[index],
+                              fromCamera: false,
                             );
 
                             if (state.participantList.length > index) {
                               state.participantList.removeAt(index);
                             }
-
-                            await Future.delayed(Duration(milliseconds: 50));
-
                             state.participantList.insert(
                               index,
                               participant.copyWith(photo: file?.path, photoFile: file),
                             );
 
-                            print(file);
                             state.reload();
                           },
                           icon: Icon(Icons.photo),
                         ),
                         IconButton(
                           onPressed: () async {
-                            final file = await state.pickImageFromCamera(
-                              index,
+                            final file = await state.pickImage(
+                              participant: state.participantList[index],
+                              fromCamera: true
                             );
 
                             if (state.participantList.length > index) {
                               state.participantList.removeAt(index);
                             }
 
-                            await Future.delayed(Duration(milliseconds: 50));
-
                             state.participantList.insert(
                               index,
                               participant.copyWith(photo: file?.path, photoFile: file),
                             );
 
-                            print(file);
                             state.reload();
                           },
                           icon: Icon(Icons.camera),

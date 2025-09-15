@@ -7,24 +7,28 @@ class TripImagesTable {
   CREATE TABLE IF NOT EXISTS $tableName(
   $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   $photo TEXT NOT NULL,
-  $tripId INTEGER NOT NULL,
+  $report TEXT,
+  $stopId INTEGER NOT NULL,
   $participantId INTEGER NOT NULL,
-  FOREIGN KEY (tripId) REFERENCES TripTable(id) ON DELETE CASCADE
-  FOREIGN KEY (participantId) REFERENCES ParticipantTable(id) ON DELETE CASCADE
+  FOREIGN KEY (stopId) REFERENCES stops(id) ON DELETE CASCADE
+  FOREIGN KEY (participantId) REFERENCES participants(id) ON DELETE CASCADE
   );
   ''';
 
   static const String tableName = 'tripImages';
   static const String id = 'id';
   static const String photo = 'photo';
-  static const String tripId = 'tripId';
+  static const String report = 'report';
+  static const String stopId = 'stopId';
   static const String participantId = 'participantId';
 
   static Map<String, dynamic> toMap(TripImage image) {
     final map = <String, dynamic>{};
     map[TripImagesTable.id] = image.id;
     map[TripImagesTable.photo] = image.photo;
-    map[TripImagesTable.tripId] = image.tripId;
+    map[TripImagesTable.report] = image.report;
+    map[TripImagesTable.stopId] = image.stopId;
+    map[TripImagesTable.participantId] = image.participantId;
 
     if (image.id != null) {
       map[TripImagesTable.id] = image.id;
@@ -35,7 +39,7 @@ class TripImagesTable {
 }
 
 class TripImageController {
-  Future<void> Insert(TripImage image) async {
+  Future<void> insert(TripImage image) async {
     final database = await getDatabase();
     final map = TripImagesTable.toMap(image);
 
@@ -57,11 +61,43 @@ class TripImageController {
       list.add(
         TripImage(
           photo: item[TripImagesTable.photo],
-          tripId: item[TripImagesTable.tripId],
+          stopId: item[TripImagesTable.stopId],
           participantId: item[TripImagesTable.participantId],
         ),
       );
     }
+    return list;
+  }
+
+  Future<List<TripImage>> selectWhere(int stopId, {int? participantId}) async {
+    final database = await getDatabase();
+
+    String whereClause = '${TripImagesTable.stopId} = ?';
+    List<dynamic> whereArgs = [stopId];
+
+    if (participantId != null) {
+      whereClause += ' AND ${TripImagesTable.participantId} = ?';
+      whereArgs.add(participantId);
+    }
+
+    final List<Map<String, dynamic>> result = await database.query(
+      TripImagesTable.tableName,
+      where: whereClause,
+      whereArgs: whereArgs,
+    );
+
+    var list = <TripImage>[];
+
+    for (final item in result) {
+      list.add(
+        TripImage(
+          photo: item[TripImagesTable.photo],
+          stopId: item[TripImagesTable.stopId],
+          participantId: item[TripImagesTable.participantId],
+        ),
+      );
+    }
+
     return list;
   }
 

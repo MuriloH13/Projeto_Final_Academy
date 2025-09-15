@@ -20,10 +20,7 @@ class ExperienceState extends ChangeNotifier {
 
   final controllerDatabase = ExperienceController();
 
-  final _controllerExperienceName = TextEditingController();
 
-  TextEditingController get controllerExperienceName =>
-      _controllerExperienceName;
 
   final _experienceList = <Experience>[];
 
@@ -46,7 +43,6 @@ class ExperienceState extends ChangeNotifier {
     }
 
     await load();
-    controllerExperienceName.clear();
     notifyListeners();
   }
 

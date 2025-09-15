@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_final_academy/domain/entities/participant.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/routes/app_routes.dart';
@@ -13,43 +12,54 @@ class ParticipantScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int groupId = ModalRoute.of(context)!.settings.arguments as int;
-    final state = Provider.of<ParticipantState>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.participantsScreenTitle),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: DynamicParticipantFields(
-                      isDetails: false,
-                      onAdd: state.addParticipant,
-                      onRemove: state.removeParticipant,
-                    ),
+    return ChangeNotifierProvider(
+      create: (_) => ParticipantState(),
+      child: Consumer<ParticipantState>(
+      builder: (context, state, child) {
+        // if(state.isLoading) {
+        //   return const Center(child: CircularProgressIndicator());
+        // }
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(AppLocalizations.of(context)!.participantsScreenTitle),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: DynamicParticipantFields(
+                          isDetails: false,
+                          onAdd: state.addParticipant,
+                          onRemove: state.removeParticipant,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    await state.insert(groupId);
+                    Navigator.pushReplacementNamed(
+                      context,
+                      AppRoutes.transportScreen,
+                      arguments: groupId,
+                    );
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.generalConfirmButton,
+                  ),
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () async {
-                await state.insert(groupId);
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.transportScreen,
-                  arguments: groupId,
-                );
-              },
-              child: Text(AppLocalizations.of(context)!.generalConfirmButton),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
+      )
     );
   }
 }

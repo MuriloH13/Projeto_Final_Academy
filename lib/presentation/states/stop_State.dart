@@ -22,9 +22,9 @@ class StopState extends ChangeNotifier {
   DateTime? departure;
   DateTime? arrival;
   final controllerDatabase = StopController();
-  final _citiesList = <Stop>[];
+  final _stopList = <Stop>[];
 
-  List<Stop> get citiesList => _citiesList;
+  List<Stop> get stopList => _stopList;
 
   final String _apiKey = dotenv.env['ANDROID_MAPS_APIKEY'] ?? '';
   Uuid _sessionToken = new Uuid();
@@ -79,24 +79,14 @@ class StopState extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> insert(int tripId) async {
-    final stop = Stop(
-      name: name!,
-      address: address!,
-      latitude: latitude!,
-      longitude: longitude!,
-      departure: departure!,
-      arrival: arrival!,
-      photo: photo ?? '',
-      tripId: tripId,
-    );
+  Future<void> insert(Stop stop) async {
     await controllerDatabase.insert(stop);
     clear(); // Clean the data after the insert
   }
 
   Future<void> load() async {
     final list = await controllerDatabase.select();
-    _citiesList
+    _stopList
       ..clear()
       ..addAll(list);
     notifyListeners();

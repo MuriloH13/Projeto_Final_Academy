@@ -1,6 +1,6 @@
 class Trip {
   final int? id;
-  final String groupName;
+  final String tripName;
   final int status;
   final int? photos;
   final DateTime? departure;
@@ -11,7 +11,7 @@ class Trip {
 
   Trip({
     this.id,
-    required this.groupName,
+    required this.tripName,
     required this.status,
     this.photos,
     this.departure,

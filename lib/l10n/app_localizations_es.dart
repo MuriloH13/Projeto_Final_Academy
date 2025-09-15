@@ -57,6 +57,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tripEditMessage => '¿Estás seguro de que deseas editar este grupo?';
 
   @override
+  String get tripDeleteMessage => '¿Está seguro de que desea eliminar este grupo?';
+
+  @override
+  String get tripGeneratePDF => '¿Desea crear un PDF de este viaje?';
+
+  @override
   String get settingsThemeSwitchText => 'Cambiar tema';
 
   @override
@@ -82,6 +88,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tripStatusNoOngoingTrips => 'No hay viajes en curso';
+
+  @override
+  String get tripStatusNoTrips => 'No se han registrado viajes';
+
+  @override
+  String get tripImageTitle => 'Imágenes del viaje';
 
   @override
   String get transportScreenTitle => 'Transporte';
@@ -135,6 +147,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get stopAddDestination => 'Agregar destino';
 
   @override
+  String get stopDeparture => 'Salida:';
+
+  @override
+  String get stopArrival => 'Llegada';
+
+  @override
   String get editTripScreenTitle => 'Editar viaje';
 
   @override
@@ -160,4 +178,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get generalCancelButton => 'Cancelar';
+
+  @override
+  String get generalYesButton => 'Sí';
+
+  @override
+  String get generalNoButton => 'No';
 }

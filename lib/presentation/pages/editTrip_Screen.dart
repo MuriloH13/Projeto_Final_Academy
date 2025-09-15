@@ -10,10 +10,8 @@ import 'package:projeto_final_academy/domain/entities/completeTrip.dart';
 import 'package:projeto_final_academy/domain/entities/experience.dart';
 import 'package:projeto_final_academy/domain/entities/participant.dart';
 import 'package:projeto_final_academy/domain/entities/transport.dart';
-import 'package:projeto_final_academy/presentation/states/participant_State.dart';
 import 'package:projeto_final_academy/presentation/utils/date_FormField.dart';
 import 'package:projeto_final_academy/presentation/utils/dynamic_AppBar.dart';
-import 'package:projeto_final_academy/presentation/utils/dynamic_ParticipantForm.dart';
 import 'package:projeto_final_academy/presentation/utils/translation_Util.dart';
 import 'package:provider/provider.dart';
 
@@ -144,10 +142,6 @@ class _EditTripScreenState extends State<EditTripScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final languageProvider = Provider.of<LanguageProvider>(
-      context,
-      listen: false,
-    );
 
     List<String> transportOptions = [
       "Car",
@@ -214,13 +208,13 @@ class _EditTripScreenState extends State<EditTripScreen> {
                       dateFormField(
                         context: context,
                         controller: _controllerTripDepartureDate,
-                        locale: languageProvider.locale,
+                        locale: context.read<LanguageProvider>().locale,
                         label: AppLocalizations.of(context)!.tripDepartureDate,
                       ),
                       dateFormField(
                         context: context,
                         controller: _controllerTripArrivalDate,
-                        locale: languageProvider.locale,
+                        locale: context.read<LanguageProvider>().locale,
                         label: AppLocalizations.of(context)!.tripArrivalDate,
                       ),
                     ],
@@ -229,9 +223,11 @@ class _EditTripScreenState extends State<EditTripScreen> {
                     AppLocalizations.of(context)!.participantsScreenTitle,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  DynamicParticipantFields(
-                    isDetails: true,
-                  ),
+                  // DynamicParticipantFields(
+                  //   isDetails: true,
+                  //   nameController: _participantNameControllers[index],
+                  //   ageController:,
+                  // ),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -354,7 +350,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
                               dateFormField(
                                 context: context,
                                 controller: _cityDepartureControllers[index],
-                                locale: languageProvider.locale,
+                                locale: context.read<LanguageProvider>().locale,
                                 label: AppLocalizations.of(
                                   context,
                                 )!.tripDepartureDate,
@@ -362,7 +358,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
                               dateFormField(
                                 context: context,
                                 controller: _cityArrivalControllers[index],
-                                locale: languageProvider.locale,
+                                locale: context.read<LanguageProvider>().locale,
                                 label: AppLocalizations.of(
                                   context,
                                 )!.tripArrivalDate,
@@ -380,7 +376,7 @@ class _EditTripScreenState extends State<EditTripScreen> {
                       final arrivalDate = _controllerTripArrivalDate.value;
                       final updatedTrip = Trip(
                         id: tripId,
-                        groupName: groupNameController.text,
+                        tripName: groupNameController.text,
                         status: completeTrip.status,
                         participants: completeTrip.participants.length,
                         departure: departureDate,

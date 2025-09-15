@@ -18,6 +18,8 @@
   "tripDepartureDate" : "Fecha de salida",
   "tripArrivalDate" : "Fecha de llegada",
   "tripEditMessage" : "¿Estás seguro de que deseas editar este grupo?",
+  "tripDeleteMessage" : "¿Está seguro de que desea eliminar este grupo?",
+  "tripGeneratePDF" : "¿Desea crear un PDF de este viaje?",
 
   "settingsThemeSwitchText" : "Cambiar tema",
   "settingsDarkModeSwitch": "Modo oscuro",
@@ -30,6 +32,9 @@
   "tripStatusCompleted" : "Completado",
   "tripStatusNoOngoingTrips" : "No hay viajes en curso",
   "tripStatusNoTrips" : "No se han registrado viajes",
+
+  "tripImageTitle" : "Imágenes del viaje",
+
 
   "transportScreenTitle" : "Transporte",
   "transportName" : "Nombre del transporte:",
@@ -50,6 +55,8 @@
   "stopScreenTitle" : "Paradas",
   "stopName" : "Nombre de la parada:",
   "stopAddDestination" : "Agregar destino",
+  "stopDeparture" : "Salida:",
+  "stopArrival" : "Llegada",
 
   "editTripScreenTitle": "Editar viaje",
 
@@ -62,7 +69,7 @@
 
   "searchBar": "Buscar",
   "generalConfirmButton": "Confirmar",
-  "generalCancelButton" : "Cancelar"
+  "generalCancelButton" : "Cancelar",
   "generalYesButton" : "Sí",
-    "generalNoButton" : "No",
+    "generalNoButton" : "No"
 }

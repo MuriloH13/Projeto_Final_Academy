@@ -37,7 +37,7 @@ class TripTable {
     final map = <String, dynamic>{};
 
     map[TripTable.id] = trip.id;
-    map[TripTable.tripName] = trip.groupName;
+    map[TripTable.tripName] = trip.tripName;
     map[TripTable.status] = trip.status;
     map[TripTable.departure] = trip.departure!.toIso8601String();
     map[TripTable.arrival] = trip.arrival!.toIso8601String();
@@ -95,7 +95,7 @@ class TripController {
       return TripImage(
           id: item['id'] as int?,
           photo: item['photo'] as String,
-          tripId: item['tripId'] as int,
+          stopId: item['tripId'] as int,
           participantId: item['participantId'] as int,
       );
     }).toList();
@@ -174,7 +174,7 @@ class TripController {
       list.add(
         Trip(
           id: item[TripTable.id],
-          groupName: item[TripTable.tripName],
+          tripName: item[TripTable.tripName],
           status: item[TripTable.status],
           departure: DateTime.parse(item[TripTable.departure]),
           arrival: DateTime.parse(item[TripTable.arrival]),

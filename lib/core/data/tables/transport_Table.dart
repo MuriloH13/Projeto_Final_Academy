@@ -14,7 +14,7 @@ class TransportTable {
       $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       $transportName TEXT NOT NULL,
       $tripId INTEGER NOT NULL,
-      FOREIGN KEY (tripId) REFERENCES TripTable(id) ON DELETE CASCADE
+      FOREIGN KEY (tripId) REFERENCES trips(id) ON DELETE CASCADE
     );
   ''';
 
@@ -45,6 +45,29 @@ class TransportController {
 
     final List<Map<String, dynamic>> result = await database.query(
       TransportTable.tableName,
+    );
+
+    var list = <Transport>[];
+
+    for (final item in result) {
+      list.add(
+        Transport(
+          id: item[TransportTable.id],
+          transportName: item[TransportTable.transportName],
+          tripId: item[TransportTable.tripId],
+        ),
+      );
+    }
+    return list;
+  }
+
+  Future<List<Transport>> selectWhere(int tripId) async {
+    final database = await getDatabase();
+
+    final List<Map<String, dynamic>> result = await database.query(
+      TransportTable.tableName,
+      where: '${TransportTable.tripId} = ?',
+      whereArgs: [tripId],
     );
 
     var list = <Transport>[];

@@ -18,6 +18,8 @@
   "tripDepartureDate" : "Departure date",
   "tripArrivalDate" : "Arrival date",
   "tripEditMessage" : "Are you sure you want to edit this group?",
+  "tripDeleteMessage" : "Are you sure you want to delete this group?",
+  "tripGeneratePDF" : "Do you want to create a PDF of this trip?",
 
   "settingsThemeSwitchText" : "Switch theme",
   "settingsLanguageSelection" : "Select language",
@@ -31,6 +33,8 @@
   "tripStatusNoOngoingTrips" : "No ongoing trips",
   "tripStatusNoTrips" : "No trips registered",
 
+  "tripImageTitle" : "Trip images",
+
   "transportScreenTitle" : "Transport",
   "transportName" : "Transport Name:",
   "transportCruise": "Cruise",
@@ -43,13 +47,15 @@
   "experienceName": "Experience name:",
   "experienceCulturalImmersion": "Immersion in a different culture",
   "experienceAlternativeCuisine": "Explore alternative cuisine",
-  "experienceHistoricalSites": "Visit historical sites",
+  "experienceHistoricalSites": "Historical sites tour",
   "experienceLocalEstablishments": "Visit local establishments such as parks/bars/shows",
   "experienceContactWithNature": "Contact with nature",
 
   "stopScreenTitle" : "Stops",
   "stopName" : "Stop Name:",
   "stopAddDestination" : "Add Destination",
+  "stopDeparture" : "Departure:",
+  "stopArrival" : "Arrival",
 
   "editTripScreenTitle": "Edit Trip",
 
@@ -64,5 +70,5 @@
   "generalConfirmButton" : "Confirm",
   "generalCancelButton" : "Cancel",
   "generalYesButton" : "Yes",
-  "generalNoButton" : "No",
+  "generalNoButton" : "No"
 }

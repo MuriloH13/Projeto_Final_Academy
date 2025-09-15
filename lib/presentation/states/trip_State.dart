@@ -8,6 +8,7 @@ class TripState extends ChangeNotifier {
     load();
   }
   final controllerDatabase = TripController();
+  bool isLoading = false;
 
   Trip? _currentGroup;
 
@@ -26,8 +27,11 @@ class TripState extends ChangeNotifier {
   List<Trip> get tripList => _tripList;
 
   Future<int> insert() async {
+    isLoading = true;
+    notifyListeners();
+
     final trip = Trip(
-      groupName: controllerGroupName.text,
+      tripName: controllerGroupName.text,
       departure: controllerTripDepartureDate.value,
       arrival: controllerTripArrivalDate.value,
       status: groupStatus,
@@ -39,14 +43,19 @@ class TripState extends ChangeNotifier {
     controllerGroupName.clear();
     controllerTripDepartureDate.value = null;
     controllerTripArrivalDate.value = null;
+
+    isLoading = false;
     notifyListeners();
     return id;
   }
 
   Future<void> updateGroup(Trip trip) async {
+    isLoading = true;
+    notifyListeners();
+
     final editedGroup = Trip(
       id: _currentGroup?.id,
-      groupName: controllerGroupName.text,
+      tripName: controllerGroupName.text,
       departure: controllerTripDepartureDate.value,
       arrival: controllerTripArrivalDate.value,
       status: groupStatus,
@@ -54,31 +63,43 @@ class TripState extends ChangeNotifier {
       participants: _currentGroup?.participants,
       experiences: _currentGroup?.experiences,
     );
+
     await controllerDatabase.update(editedGroup);
+
     _currentGroup = null;
     _controllerGroupName.clear();
     controllerTripDepartureDate.value = null;
     controllerTripArrivalDate.value = null;
+
     await load();
+
+    isLoading = false;
+    notifyListeners();
   }
 
   Future<void> delete(Trip trip) async {
+    isLoading = true;
+    notifyListeners();
+
     await controllerDatabase.delete(trip);
     await load();
 
+    isLoading = false;
     notifyListeners();
   }
 
   Future<void> load() async {
+    isLoading = true;
+    notifyListeners();
+
     final list = await controllerDatabase.select();
-    tripList
+
+    _tripList
       ..clear()
       ..addAll(list);
+
+    isLoading = false;
     notifyListeners();
-  }
-
-  void reset() {
-
   }
 
   @override

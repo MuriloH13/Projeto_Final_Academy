@@ -14,11 +14,14 @@ Future<Database> getDatabase() async {
     path,
     onCreate: (db, version) {
       db.execute(TripTable.createTable);
-      db.execute(TripImagesTable.createTable);
       db.execute(ParticipantTable.createTable);
       db.execute(TransportTable.createTable);
       db.execute(StopTable.createTable);
       db.execute(ExperienceTable.createTable);
+      db.execute(TripImagesTable.createTable);
+    },
+    onOpen: (db) async {
+      await db.execute("PRAGMA foreign_keys = ON");
     },
     version: 1,
   );

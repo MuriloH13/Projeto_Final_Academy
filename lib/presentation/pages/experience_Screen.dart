@@ -19,58 +19,66 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
   @override
   Widget build(BuildContext context) {
     final int groupId = ModalRoute.of(context)!.settings.arguments as int;
-    final state = Provider.of<ExperienceState>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.experienceScreenTitle),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: state.selectedExperiences.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: DynamicDropdownButton(
-                      items: state.experienceOptions,
-                      value: state.selectedExperiences[index],
-                      onChanged: (value) {
-                        if (value != null) {
-                          state.updateExperience(index, value);
-                        }
+    return ChangeNotifierProvider(
+      create: (_) => ExperienceState(),
+      child: Consumer<ExperienceState>(
+        builder: (context, state, child) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(AppLocalizations.of(context)!.experienceScreenTitle),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: state.selectedExperiences.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: DynamicDropdownButton(
+                            items: state.experienceOptions,
+                            value: state.selectedExperiences[index],
+                            onChanged: (value) {
+                              if (value != null) {
+                                state.updateExperience(index, value);
+                              }
+                            },
+                          ),
+                        );
                       },
                     ),
-                  );
-                },
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          state.addExperience();
+                        },
+                        icon: Icon(Icons.add_circle_outline),
+                      ),
+                    ],
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      await state.insert(groupId);
+                      Navigator.pushReplacementNamed(
+                        context,
+                        AppRoutes.cityScreen,
+                        arguments: groupId,
+                      );
+                    },
+                    child: Text(
+                      AppLocalizations.of(context)!.generalConfirmButton,
+                    ),
+                  ),
+                ],
               ),
             ),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    state.addExperience();
-                  },
-                  icon: Icon(Icons.add_circle_outline),
-                ),
-              ],
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                await state.insert(groupId);
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.cityScreen,
-                  arguments: groupId,
-                );
-              },
-              child: Text(AppLocalizations.of(context)!.generalConfirmButton),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

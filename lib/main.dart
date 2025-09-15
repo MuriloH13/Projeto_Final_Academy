@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_final_academy/presentation/controllers/geolocator_Controller.dart';
 import 'package:projeto_final_academy/presentation/providers/language_provider.dart';
-import 'package:projeto_final_academy/presentation/states/stop_State.dart';
-import 'package:projeto_final_academy/presentation/states/experience_State.dart';
 import 'package:projeto_final_academy/presentation/states/trip_State.dart';
-import 'package:projeto_final_academy/presentation/states/participant_State.dart';
-import 'package:projeto_final_academy/presentation/states/transport_State.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'core/routes/app_Routes.dart';
@@ -20,13 +16,14 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => LanguageProvider()),
+
+        ChangeNotifierProvider(create: (_) => TripState()),
+
+        ChangeNotifierProvider(create: (_) => MapsController()),
       ],
-      child: MaterialApp(
-        theme: AppTheme.lightTheme,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: const MyApp(),
-      ),
+      child: const MyApp(),
     ),
   );
 }
@@ -36,12 +33,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final languageProvider = Provider.of<LanguageProvider>(context);
     return MaterialApp(
-      locale: languageProvider.locale,
+      locale: Provider.of<LanguageProvider>(context).locale,
       supportedLocales: context.read<LanguageProvider>().supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      title: AppLocalizations.of(context)!.tripPlannerScreenTitle,
+      onGenerateTitle: (context) => AppLocalizations.of(context)!.tripPlannerScreenTitle,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: Provider.of<ThemeProvider>(context).themeMode,

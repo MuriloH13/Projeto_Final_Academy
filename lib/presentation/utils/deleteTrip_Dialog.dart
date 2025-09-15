@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../domain/entities/trip.dart';
 import '../../l10n/app_localizations.dart';
 
-class EditTripDialog extends StatelessWidget {
-  const EditTripDialog({super.key, required this.tripId});
+class DeleteTripDialog extends StatelessWidget {
+  const DeleteTripDialog({super.key, required this.trip});
 
-  final int tripId;
+  final Trip trip;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class EditTripDialog extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.all(8),
-                child: Text(AppLocalizations.of(context)!.tripEditMessage),
+                child: Text(AppLocalizations.of(context)!.tripDeleteMessage),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

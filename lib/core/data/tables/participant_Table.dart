@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 
 import '../../../domain/entities/participant.dart';
 import '../database/app_database.dart';
@@ -12,7 +11,7 @@ class ParticipantTable {
   $name TEXT NOT NULL,
   $age INTEGER NOT NULL,
   $tripId INTEGER NOT NULL,
-  FOREIGN KEY (tripId) REFERENCES TripTable(id) ON DELETE CASCADE
+  FOREIGN KEY (tripId) REFERENCES trips(id) ON DELETE CASCADE
   );
   ''';
 
@@ -39,13 +38,23 @@ class ParticipantTable {
 }
 
 class ParticipantController {
-  Future<void> insert(Participant participant) async {
+  Future<int> insert(Participant participant) async {
     final database = await getDatabase();
     final map = ParticipantTable.toMap(participant);
 
-    await database.insert(ParticipantTable.tableName, map);
+    final id = await database.insert(ParticipantTable.tableName, map);
 
-    return;
+    return id;
+  }
+
+  Future<void> updatePhoto(int id, String path) async {
+    final db = await getDatabase();
+    await db.update(
+      ParticipantTable.tableName,
+      {'photo': path},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 
   Future<List<Participant>> select() async {
@@ -64,8 +73,31 @@ class ParticipantController {
           name: item[ParticipantTable.name],
           age: item[ParticipantTable.age],
           tripId: item[ParticipantTable.tripId],
-          nameController: TextEditingController(text: item[ParticipantTable.name]),
-          ageController: TextEditingController(text: '${item[ParticipantTable.age]}'),
+        ),
+      );
+    }
+    return list;
+  }
+
+  Future<List<Participant>> selectWhere(int tripId) async {
+    final database = await getDatabase();
+
+    final List<Map<String, dynamic>> result = await database.query(
+      ParticipantTable.tableName,
+      where: '${ParticipantTable.tripId} = ?',
+      whereArgs: [tripId],
+    );
+
+    var list = <Participant>[];
+
+    for (final item in result) {
+      list.add(
+        Participant(
+          id: item[ParticipantTable.id],
+          photo: item[ParticipantTable.photo],
+          name: item[ParticipantTable.name],
+          age: item[ParticipantTable.age],
+          tripId: item[ParticipantTable.tripId],
         ),
       );
     }
